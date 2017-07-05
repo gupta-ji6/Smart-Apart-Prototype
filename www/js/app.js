@@ -22,3 +22,69 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+.controller("cardCtrl",cardCtrl)
+.controller("paneCtrl",paneCtrl)
+.controller("videoCtrl", videoCtrl)
+
+function videoCtrl() {
+  var video = this;
+  video.videos=[];
+  vid={};
+  vid.thumbnail="travel.jpg"
+  vid.description="Description of the video 1"
+  video.videos.push(vid);
+
+  vid={};
+  vid.thumbnail="wind.jpg"
+  vid.description="Description of the video 2"
+  video.videos.push(vid);
+}
+
+function paneCtrl() {
+  var pane=this;
+  pane.header="Fact";
+  pane.control=1;
+  pane.change=function(){
+    pane.header="Videos";
+    pane.control=2;
+  }
+
+  pane.revChange=function(){
+    pane.header="Fact";
+    pane.control=1;
+  }
+}
+
+function cardCtrl() {
+  var card=this;
+
+  card.cards=[];
+
+  fact={};
+  fact.image="flower.jpg";
+  fact.content="In the United States, the term pig refers to a younger domesticated swine weighing less than 120 pounds (50 kilograms), and the term hog refers to older swine weighing more than 120 lbs. In Great Britain all domesticated swine are referred to as pigs.";
+  card.cards.push(fact);
+
+  fact={};
+  fact.image="building.jpg";
+  fact.content="A puppy usually goes into a new home at seven to nine weeks of age. She is ready to transfer to her human pack at this age. If you are adopting an older puppy (over 12 weeks) and she has had limited socialization, you may have to work harder at first.";
+  card.cards.push(fact);
+
+  fact={};
+  fact.image="wind.jpg";
+  fact.content="Pasty gray. Originally, Stan Lee and Jack Kirby intended the Hulk to be gray. But the printing press kept having trouble with the Hulk's color and he kept coming out green. So he only spent the first few issues of his comic being gray.";
+  card.cards.push(fact);
+
+  fact={};
+  fact.image="hand.jpg";
+  fact.content="They took their name off the dubious list of teams that had never won the big game with their 43-8 thrashing of Denver. Four franchises - the Cleveland Browns, Detroit Lions, Houston Texans and Jacksonville Jaguars - have never even been to the Super Bowl.";
+  card.cards.push(fact);
+
+  fact={};
+  fact.image="travel.jpg";
+  fact.content="The Nike clothing brand is named after the Greek goddess of victory. The winged goddess Nike sat at the side of Zeus. Her presence symbolized victory, and she was said to have presided over some of history's earliest battles.";
+  card.cards.push(fact);
+
+  console.log(card.cards);
+
+}
