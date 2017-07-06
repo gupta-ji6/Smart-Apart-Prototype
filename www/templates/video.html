@@ -1,8 +1,4 @@
-<ion-pane ng-controller="videoCtrl as video" on-swipe-down="video.down()">
-            <ion-header-bar class="bar-stable">
-                <button class="button button-icon icon ion-navicon"></button>
-                <div class="h1 title">Videos</div>
-            </ion-header-bar>
+<ion-view ng-controller="videoCtrl as video" on-swipe-down="video.down()" view-title="Video">
              <ion-content scroll="false">
                 <ion-slides  options="options" slider="data.slider" >
                     <ion-slide-page ng-repeat="videos in video.videos">
@@ -26,4 +22,4 @@
                     <a class="button button-icon icon ion-android-globe"></a>
                 </div>
             </ion-footer-bar>
-</ion-pane>
+</ion-view>

@@ -9,28 +9,33 @@ angular.module('starter', ['ionic','ui.router'])
 
     .state('menu', {
     url: '/menu',
-    // abstract: true,
+    abstract: true,
     templateUrl: 'templates/menu.html',
     // controller: 'AppCtrl'
   })
 
-  .state('fact', {
+  .state('menu.fact', {
     url: '/fact',
-    // abstract: true,
-    templateUrl: 'templates/fact.html',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/fact.html'
+      }
+    }
     
   })
 
-  .state('video', {
+  .state('menu.video', {
     url: '/video',
-    // abstract: true,
-    templateUrl: 'templates/video.html',
-    
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/video.html'
+      }
+    }
   });
 
   
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/fact');
+  $urlRouterProvider.otherwise('/menu/fact');
 })
 
 
@@ -69,7 +74,7 @@ function videoCtrl($state) {
   video.videos.push(vid);
 
   video.down=function(){
-    $state.go("fact");
+    $state.go("menu.fact");
   }
 }
 
@@ -119,12 +124,12 @@ function cardCtrl($state) {
   card.cards.push(fact);
 
   card.up=function(){
-    $state.go("video");
+    $state.go("menu.video");
   }
 
-  card.menu=function(){
-    $state.go("menu");
-  }
+  // card.menu=function(){
+  //   $state.go("menu");
+  // }
 
   console.log(card.cards);
 

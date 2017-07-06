@@ -1,8 +1,4 @@
-<ion-pane ng-controller="cardCtrl as card" on-swipe-up="card.up()" >
-            <ion-header-bar class="bar-stable">
-                <button class="button button-icon icon ion-navicon" ng-click="card.menu()"></button>
-                <div class="h1 title">Facts</div>
-            </ion-header-bar>
+<ion-view ng-controller="cardCtrl as card" on-swipe-up="card.up()" view-title="Fact">
             <ion-content  scroll="false">
                 <ion-slides  options="options" slider="data.slider" >
                     <ion-slide-page ng-repeat="cards in card.cards">
@@ -26,4 +22,4 @@
                     <a class="button button-icon icon ion-android-globe"></a>
                 </div>
             </ion-footer-bar>
-</ion-pane>
+</ion-view>
