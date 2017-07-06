@@ -1,20 +1,20 @@
-<ion-view ng-controller="videoCtrl as video" on-swipe-down="video.down()" on-swipe-up="video.up()" view-title="Video">
-             <ion-content scroll="false">
-                <ion-slides  options="options" slider="data.slider" >
-                    <ion-slide-page ng-repeat="videos in video.videos">
+<ion-view ng-controller="otdCtrl as otd" on-swipe-down="otd.down()" view-title="On This Day">
+            <ion-content  scroll="false">
+                <ion-slides  options="options" slider="data.slider">
+                    <ion-slide-page ng-repeat="otds in otd.otds">
                         <div class="list card">
                             <div class="item item-body">
-                            <img class="full-image" src="{{videos.thumbnail}}">
+                            <img class="full-image" src="{{otds.thumbnail}}">
                             <p>
-                                {{videos.description}}
+                                {{otds.description}}
                             </p>
                            </div>
                         </div>
                     </ion-slide-page>
                 </ion-slides>
+                
             </ion-content>
-            
-                       <ion-footer-bar class="bar">
+            <ion-footer-bar class="bar">
                 <div class="button-bar">
                     <a class="button button-icon icon ion-android-bookmark"></a>
                     <a class="button button-icon icon ion-chatbubbles"></a>

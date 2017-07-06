@@ -31,11 +31,44 @@ angular.module('starter', ['ionic','ui.router'])
         templateUrl: 'templates/video.html'
       }
     }
+    
+  })
+
+  .state('menu.trending', {
+    url: '/trending',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/trending.html'
+      }
+    }
+    
+  })
+
+  .state('menu.quote', {
+    url: '/quote',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/quote.html'
+      }
+    }
+    
+  })
+
+  .state('menu.onthisday', {
+    url: '/onthisday',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/onthisday.html'
+      }
+    }
+    
   });
 
   
+
+  
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/menu/fact');
+  $urlRouterProvider.otherwise('/menu/quote');
 })
 
 
@@ -57,8 +90,67 @@ angular.module('starter', ['ionic','ui.router'])
   });
 })
 .controller("cardCtrl",cardCtrl)
-.controller("paneCtrl",paneCtrl)
 .controller("videoCtrl", videoCtrl)
+.controller("trendingCtrl", trendingCtrl)
+.controller("quoteCtrl",quoteCtrl)
+.controller("otdCtrl", otdCtrl)
+
+function otdCtrl($state) {
+  var otd = this;
+  otd.otds=[];
+  day={};
+  day.thumbnail="cube.jpg"
+  day.description="1967 - Biafran War erupts as Nigerian forces invade starting Nigerian Civil war"
+  otd.otds.push(day);
+
+  day={};
+  day.thumbnail="tree.jpg"
+  day.description="1459 - Sun City India founded by Rao Jodhpur"
+  otd.otds.push(day);
+
+  otd.down=function(){
+    $state.go("menu.trending");
+  }
+}
+
+function quoteCtrl($state) {
+  var quote = this;
+  quote.quotes=[];
+  q={};
+  q.thumbnail="rain.jpeg"
+  q.description="\"Don't cry because it's over, smile because it happened.\" \n ― Dr. Seuss"
+  quote.quotes.push(q);
+
+  q={};
+  q.thumbnail="cloud.jpg"
+  q.description="\"Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.\" \n ― Albert Einstein"
+  quote.quotes.push(q);
+
+  quote.up=function(){
+    $state.go("menu.fact");
+  }
+}
+
+function trendingCtrl($state) {
+  var trending = this;
+  trending.news=[];
+  trend={};
+  trend.thumbnail="water.jpeg"
+  trend.description="News content 1"
+  trending.news.push(trend);
+
+  trend={};
+  trend.thumbnail="balloon.jpeg"
+  trend.description="News content 2"
+  trending.news.push(trend);
+
+  trending.down=function(){
+    $state.go("menu.video");
+  }
+  trending.up=function(){
+    $state.go("menu.onthisday");
+  }
+}
 
 function videoCtrl($state) {
   var video = this;
@@ -76,22 +168,11 @@ function videoCtrl($state) {
   video.down=function(){
     $state.go("menu.fact");
   }
-}
-
-function paneCtrl() {
-  var pane=this;
-  pane.header="Fact";
-  pane.control=1;
-  pane.change=function(){
-    pane.header="Videos";
-    pane.control=2;
-  }
-
-  pane.revChange=function(){
-    pane.header="Fact";
-    pane.control=1;
+  video.up=function(){
+    $state.go("menu.trending");
   }
 }
+
 
 function cardCtrl($state) {
   var card=this;
@@ -125,6 +206,9 @@ function cardCtrl($state) {
 
   card.up=function(){
     $state.go("menu.video");
+  }
+  card.down=function(){
+    $state.go("menu.quote");
   }
 
   // card.menu=function(){
