@@ -34,48 +34,8 @@
   </head>
     <body ng-app="starter">
 
-        <ion-pane ng-controller="paneCtrl as pane"  on-swipe-up="pane.change()" on-swipe-down="pane.revChange()">
-            <ion-header-bar class="bar-stable">
-                <button class="button button-icon icon ion-navicon"></button>
-                <div class="h1 title">{{pane.header}}</div>
-            </ion-header-bar>
-            <ion-content ng-if="pane.control==1" ng-controller="cardCtrl as card" scroll="false">
-                <ion-slides  options="options" slider="data.slider" >
-                    <ion-slide-page ng-repeat="cards in card.cards">
-                        <div class="list card">
-                            <div class="item item-body">
-                            <img class="full-image" src="{{cards.image}}">
-                            <p>
-                                {{cards.content}}
-                            </p>
-                           </div>
-                        </div>
-                    </ion-slide-page>
-                </ion-slides>
-            </ion-content>
+        <ion-nav-view></ion-nav-view>
 
-            <ion-content ng-if="pane.control==2" ng-controller="videoCtrl as video" scroll="false">
-                <ion-slides  options="options" slider="data.slider" >
-                    <ion-slide-page ng-repeat="videos in video.videos">
-                        <div class="list card">
-                            <div class="item item-body">
-                            <img class="full-image" src="{{videos.thumbnail}}">
-                            <p>
-                                {{videos.description}}
-                            </p>
-                           </div>
-                        </div>
-                    </ion-slide-page>
-                </ion-slides>
-            </ion-content>
-            <ion-footer-bar class="bar">
-                <div class="button-bar">
-                    <a class="button button-icon icon ion-android-bookmark"></a>
-                    <a class="button button-icon icon ion-chatbubbles"></a>
-                    <a class="button button-icon icon ion-android-share-alt"></a>
-                    <a class="button button-icon icon ion-android-globe"></a>
-                </div>
-            </ion-footer-bar>
-        </ion-pane>
+            
     </body>
 </html>

@@ -3,7 +3,36 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic','ui.router'])
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+
+    .state('menu', {
+    url: '/menu',
+    // abstract: true,
+    templateUrl: 'templates/menu.html',
+    // controller: 'AppCtrl'
+  })
+
+  .state('fact', {
+    url: '/fact',
+    // abstract: true,
+    templateUrl: 'templates/fact.html',
+    
+  })
+
+  .state('video', {
+    url: '/video',
+    // abstract: true,
+    templateUrl: 'templates/video.html',
+    
+  });
+
+  
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/fact');
+})
+
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -26,7 +55,7 @@ angular.module('starter', ['ionic'])
 .controller("paneCtrl",paneCtrl)
 .controller("videoCtrl", videoCtrl)
 
-function videoCtrl() {
+function videoCtrl($state) {
   var video = this;
   video.videos=[];
   vid={};
@@ -38,6 +67,10 @@ function videoCtrl() {
   vid.thumbnail="wind.jpg"
   vid.description="Description of the video 2"
   video.videos.push(vid);
+
+  video.down=function(){
+    $state.go("fact");
+  }
 }
 
 function paneCtrl() {
@@ -55,7 +88,7 @@ function paneCtrl() {
   }
 }
 
-function cardCtrl() {
+function cardCtrl($state) {
   var card=this;
 
   card.cards=[];
@@ -84,6 +117,14 @@ function cardCtrl() {
   fact.image="travel.jpg";
   fact.content="The Nike clothing brand is named after the Greek goddess of victory. The winged goddess Nike sat at the side of Zeus. Her presence symbolized victory, and she was said to have presided over some of history's earliest battles.";
   card.cards.push(fact);
+
+  card.up=function(){
+    $state.go("video");
+  }
+
+  card.menu=function(){
+    $state.go("menu");
+  }
 
   console.log(card.cards);
 
