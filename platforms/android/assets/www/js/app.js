@@ -95,55 +95,46 @@ angular.module('starter', ['ionic','ui.router'])
 .controller("quoteCtrl",quoteCtrl)
 .controller("otdCtrl", otdCtrl)
 
-function otdCtrl($state) {
+function otdCtrl($state,$http) {
   var otd = this;
-  otd.otds=[];
-  day={};
-  day.thumbnail="cube.jpg"
-  day.description="1967 - Biafran War erupts as Nigerian forces invade starting Nigerian Civil war"
-  otd.otds.push(day);
+  var Url="http://history.muffinlabs.com/date";
+    var promise=$http.get(Url).then(function(result){
+        otd.otds = result.data.Events;
 
-  day={};
-  day.thumbnail="tree.jpg"
-  day.description="1459 - Sun City India founded by Rao Jodhpur"
-  otd.otds.push(day);
+    }).catch(function(err){
+        console.log(err);
+    });
 
   otd.down=function(){
     $state.go("menu.trending");
   }
 }
 
-function quoteCtrl($state) {
+function quoteCtrl($state,$http) {
   var quote = this;
-  quote.quotes=[];
-  q={};
-  q.thumbnail="rain.jpeg"
-  q.description="\"Don't cry because it's over, smile because it happened.\" \n ― Dr. Seuss"
-  quote.quotes.push(q);
+  var Url="http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
+    var promise=$http.get(Url).then(function(result){
+        quote.quotes = result;
 
-  q={};
-  q.thumbnail="cloud.jpg"
-  q.description="\"Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.\" \n ― Albert Einstein"
-  quote.quotes.push(q);
+    }).catch(function(err){
+        console.log(err);
+    });
 
   quote.up=function(){
     $state.go("menu.fact");
   }
 }
 
-function trendingCtrl($state) {
+function trendingCtrl($state,$http) {
   var trending = this;
-  trending.news=[];
-  trend={};
-  trend.thumbnail="water.jpeg"
-  trend.description="News content 1"
-  trending.news.push(trend);
+ var Url="https://newsapi.org/v1/articles?source=bloomberg&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+    var promise=$http.get(Url).then(function(result){
+        trending.news=result.data.articles;
 
-  trend={};
-  trend.thumbnail="balloon.jpeg"
-  trend.description="News content 2"
-  trending.news.push(trend);
-
+    }).catch(function(err){
+        console.log(err);
+    });
+ 
   trending.down=function(){
     $state.go("menu.video");
   }

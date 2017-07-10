@@ -4,9 +4,12 @@
                     <ion-slide-page ng-repeat="quotes in quote.quotes">
                         <div class="list card">
                             <div class="item item-body">
-                            <img class="full-image" src="{{quotes.thumbnail}}">
+                            <!--<img class="full-image" src="{{quotes.thumbnail}}">-->
                             <p>
-                                {{quotes.description}}
+                                {{quotes.quoteText}}
+                            </p>
+                            <p>
+                                - {{quotes.quoteAuthor}}
                             </p>
                            </div>
                         </div>

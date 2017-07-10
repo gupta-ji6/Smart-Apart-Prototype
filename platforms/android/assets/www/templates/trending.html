@@ -4,9 +4,13 @@
                     <ion-slide-page ng-repeat="news in trending.news">
                         <div class="list card">
                             <div class="item item-body">
-                            <img class="full-image" src="{{news.thumbnail}}">
+                            <img class="full-image" src="{{news.urlToImage}}">
+                            <h2><b>{{news.title}}</b></h2>
                             <p>
                                 {{news.description}}
+                            </p>
+                            <p>
+                                <a href="{{news.url}}">Read More</a>
                             </p>
                            </div>
                         </div>
