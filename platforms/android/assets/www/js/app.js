@@ -99,7 +99,9 @@ function otdCtrl($state,$http) {
   var otd = this;
   var Url="http://history.muffinlabs.com/date";
     var promise=$http.get(Url).then(function(result){
-        otd.otds = result.data.Events;
+      console.log(result);
+        otd.otds = result.data.data.Events;
+        otd.otds.reverse();
 
     }).catch(function(err){
         console.log(err);
@@ -112,28 +114,79 @@ function otdCtrl($state,$http) {
 
 function quoteCtrl($state,$http) {
   var quote = this;
-  var Url="http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
+  
+  
+    var Url="http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
     var promise=$http.get(Url).then(function(result){
-        quote.quotes = result;
+      console.log(result);
+        quote.quotes=result.data;
 
     }).catch(function(err){
         console.log(err);
     });
+  
+  
 
   quote.up=function(){
     $state.go("menu.fact");
   }
 }
 
-function trendingCtrl($state,$http) {
+function trendingCtrl($state,$http,$scope,$ionicSlideBoxDelegate) {
   var trending = this;
- var Url="https://newsapi.org/v1/articles?source=bloomberg&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+  trending.news=[];
+  max=0;
+    var sources=["abc-news-au","al-jazeera-english","ars-technica","bbc-news","bloomberg","business-insider","cnn","daily-mail","engadget","espn","hacker-news","mashable","metro","mirror","national-geographic","polygon","recode","reuters","techcrunch","techradar","the-economist","the-hindu","the-huffington-post","the-new-york-times","the-next-web","the-times-of-india","the-verge","time"]
+
+  $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+  console.log('Slide change is beginning',data.slider.activeIndex);
+  if(data.slider.activeIndex>max && data.slider.activeIndex%4==0){
+    if(max<data.slider.activeIndex){
+      max=data.slider.activeIndex;
+    }
+    for(i=0;i<5;i++){
+    var ranSource=Math.round(Math.random()*(sources.length-1));
+    var Url="https://newsapi.org/v1/articles?source="+sources[ranSource]+"&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
     var promise=$http.get(Url).then(function(result){
-        trending.news=result.data.articles;
+
+        news=result.data.articles;
+        var ranNews=Math.round(Math.random()*(news.length-1));
+        n={};
+        n.title=news[ranNews].title;
+        n.description=news[ranNews].description;
+        n.urlToImage=news[ranNews].urlToImage;
+        n.url=news[ranNews].url;
+        trending.news.push(n);
 
     }).catch(function(err){
         console.log(err);
     });
+ 
+  }
+  }
+  
+});
+  
+
+  for(i=0;i<5;i++){
+    var ranSource=Math.round(Math.random()*(sources.length-1));
+    var Url="https://newsapi.org/v1/articles?source="+sources[ranSource]+"&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+    var promise=$http.get(Url).then(function(result){
+
+        news=result.data.articles;
+        var ranNews=Math.round(Math.random()*(news.length-1));
+        n={};
+        n.title=news[ranNews].title;
+        n.description=news[ranNews].description;
+        n.urlToImage=news[ranNews].urlToImage;
+        n.url=news[ranNews].url;
+        trending.news.push(n);
+
+    }).catch(function(err){
+        console.log(err);
+    });
+ 
+  }
  
   trending.down=function(){
     $state.go("menu.video");
@@ -143,18 +196,60 @@ function trendingCtrl($state,$http) {
   }
 }
 
-function videoCtrl($state) {
+function videoCtrl($state,$http,$scope,$ionicSlideBoxDelegate) {
   var video = this;
+ var channels=["asapscience","life+noggin","veritasium","vsauce","scishow","dnews","kurzgesagt","bbc+earth+lab","CrashCourse","teded","bostondynamics","MinutePhysics","brainstuff","minuteEarth","smarterEveryday","Reallifelore","numberphile","It's+okay+to+be+smart"];
   video.videos=[];
-  vid={};
-  vid.thumbnail="travel.jpg"
-  vid.description="Description of the video 1"
-  video.videos.push(vid);
+  max=0;
 
-  vid={};
-  vid.thumbnail="wind.jpg"
-  vid.description="Description of the video 2"
-  video.videos.push(vid);
+  $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+  console.log('Slide change is beginning',data.slider.activeIndex);
+  if(data.slider.activeIndex>max && data.slider.activeIndex%4==0){
+    if(max<data.slider.activeIndex){
+      max=data.slider.activeIndex;
+    }
+   for(i=0;i<5;i++){
+    var ranChannel=Math.round(Math.random()*(channels.length-1));
+  var ranVideo=Math.round(Math.random()*29);
+     var youtubeUrl="https://www.googleapis.com/youtube/v3/search?part=snippet&q="+channels[ranChannel]+"&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+    var promise=$http.get(youtubeUrl).then(function(result){
+        console.log(result);
+        v=result.data.items[ranVideo];
+        vPart={}
+        vPart.title=v.snippet.title;
+        vPart.id=v.id.videoId;
+        vPart.thumbnail=v.snippet.thumbnails.high.url;
+        video.videos.push(vPart);
+
+    }).catch(function(err){
+        console.log(err);
+    });
+
+  }
+  
+  }
+  
+});
+
+  for(i=0;i<5;i++){
+    var ranChannel=Math.round(Math.random()*(channels.length-1));
+  var ranVideo=Math.round(Math.random()*29);
+     var youtubeUrl="https://www.googleapis.com/youtube/v3/search?part=snippet&q="+channels[ranChannel]+"&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+    var promise=$http.get(youtubeUrl).then(function(result){
+        console.log(result);
+        v=result.data.items[ranVideo];
+        vPart={}
+        vPart.title=v.snippet.title;
+        vPart.id=v.id.videoId;
+        vPart.thumbnail=v.snippet.thumbnails.high.url;
+        video.videos.push(vPart);
+
+    }).catch(function(err){
+        console.log(err);
+    });
+
+  }
+  
 
   video.down=function(){
     $state.go("menu.fact");
@@ -165,35 +260,70 @@ function videoCtrl($state) {
 }
 
 
-function cardCtrl($state) {
+function cardCtrl($http,$state,$ionicSlideBoxDelegate,$scope) {
   var card=this;
+ card.cards=[];
+ max=0;
+$scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+  console.log('Slide change is beginning',data.slider.activeIndex);
+  if(data.slider.activeIndex>max && data.slider.activeIndex%4==0){
 
-  card.cards=[];
+    if(max<data.slider.activeIndex){
+      max=data.slider.activeIndex;
+    }
+    
+    for(i=0;i<5;i++){
+    var baseUrl="http://numbersapi.com/random/trivia"
+    
+    var promise=$http.get(baseUrl);
+    promise.then(function(result){
+        console.log(result);
+        factNo="";
+        for(j=0;j<result.data.length;j++){
+          if(result.data[j]==" "){
+            factNo=result.data.substr(0,j);
+            break;
+          }
+            
+        }
+        factNo="https://dummyimage.com/800x480/000/fff.jpg&text="+factNo;
+        card.cards.push({"factNo":factNo,"fact":result.data});
 
-  fact={};
-  fact.image="flower.jpg";
-  fact.content="In the United States, the term pig refers to a younger domesticated swine weighing less than 120 pounds (50 kilograms), and the term hog refers to older swine weighing more than 120 lbs. In Great Britain all domesticated swine are referred to as pigs.";
-  card.cards.push(fact);
+    }).catch(function(err){
+        console.log(err);
+    });
+  }
 
-  fact={};
-  fact.image="building.jpg";
-  fact.content="A puppy usually goes into a new home at seven to nine weeks of age. She is ready to transfer to her human pack at this age. If you are adopting an older puppy (over 12 weeks) and she has had limited socialization, you may have to work harder at first.";
-  card.cards.push(fact);
+  }
 
-  fact={};
-  fact.image="wind.jpg";
-  fact.content="Pasty gray. Originally, Stan Lee and Jack Kirby intended the Hulk to be gray. But the printing press kept having trouble with the Hulk's color and he kept coming out green. So he only spent the first few issues of his comic being gray.";
-  card.cards.push(fact);
+});
+  
 
-  fact={};
-  fact.image="hand.jpg";
-  fact.content="They took their name off the dubious list of teams that had never won the big game with their 43-8 thrashing of Denver. Four franchises - the Cleveland Browns, Detroit Lions, Houston Texans and Jacksonville Jaguars - have never even been to the Super Bowl.";
-  card.cards.push(fact);
+  
 
-  fact={};
-  fact.image="travel.jpg";
-  fact.content="The Nike clothing brand is named after the Greek goddess of victory. The winged goddess Nike sat at the side of Zeus. Her presence symbolized victory, and she was said to have presided over some of history's earliest battles.";
-  card.cards.push(fact);
+  for(i=0;i<5;i++){
+    var baseUrl="http://numbersapi.com/random/trivia"
+    
+    var promise=$http.get(baseUrl);
+    promise.then(function(result){
+        console.log(result);
+        factNo="";
+        for(j=0;j<result.data.length;j++){
+          if(result.data[j]==" "){
+            factNo=result.data.substr(0,j);
+            break;
+          }
+            
+        }
+        factNo="https://dummyimage.com/800x480/000/fff.jpg&text="+factNo;
+        card.cards.push({"factNo":factNo,"fact":result.data});
+
+    }).catch(function(err){
+        console.log(err);
+    });
+  }
+
+  
 
   card.up=function(){
     $state.go("menu.video");
