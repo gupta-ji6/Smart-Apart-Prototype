@@ -1,29 +1,29 @@
 <ion-view ng-controller="trendingCtrl as trending" on-swipe-up="trending.up()" on-swipe-down="trending.down()" view-title="Trending">
-            <ion-content  scroll="false">
-                <ion-slides  options="options" slider="data.slider">
-                    <ion-slide-page ng-repeat="news in trending.news">
-                        <div class="list card">
-                            <div class="item item-body">
-                            <img class="full-image" src="{{news.urlToImage}}">
-                            <h2><b>{{news.title}}</b></h2>
-                            <p>
-                                {{news.description}}
-                            </p>
-                            <p>
-                                <a href="{{news.url}}">Read More</a>
-                            </p>
-                           </div>
-                        </div>
-                    </ion-slide-page>
-                </ion-slides>
-                
-            </ion-content>
-            <ion-footer-bar class="bar">
-                <div class="button-bar">
-                    <a class="button button-icon icon ion-android-bookmark"></a>
-                    <a class="button button-icon icon ion-chatbubbles"></a>
-                    <a class="button button-icon icon ion-android-share-alt"></a>
-                    <a class="button button-icon icon ion-android-globe"></a>
+    <ion-content scroll="false">
+        <ion-slides options="options" slider="data.slider">
+            <ion-slide-page ng-repeat="news in trending.news">
+                <div class="list card">
+                    <div class="item item-body">
+                        <img class="full-image" src="{{news.urlToImage}}">
+                        <h2><b>{{news.title}}</b></h2>
+                        <p>
+                            {{news.description}}
+                        </p>
+                        <p>
+                            <a href="{{news.url}}">Read More</a>
+                        </p>
+                    </div>
                 </div>
-            </ion-footer-bar>
+            </ion-slide-page>
+        </ion-slides>
+
+    </ion-content>
+    <ion-footer-bar class="bar">
+        <div class="button-bar">
+            <a class="button button-icon icon ion-android-bookmark"></a>
+            <a class="button button-icon icon ion-chatbubbles"></a>
+            <a class="button button-icon icon ion-android-share-alt"></a>
+            <a class="button button-icon icon ion-android-globe"></a>
+        </div>
+    </ion-footer-bar>
 </ion-view>

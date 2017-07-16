@@ -1,27 +1,27 @@
 <ion-view ng-controller="videoCtrl as video" on-swipe-down="video.down()" on-swipe-up="video.up()" view-title="Video">
-             <ion-content scroll="false">
-                <ion-slides  options="options" slider="data.slider" >
-                    <ion-slide-page ng-repeat="videos in video.videos">
-                        <div class="list card">
-                            <div class="item item-body">
-                            <a href="https://www.youtube.com/watch?v={{videos.id}}"><img class="full-image" src="{{videos.thumbnail}}"></a>
-                            <div>
-                                <p class="videoTitle">
+    <ion-content scroll="false">
+        <ion-slides options="options" slider="data.slider">
+            <ion-slide-page ng-repeat="videos in video.videos">
+                <div class="list card">
+                    <div class="item item-body">
+                        <a href="https://www.youtube.com/watch?v={{videos.id}}"><img class="full-image" src="{{videos.thumbnail}}"></a>
+                        <div>
+                            <p class="videoTitle">
                                 {{videos.title}}
                             </p>
-                            </div>
-                           </div>
                         </div>
-                    </ion-slide-page>
-                </ion-slides>
-            </ion-content>
-            
-                       <ion-footer-bar class="bar">
-                <div class="button-bar">
-                    <a class="button button-icon icon ion-android-bookmark"></a>
-                    <a class="button button-icon icon ion-chatbubbles"></a>
-                    <a class="button button-icon icon ion-android-share-alt"></a>
-                    <a class="button button-icon icon ion-android-globe"></a>
+                    </div>
                 </div>
-            </ion-footer-bar>
+            </ion-slide-page>
+        </ion-slides>
+    </ion-content>
+
+    <ion-footer-bar class="bar">
+        <div class="button-bar">
+            <a class="button button-icon icon ion-android-bookmark"></a>
+            <a class="button button-icon icon ion-chatbubbles"></a>
+            <a class="button button-icon icon ion-android-share-alt"></a>
+            <a class="button button-icon icon ion-android-globe"></a>
+        </div>
+    </ion-footer-bar>
 </ion-view>

@@ -210,10 +210,10 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate) {
 			}
 			for (i = 0; i < 5; i++) {
 				var ranChannel = Math.round(Math.random() * (channels.length - 1));
-				var ranVideo = Math.round(Math.random() * 29);
 				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
 				var promise = $http.get(youtubeUrl).then(function (result) {
 					console.log(result);
+					var ranVideo = Math.round(Math.random() * 29);
 					v = result.data.items[ranVideo];
 					vPart = {}
 					vPart.title = v.snippet.title;

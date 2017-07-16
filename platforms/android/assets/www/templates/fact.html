@@ -1,25 +1,26 @@
 <ion-view ng-controller="cardCtrl as card" on-swipe-up="card.up()" on-swipe-down="card.down()" view-title="Fact">
-            <ion-content  scroll="false">
-                <ion-slides  options="options" slider="data.slider">
-                    <ion-slide-page ng-repeat="cards in card.cards">
-                        <div class="list card">
-                            <div class="item item-body">
-                            <img class="full-image" src="{{cards.factNo}}">
-                            <p>
-                                {{cards.fact}}
-                            </p>
-                           </div>
-                        </div>
-                    </ion-slide-page>
-                </ion-slides>
-                
-            </ion-content>
-            <ion-footer-bar class="bar">
-                <div class="button-bar">
-                    <a class="button button-icon icon ion-android-bookmark"></a>
-                    <a class="button button-icon icon ion-chatbubbles"></a>
-                    <a class="button button-icon icon ion-android-share-alt"></a>
-                    <a class="button button-icon icon ion-android-globe"></a>
-                </div>
-            </ion-footer-bar>
+  <ion-content scroll="false">
+    <ion-slides options="options" slider="data.slider">
+      <ion-slide-page ng-repeat="cards in card.cards">
+        <div class="list card">
+          <div class="item item-body">
+            <img class="full-image" src="{{cards.factNo}}">
+            <p>
+              {{cards.fact}}
+            </p>
+          </div>
+        </div>
+      </ion-slide-page>
+    </ion-slides>
+
+  </ion-content>
+  <ion-footer-bar class="bar">
+    <div class="button-bar">
+      <a class="button button-icon icon ion-android-bookmark"></a>
+      <a class="button button-icon icon ion-chatbubbles"></a>
+      <a class="button button-icon icon ion-android-share-alt"></a>
+      <a class="button button-icon icon ion-android-globe"></a>
+    </div>
+  </ion-footer-bar>
 </ion-view>
+
