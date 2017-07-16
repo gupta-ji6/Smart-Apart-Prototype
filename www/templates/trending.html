@@ -3,15 +3,16 @@
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="news in trending.news">
                 <div class="list card">
-                    <div class="item item-body">
-                        <img class="full-image" src="{{news.urlToImage}}">
-                        <h2><b>{{news.title}}</b></h2>
-                        <p>
-                            {{news.description}}
-                        </p>
-                        <p>
-                            <a href="{{news.url}}">Read More</a>
-                        </p>
+                    <div class="item item-body card">
+                        <a href={{news.url}}>
+                            <img class="full-image newsImage" src="{{news.urlToImage}}">
+                            <div class="newsContent">
+                                <h2><b>{{news.title}}</b></h2>
+                                <p>
+                                    {{news.description}}
+                                </p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </ion-slide-page>
@@ -21,7 +22,6 @@
     <ion-footer-bar class="bar">
         <div class="button-bar">
             <a class="button button-icon icon ion-android-bookmark"></a>
-            <a class="button button-icon icon ion-chatbubbles"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
             <a class="button button-icon icon ion-android-globe"></a>
         </div>
