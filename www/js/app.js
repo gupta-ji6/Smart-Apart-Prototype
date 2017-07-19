@@ -7,6 +7,12 @@ angular.module('starter', ['ionic', 'ui.router'])
 	.config(function ($stateProvider, $urlRouterProvider) {
 		$stateProvider
 
+			.state('temp', {
+				cache:false,
+				url: '/temp',
+				templateUrl: 'templates/temp.html',
+			})
+
 			.state('menu', {
 				url: '/menu',
 				abstract: true,
@@ -15,6 +21,7 @@ angular.module('starter', ['ionic', 'ui.router'])
 			})
 
 			.state('menu.fact', {
+				cache:false,
 				url: '/fact',
 				views: {
 					'menuContent': {
@@ -25,6 +32,7 @@ angular.module('starter', ['ionic', 'ui.router'])
 			})
 
 			.state('menu.video', {
+				cache: false,
 				url: '/video',
 				views: {
 					'menuContent': {
@@ -35,6 +43,7 @@ angular.module('starter', ['ionic', 'ui.router'])
 			})
 
 			.state('menu.trending', {
+				cache: false,
 				url: '/trending',
 				views: {
 					'menuContent': {
@@ -45,6 +54,7 @@ angular.module('starter', ['ionic', 'ui.router'])
 			})
 
 			.state('menu.quote', {
+				cache:false,
 				url: '/quote',
 				views: {
 					'menuContent': {
@@ -55,6 +65,7 @@ angular.module('starter', ['ionic', 'ui.router'])
 			})
 
 			.state('menu.onthisday', {
+				cache: false,
 				url: '/onthisday',
 				views: {
 					'menuContent': {
@@ -68,11 +79,11 @@ angular.module('starter', ['ionic', 'ui.router'])
 
 
 		// if none of the above states are matched, use this as the fallback
-		$urlRouterProvider.otherwise('/menu/quote');
+		$urlRouterProvider.otherwise('/temp');
 	})
 
 
-	.run(function ($ionicPlatform) {
+	.run(function ($ionicPlatform, $ionicPopup) {
 		$ionicPlatform.ready(function () {
 			if (window.cordova && window.cordova.plugins.Keyboard) {
 				// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -88,52 +99,205 @@ angular.module('starter', ['ionic', 'ui.router'])
 				StatusBar.styleDefault();
 			}
 		});
+
+		$ionicPlatform.registerBackButtonAction(function(event) {
+    if (true) { // your check here
+      $ionicPopup.confirm({
+        title: 'System warning',
+        template: 'are you sure you want to exit?'
+      }).then(function(res) {
+        if (res) {
+          ionic.Platform.exitApp();
+        }
+      })
+    }
+  }, 100);
 	})
 	.controller("cardCtrl", cardCtrl)
 	.controller("videoCtrl", videoCtrl)
 	.controller("trendingCtrl", trendingCtrl)
 	.controller("quoteCtrl", quoteCtrl)
 	.controller("otdCtrl", otdCtrl)
+	.controller("tempCtrl",tempCtrl)
+	.factory("tempService",tempService)
 
-function otdCtrl($state, $http) {
+	function tempService(){
+		return {'id':1,'array':[]};
+	}
+
+	function tempCtrl(tempService,$state,$http){
+		var temp=this;
+		switch(tempService.id){
+			case 1:
+					temp.name="Quote";
+					tempService.array=[];
+					var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
+					var promise = $http.get(Url).then(function (result) {
+						console.log(result);
+						tempService.array[0]=result.data;
+						setTimeout(function(){$state.go("menu.quote");},1000);
+
+					}).catch(function (err) {
+						console.log(err);
+						setTimeout(function(){$state.go("menu.quote");},1000);
+					});
+					break;
+			case 2:
+					temp.name="Fact";
+					tempService.array=[];
+					for (i = 0; i < 5; i++) {
+						var baseUrl = "http://numbersapi.com/random/trivia"
+
+						var promise = $http.get(baseUrl);
+						promise.then(function (result) {
+							console.log(result);
+							factNo = "";
+							for (j = 0; j < result.data.length; j++) {
+								if (result.data[j] == " ") {
+									factNo = result.data.substr(0, j);
+									break;
+								}
+
+							}
+							factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
+							tempService.array.push({ "factNo": factNo, "fact": result.data });
+
+						}).catch(function (err) {
+							console.log(err);
+						});
+					}
+					setTimeout(function(){$state.go("menu.fact");},1000);
+					break;
+			case 3:
+					temp.name="Video";
+					tempService.array=[];
+					var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
+						for (i = 0; i < 5; i++) {
+							var ranChannel = Math.round(Math.random() * (channels.length - 1));
+							var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+							var promise = $http.get(youtubeUrl).then(function (result) {
+								var ranVideo = Math.round(Math.random() * 29);
+								console.log(result);
+								v = result.data.items[ranVideo];
+								vPart = {}
+								vPart.title = v.snippet.title;
+								vPart.id = v.id.videoId;
+								vPart.thumbnail = v.snippet.thumbnails.high.url;
+								tempService.array.push(vPart);
+
+							}).catch(function (err) {
+								console.log(err);
+							});
+
+						}
+					setTimeout(function(){$state.go("menu.video");},1000);
+					break;
+			case 4:
+					temp.name="Trending"
+					tempService.array=[];
+					var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+					for (i = 0; i < 5; i++) {
+						var ranSource = Math.round(Math.random() * (sources.length - 1));
+						var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+						var promise = $http.get(Url).then(function (result) {
+
+							news = result.data.articles;
+							var ranNews = Math.round(Math.random() * (news.length - 1));
+							n = {};
+							n.title = news[ranNews].title;
+							n.description = news[ranNews].description;
+							n.urlToImage = news[ranNews].urlToImage;
+							n.url = news[ranNews].url;
+							tempService.array.push(n);
+
+						}).catch(function (err) {
+							console.log(err);
+						});
+
+					}
+					setTimeout(function(){$state.go("menu.trending");},1000);
+					break;
+			
+			case 5:
+					temp.name="On this Day";
+					tempService.array=[];
+					var Url = "http://history.muffinlabs.com/date";
+					var promise = $http.get(Url).then(function (result) {
+						console.log(result);
+						tempService.array = result.data.data.Events;
+						tempService.array.reverse();
+						setTimeout(function(){$state.go("menu.onthisday");},1000);
+
+					}).catch(function (err) {
+						console.log(err);
+						setTimeout(function(){$state.go("menu.onthisday");},1000);
+						
+					});
+					
+					break;
+
+
+					
+
+					
+
+
+
+
+		}
+	}
+
+function otdCtrl($state, $http,tempService) {
 	var otd = this;
-	var Url = "http://history.muffinlabs.com/date";
-	var promise = $http.get(Url).then(function (result) {
-		console.log(result);
-		otd.otds = result.data.data.Events;
-		otd.otds.reverse();
+	otd.animate=false;
+	// var Url = "http://history.muffinlabs.com/date";
+	// var promise = $http.get(Url).then(function (result) {
+	// 	console.log(result);
+	// 	otd.otds = result.data.data.Events;
+	// 	otd.otds.reverse();
 
-	}).catch(function (err) {
-		console.log(err);
-	});
+	// }).catch(function (err) {
+	// 	console.log(err);
+	// });
+	otd.otds=tempService.array;
 
 	otd.down = function () {
-		$state.go("menu.trending");
+		tempService.id=4;
+		otd.animate=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 }
 
-function quoteCtrl($state, $http) {
+function quoteCtrl($state, $http,tempService) {
 	var quote = this;
+	quote.animate=false;
 
 
-	var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
-	var promise = $http.get(Url).then(function (result) {
-		console.log(result);
-		quote.quotes = result.data;
+	// var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
+	// var promise = $http.get(Url).then(function (result) {
+	// 	console.log(result);
+	// 	quote.quotes = result.data;
 
-	}).catch(function (err) {
-		console.log(err);
-	});
+	// }).catch(function (err) {
+	// 	console.log(err);
+	// });
+	quote.quotes=tempService.array;
 
 
 
 	quote.up = function () {
-		$state.go("menu.fact");
+		quote.animate=true;
+		tempService.id=2;
+		setTimeout(function(){$state.go("temp");},1000);
+		
+		// quote.animate=false;
 	}
 }
 
-function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate) {
+function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService) {
 	var trending = this;
+	trending.animateUp=false;
+	trending.animateDown=false;
 	trending.news = [];
 	max = 0;
 	var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
@@ -168,36 +332,43 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate) {
 	});
 
 
-	for (i = 0; i < 5; i++) {
-		var ranSource = Math.round(Math.random() * (sources.length - 1));
-		var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
-		var promise = $http.get(Url).then(function (result) {
+	// for (i = 0; i < 5; i++) {
+	// 	var ranSource = Math.round(Math.random() * (sources.length - 1));
+	// 	var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+	// 	var promise = $http.get(Url).then(function (result) {
 
-			news = result.data.articles;
-			var ranNews = Math.round(Math.random() * (news.length - 1));
-			n = {};
-			n.title = news[ranNews].title;
-			n.description = news[ranNews].description;
-			n.urlToImage = news[ranNews].urlToImage;
-			n.url = news[ranNews].url;
-			trending.news.push(n);
+	// 		news = result.data.articles;
+	// 		var ranNews = Math.round(Math.random() * (news.length - 1));
+	// 		n = {};
+	// 		n.title = news[ranNews].title;
+	// 		n.description = news[ranNews].description;
+	// 		n.urlToImage = news[ranNews].urlToImage;
+	// 		n.url = news[ranNews].url;
+	// 		trending.news.push(n);
 
-		}).catch(function (err) {
-			console.log(err);
-		});
+	// 	}).catch(function (err) {
+	// 		console.log(err);
+	// 	});
 
-	}
+	// }
+	trending.news=tempService.array;
 
 	trending.down = function () {
-		$state.go("menu.video");
+		tempService.id=3;
+		trending.animateDown=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 	trending.up = function () {
-		$state.go("menu.onthisday");
+		tempService.id=5;
+		trending.animateUp=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 }
 
-function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate) {
+function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService) {
 	var video = this;
+	video.animateUp=false;
+	video.animateDown=false;
 	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 	video.videos = [];
 	max = 0;
@@ -231,37 +402,44 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate) {
 
 	});
 
-	for (i = 0; i < 5; i++) {
-		var ranChannel = Math.round(Math.random() * (channels.length - 1));
-		var ranVideo = Math.round(Math.random() * 29);
-		var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
-		var promise = $http.get(youtubeUrl).then(function (result) {
-			console.log(result);
-			v = result.data.items[ranVideo];
-			vPart = {}
-			vPart.title = v.snippet.title;
-			vPart.id = v.id.videoId;
-			vPart.thumbnail = v.snippet.thumbnails.high.url;
-			video.videos.push(vPart);
+	// for (i = 0; i < 5; i++) {
+	// 	var ranChannel = Math.round(Math.random() * (channels.length - 1));
+	// 	var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+	// 	var promise = $http.get(youtubeUrl).then(function (result) {
+	// 		var ranVideo = Math.round(Math.random() * 29);
+	// 		console.log(result);
+	// 		v = result.data.items[ranVideo];
+	// 		vPart = {}
+	// 		vPart.title = v.snippet.title;
+	// 		vPart.id = v.id.videoId;
+	// 		vPart.thumbnail = v.snippet.thumbnails.high.url;
+	// 		video.videos.push(vPart);
 
-		}).catch(function (err) {
-			console.log(err);
-		});
+	// 	}).catch(function (err) {
+	// 		console.log(err);
+	// 	});
 
-	}
+	// }
+	video.videos=tempService.array;
 
 
 	video.down = function () {
-		$state.go("menu.fact");
+		tempService.id=2;
+		video.animateDown=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 	video.up = function () {
-		$state.go("menu.trending");
+		tempService.id=4;
+		video.animateUp=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 }
 
 
-function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope) {
+function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope,tempService) {
 	var card = this;
+	card.animateUp=false;
+	card.animateDown=false;
 	card.cards = [];
 	max = 0;
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
@@ -303,47 +481,49 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope) {
 
 
 
-	for (i = 0; i < 5; i++) {
-		var baseUrl = "http://numbersapi.com/random/trivia"
+	// for (i = 0; i < 5; i++) {
+	// 	var baseUrl = "http://numbersapi.com/random/trivia"
 
-		var promise = $http.get(baseUrl);
-		promise.then(function (result) {
-			console.log(result);
-			factNo = "";
-			for (j = 0; j < result.data.length; j++) {
-				if (result.data[j] == " ") {
-					factNo = result.data.substr(0, j);
-					break;
-				}
+	// 	var promise = $http.get(baseUrl);
+	// 	promise.then(function (result) {
+	// 		console.log(result);
+	// 		factNo = "";
+	// 		for (j = 0; j < result.data.length; j++) {
+	// 			if (result.data[j] == " ") {
+	// 				factNo = result.data.substr(0, j);
+	// 				break;
+	// 			}
 
-			}
-			factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
-			card.cards.push({ "factNo": factNo, "fact": result.data });
+	// 		}
+	// 		factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
+	// 		card.cards.push({ "factNo": factNo, "fact": result.data });
 
-			var keywordUrl = "http://api.cortical.io:80/rest/text/keywords?retina_name=en_associative"
+	// 		var keywordUrl = "http://api.cortical.io:80/rest/text/keywords?retina_name=en_associative"
 
-			var keypromise = $http.post(keywordUrl, result.data, { headers: { "api-key": "438da670-6646-11e7-b22d-93a4ae922ff1" } });
-			keypromise.then(function (result1) {
-				console.log(result1);
-				console.log("hello");
+	// 		var keypromise = $http.post(keywordUrl, result.data, { headers: { "api-key": "438da670-6646-11e7-b22d-93a4ae922ff1" } });
+	// 		keypromise.then(function (result1) {
+	// 			console.log(result1);
+	// 		}).catch(function (err) {
+	// 			console.log(err);
+	// 			console.log("error");
+	// 		});
 
-			}).catch(function (err) {
-				console.log(err);
-				console.log("error");
-			});
+	// 	}).catch(function (err) {
+	// 		console.log(err);
+	// 	});
+	// }
 
-		}).catch(function (err) {
-			console.log(err);
-		});
-	}
-
-
+	card.cards=tempService.array;
 
 	card.up = function () {
-		$state.go("menu.video");
+		tempService.id=3;
+		card.animateUp=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 	card.down = function () {
-		$state.go("menu.quote");
+		tempService.id=1;
+		card.animateDown=true;
+		setTimeout(function(){$state.go("temp");},1000);
 	}
 
 	// card.menu=function(){

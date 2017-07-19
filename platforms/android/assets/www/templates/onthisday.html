@@ -3,12 +3,12 @@
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="otds in otd.otds">
                 <div class="list card">
-                    <div class="item item-body">
-                        <img class="full-image" src="http://lorempixel.com/640/480/abstract">
-                        <h3>{{otds.year}}</h3>
-                        <p>
-                            {{otds.text}}
-                        </p>
+                    <div class="item item-body card">
+                        <img class="full-image otdImage" src="http://lorempixel.com/640/480/abstract">
+                        <div class="otdContent">
+                            <h3><b>{{otds.year}}</b></h3>
+                            <p>{{otds.text}}</p>  
+                        </div>
                     </div>
                 </div>
             </ion-slide-page>
@@ -18,7 +18,6 @@
     <ion-footer-bar class="bar">
         <div class="button-bar">
             <a class="button button-icon icon ion-android-bookmark"></a>
-            <a class="button button-icon icon ion-chatbubbles"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
             <a class="button button-icon icon ion-android-globe"></a>
         </div>

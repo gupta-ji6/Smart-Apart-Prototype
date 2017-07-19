@@ -2,14 +2,15 @@
 	<ion-content scroll="false">
 
 		<div class="list card">
-			<div class="item item-body" style="padding:0px;margin:0px;">
-				<div class="quoteCard" class="full-image">
-					<p style="color:white;font-family:Georgia;font-size:34px;line-height:1;text-align:center;padding:10%">
+			<div class="item item-body quoteCard">
+				<div>
+					<div class="quoteText">
 						"{{quote.quotes.quoteText}}"
-					</p>
-					<p style="color:white;font-size:22px;padding:10%;text-align:center;">
+					</div>
+					<br>
+					<div class="quoteAuthor">
 						- {{quote.quotes.quoteAuthor}}
-					</p>
+					</div>
 				</div>
 
 
@@ -21,7 +22,6 @@
 	<ion-footer-bar class="bar">
 		<div class="button-bar">
 			<a class="button button-icon icon ion-android-bookmark"></a>
-			<a class="button button-icon icon ion-chatbubbles"></a>
 			<a class="button button-icon icon ion-android-share-alt"></a>
 			<a class="button button-icon icon ion-android-globe"></a>
 		</div>
