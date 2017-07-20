@@ -1,6 +1,21 @@
 /* Empty. Add your own CSS if you like */
-.swiper-pagination-bullet{
+.swiper-pagination-bullet {
    display: none;
+}
+.username {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 20px;
+}
+.ion-item {
+    font-size: 1em;
+}
+.profilePicture {
+    border-radius: 150px;
+    width: 150px;
+    height: 150px;
+    margin: 3vh 18vw 1vh 18vw;
 }
 .list:last-child.card {
     margin-bottom: 10px;
@@ -12,7 +27,7 @@ a {
     text-decoration: none;
 }
 .newsContent {
-    font-size: 1em;
+    font-size: 1.2em;
     margin: 10px;
 }
 .otdContent {
@@ -22,9 +37,12 @@ img.full-image.otdImage {
     height: 50vh;
 }
 .quoteCard {
-    background-image: url("https://unsplash.it/800/600/?random&blur&gravity=center");
-    background-position: center center;
+    background-image: url("https://unsplash.it/1024/1024/?random&blur&gravity=center");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     height: 83vh;
+    margin: 0;
 }
 .quoteText {
     color: white;
@@ -66,12 +84,21 @@ img.full-image.otdImage {
 }
 img.full-image.factImage {
     height: 40vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 img.full-image.videoThumbnail {
     height: 50vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 img.full-image.newsImage {
     height: 40vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 .bar.bar-stable {
     margin-bottom: 10px;
