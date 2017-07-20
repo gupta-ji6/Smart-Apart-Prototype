@@ -15,6 +15,7 @@ angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 
 			.state('menu', {
 				url: '/menu',
+				cache:false,
 				abstract: true,
 				templateUrl: 'templates/menu.html',
 				// controller: 'AppCtrl'
@@ -119,14 +120,21 @@ angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 	.controller("quoteCtrl", quoteCtrl)
 	.controller("otdCtrl", otdCtrl)
 	.controller("tempCtrl",tempCtrl)
+	.controller("menuCtrl",menuCtrl)
 	.factory("tempService",tempService)
 
 	function tempService(){
 		return {'id':1,'array':[]};
 	}
 
+	function menuCtrl(tempService){
+		var menu=this;
+		menu.id=tempService.id;
+		console.log(menu.id);
+	}
 	function tempCtrl(tempService,$state,$http){
 		var temp=this;
+		temp.id=tempService.id;
 		switch(tempService.id){
 			case 1:
 					temp.name="Quote";
@@ -230,7 +238,7 @@ angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 					break;
 			
 			case 5:
-					temp.name="On this Day";
+					temp.name="On This Day";
 					tempService.array=[];
 					var Url = "http://history.muffinlabs.com/date";
 					var promise = $http.get(Url).then(function (result) {
