@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ui.router'])
+angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 	.config(function ($stateProvider, $urlRouterProvider) {
 		$stateProvider
 
@@ -161,12 +161,19 @@ angular.module('starter', ['ionic', 'ui.router'])
 							}
 							factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
 							tempService.array.push({ "factNo": factNo, "fact": result.data });
+							if(i==5){
+								console.log("working");
+								setTimeout(function(){$state.go("menu.fact");},1000);
+							}
+								
+
 
 						}).catch(function (err) {
 							console.log(err);
+							setTimeout(function(){$state.go("menu.fact");},1000);
 						});
 					}
-					setTimeout(function(){$state.go("menu.fact");},1000);
+					
 					break;
 			case 3:
 					temp.name="Video";
@@ -184,13 +191,15 @@ angular.module('starter', ['ionic', 'ui.router'])
 								vPart.id = v.id.videoId;
 								vPart.thumbnail = v.snippet.thumbnails.high.url;
 								tempService.array.push(vPart);
+								if(i==5)
+									setTimeout(function(){$state.go("menu.video");},1000);
 
 							}).catch(function (err) {
 								console.log(err);
 							});
 
 						}
-					setTimeout(function(){$state.go("menu.video");},1000);
+					
 					break;
 			case 4:
 					temp.name="Trending"
@@ -209,13 +218,15 @@ angular.module('starter', ['ionic', 'ui.router'])
 							n.urlToImage = news[ranNews].urlToImage;
 							n.url = news[ranNews].url;
 							tempService.array.push(n);
+							if(i==5)
+							setTimeout(function(){$state.go("menu.trending");},1000);
 
 						}).catch(function (err) {
 							console.log(err);
 						});
 
 					}
-					setTimeout(function(){$state.go("menu.trending");},1000);
+					
 					break;
 			
 			case 5:
@@ -264,7 +275,7 @@ function otdCtrl($state, $http,tempService) {
 	otd.down = function () {
 		tempService.id=4;
 		otd.animate=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 }
 
@@ -288,7 +299,7 @@ function quoteCtrl($state, $http,tempService) {
 	quote.up = function () {
 		quote.animate=true;
 		tempService.id=2;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 		
 		// quote.animate=false;
 	}
@@ -356,12 +367,12 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService)
 	trending.down = function () {
 		tempService.id=3;
 		trending.animateDown=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 	trending.up = function () {
 		tempService.id=5;
 		trending.animateUp=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 }
 
@@ -426,12 +437,12 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService) {
 	video.down = function () {
 		tempService.id=2;
 		video.animateDown=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 	video.up = function () {
 		tempService.id=4;
 		video.animateUp=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 }
 
@@ -518,12 +529,12 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope,tempService) {
 	card.up = function () {
 		tempService.id=3;
 		card.animateUp=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 	card.down = function () {
 		tempService.id=1;
 		card.animateDown=true;
-		setTimeout(function(){$state.go("temp");},1000);
+		setTimeout(function(){$state.go("temp");},350);
 	}
 
 	// card.menu=function(){
