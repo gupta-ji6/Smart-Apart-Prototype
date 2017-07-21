@@ -3,26 +3,26 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ui.router','ngCordova'])
+angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.config(function ($stateProvider, $urlRouterProvider) {
 		$stateProvider
 
 			.state('temp', {
-				cache:false,
+				cache: false,
 				url: '/temp',
 				templateUrl: 'templates/temp.html',
 			})
 
 			.state('menu', {
 				url: '/menu',
-				cache:false,
+				cache: false,
 				abstract: true,
 				templateUrl: 'templates/menu.html',
 				// controller: 'AppCtrl'
 			})
 
 			.state('menu.fact', {
-				cache:false,
+				cache: false,
 				url: '/fact',
 				views: {
 					'menuContent': {
@@ -55,7 +55,7 @@ angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 			})
 
 			.state('menu.quote', {
-				cache:false,
+				cache: false,
 				url: '/quote',
 				views: {
 					'menuContent': {
@@ -102,212 +102,219 @@ angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 			}
 		});
 
-		$ionicPlatform.registerBackButtonAction(function(event) {
-    if (true) { // your check here
-      $ionicPopup.confirm({
-        title: 'System warning',
-        template: 'are you sure you want to exit?'
-      }).then(function(res) {
-        if (res) {
-          ionic.Platform.exitApp();
-        }
-      })
-    }
-  }, 100);
+		$ionicPlatform.registerBackButtonAction(function (event) {
+			if (true) {
+				$ionicPopup.confirm({
+					title: 'Exit',
+					template: 'Are you sure?',
+					cancelText: 'Make me smarter!',
+					cancelType: 'button-positive',
+					okText: 'Exit',
+					okType: 'button-light'
+				}).then(function (res) {
+					if (res) {
+						ionic.Platform.exitApp();
+					}
+					else {
+						$ionicHistory.goBack();
+					}
+				})
+			}
+		}, 100);
 	})
 	.controller("cardCtrl", cardCtrl)
 	.controller("videoCtrl", videoCtrl)
 	.controller("trendingCtrl", trendingCtrl)
 	.controller("quoteCtrl", quoteCtrl)
 	.controller("otdCtrl", otdCtrl)
-	.controller("tempCtrl",tempCtrl)
-	.controller("menuCtrl",menuCtrl)
-	.factory("tempService",tempService)
+	.controller("tempCtrl", tempCtrl)
+	.controller("menuCtrl", menuCtrl)
+	.factory("tempService", tempService)
 
-	function tempService(){
-		return {'id':1,'array':[]};
-	}
+function tempService() {
+	return { 'id': 1, 'array': [] };
+}
 
-	function menuCtrl(tempService,$state){
-		var menu = this;
-		menu.id = tempService.id;
-		console.log(menu.id);
+function menuCtrl(tempService, $state) {
+	var menu = this;
+	menu.id = tempService.id;
+	console.log(menu.id);
 
-		menu.isCategoriesActive=false;
-		menu.isBookmarksActive = false;
-		menu.items = ["Quote","Fact","Videos","Trending","On This Day"];
-		menu.change=function(item){
-			if(item=="Quote"){
-				tempService.id=1;
-				$state.go("temp");
-			}
-			else
-			if(item=="Fact"){
-				tempService.id=2;
-				$state.go("temp");
-			}
-			else
-			if(item=="Videos"){
-				tempService.id=3;
-				$state.go("temp");
-			}
-			else
-			if(item=="Trending"){
-				tempService.id=4;
-				$state.go("temp");
-			}
-			else
-			if(item=="On This Day"){
-				tempService.id=5;
-				$state.go("temp");
-			}
+	menu.isCategoriesActive = false;
+	menu.isBookmarksActive = false;
+	menu.items = ["Quote", "Fact", "Videos", "Trending", "On This Day"];
+	menu.change = function (item) {
+		if (item == "Quote") {
+			tempService.id = 1;
+			$state.go("temp");
 		}
-
-		menu.toggleCategory = function () {
-			menu.isCategoriesActive=!menu.isCategoriesActive;
-		};
-		menu.toggleBookmark = function () {
-			menu.isBookmarksActive=!menu.isBookmarksActive;
-		};
-		
-	}
-	function tempCtrl(tempService,$state,$http){
-		var temp=this;
-		temp.id=tempService.id;
-		switch(tempService.id){
-			case 1:
-					temp.name="Quote";
-					tempService.array=[];
-					var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
-					var promise = $http.get(Url).then(function (result) {
-						console.log(result);
-						tempService.array[0]=result.data;
-						setTimeout(function(){$state.go("menu.quote");},1000);
-
-					}).catch(function (err) {
-						console.log(err);
-						setTimeout(function(){$state.go("menu.quote");},1000);
-					});
-					break;
-			case 2:
-					temp.name="Fact";
-					tempService.array=[];
-					for (i = 0; i < 5; i++) {
-						var baseUrl = "http://numbersapi.com/random/trivia"
-
-						var promise = $http.get(baseUrl);
-						promise.then(function (result) {
-							console.log(result);
-							factNo = "";
-							for (j = 0; j < result.data.length; j++) {
-								if (result.data[j] == " ") {
-									factNo = result.data.substr(0, j);
-									break;
-								}
-
-							}
-							factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
-							tempService.array.push({ "factNo": factNo, "fact": result.data });
-							if(i==5){
-								console.log("working");
-								setTimeout(function(){$state.go("menu.fact");},1000);
-							}
-								
-
-
-						}).catch(function (err) {
-							console.log(err);
-							setTimeout(function(){$state.go("menu.fact");},1000);
-						});
+		else
+			if (item == "Fact") {
+				tempService.id = 2;
+				$state.go("temp");
+			}
+			else
+				if (item == "Videos") {
+					tempService.id = 3;
+					$state.go("temp");
+				}
+				else
+					if (item == "Trending") {
+						tempService.id = 4;
+						$state.go("temp");
 					}
-					
-					break;
-			case 3:
-					temp.name="Video";
-					tempService.array=[];
-					var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
-						for (i = 0; i < 5; i++) {
-							var ranChannel = Math.round(Math.random() * (channels.length - 1));
-							var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
-							var promise = $http.get(youtubeUrl).then(function (result) {
-								var ranVideo = Math.round(Math.random() * 29);
-								console.log(result);
-								v = result.data.items[ranVideo];
-								vPart = {}
-								vPart.title = v.snippet.title;
-								vPart.id = v.id.videoId;
-								vPart.thumbnail = v.snippet.thumbnails.high.url;
-								tempService.array.push(vPart);
-								if(i==5)
-									setTimeout(function(){$state.go("menu.video");},1000);
-
-							}).catch(function (err) {
-								console.log(err);
-							});
-
+					else
+						if (item == "On This Day") {
+							tempService.id = 5;
+							$state.go("temp");
 						}
-					
-					break;
-			case 4:
-					temp.name="Trending"
-					tempService.array=[];
-					var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
-					for (i = 0; i < 5; i++) {
-						var ranSource = Math.round(Math.random() * (sources.length - 1));
-						var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
-						var promise = $http.get(Url).then(function (result) {
-
-							news = result.data.articles;
-							var ranNews = Math.round(Math.random() * (news.length - 1));
-							n = {};
-							n.title = news[ranNews].title;
-							n.description = news[ranNews].description;
-							n.urlToImage = news[ranNews].urlToImage;
-							n.url = news[ranNews].url;
-							tempService.array.push(n);
-							if(i==5)
-							setTimeout(function(){$state.go("menu.trending");},1000);
-
-						}).catch(function (err) {
-							console.log(err);
-						});
-
-					}
-					
-					break;
-			
-			case 5:
-					temp.name="On This Day";
-					tempService.array=[];
-					var Url = "http://history.muffinlabs.com/date";
-					var promise = $http.get(Url).then(function (result) {
-						console.log(result);
-						tempService.array = result.data.data.Events;
-						tempService.array.reverse();
-						setTimeout(function(){$state.go("menu.onthisday");},1000);
-
-					}).catch(function (err) {
-						console.log(err);
-						setTimeout(function(){$state.go("menu.onthisday");},1000);
-						
-					});
-					
-					break;
-
-
-					
-
-					
-
-
-
-
-		}
 	}
 
-function otdCtrl($state, $http,tempService) {
+	menu.toggleCategory = function () {
+		menu.isCategoriesActive = !menu.isCategoriesActive;
+	};
+	menu.toggleBookmark = function () {
+		menu.isBookmarksActive = !menu.isBookmarksActive;
+	};
+
+}
+function tempCtrl(tempService, $state, $http) {
+	var temp = this;
+	temp.id = tempService.id;
+	switch (tempService.id) {
+		case 1:
+			temp.name = "Quote";
+			tempService.array = [];
+			var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
+			var promise = $http.get(Url).then(function (result) {
+				console.log(result);
+				tempService.array[0] = result.data;
+				setTimeout(function () { $state.go("menu.quote"); }, 1000);
+
+			}).catch(function (err) {
+				console.log(err);
+				setTimeout(function () { $state.go("menu.quote"); }, 1000);
+			});
+			break;
+		case 2:
+			temp.name = "Fact";
+			tempService.array = [];
+			for (i = 0; i < 5; i++) {
+				var baseUrl = "http://numbersapi.com/random/trivia"
+
+				var promise = $http.get(baseUrl);
+				promise.then(function (result) {
+					console.log(result);
+					factNo = "";
+					for (j = 0; j < result.data.length; j++) {
+						if (result.data[j] == " ") {
+							factNo = result.data.substr(0, j);
+							break;
+						}
+
+					}
+					factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
+					tempService.array.push({ "factNo": factNo, "fact": result.data });
+					if (i == 5) {
+						console.log("working");
+						setTimeout(function () { $state.go("menu.fact"); }, 1000);
+					}
+
+
+
+				}).catch(function (err) {
+					console.log(err);
+					setTimeout(function () { $state.go("menu.fact"); }, 1000);
+				});
+			}
+
+			break;
+		case 3:
+			temp.name = "Video";
+			tempService.array = [];
+			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
+			for (i = 0; i < 5; i++) {
+				var ranChannel = Math.round(Math.random() * (channels.length - 1));
+				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+				var promise = $http.get(youtubeUrl).then(function (result) {
+					var ranVideo = Math.round(Math.random() * 29);
+					console.log(result);
+					v = result.data.items[ranVideo];
+					vPart = {}
+					vPart.title = v.snippet.title;
+					vPart.id = v.id.videoId;
+					vPart.thumbnail = v.snippet.thumbnails.high.url;
+					tempService.array.push(vPart);
+					if (i == 5)
+						setTimeout(function () { $state.go("menu.video"); }, 1000);
+
+				}).catch(function (err) {
+					console.log(err);
+				});
+
+			}
+
+			break;
+		case 4:
+			temp.name = "Trending"
+			tempService.array = [];
+			var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+			for (i = 0; i < 5; i++) {
+				var ranSource = Math.round(Math.random() * (sources.length - 1));
+				var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+				var promise = $http.get(Url).then(function (result) {
+
+					news = result.data.articles;
+					var ranNews = Math.round(Math.random() * (news.length - 1));
+					n = {};
+					n.title = news[ranNews].title;
+					n.description = news[ranNews].description;
+					n.urlToImage = news[ranNews].urlToImage;
+					n.url = news[ranNews].url;
+					tempService.array.push(n);
+					if (i == 5)
+						setTimeout(function () { $state.go("menu.trending"); }, 1000);
+
+				}).catch(function (err) {
+					console.log(err);
+				});
+
+			}
+
+			break;
+
+		case 5:
+			temp.name = "On This Day";
+			tempService.array = [];
+			var Url = "http://history.muffinlabs.com/date";
+			var promise = $http.get(Url).then(function (result) {
+				console.log(result);
+				tempService.array = result.data.data.Events;
+				tempService.array.reverse();
+				setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+
+			}).catch(function (err) {
+				console.log(err);
+				setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+
+			});
+
+			break;
+
+
+
+
+
+
+
+
+
+	}
+}
+
+function otdCtrl($state, $http, tempService) {
 	var otd = this;
-	otd.animate=false;
+	otd.animate = false;
 	// var Url = "http://history.muffinlabs.com/date";
 	// var promise = $http.get(Url).then(function (result) {
 	// 	console.log(result);
@@ -317,18 +324,18 @@ function otdCtrl($state, $http,tempService) {
 	// }).catch(function (err) {
 	// 	console.log(err);
 	// });
-	otd.otds=tempService.array;
+	otd.otds = tempService.array;
 
 	otd.down = function () {
-		tempService.id=4;
-		otd.animate=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 4;
+		otd.animate = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 }
 
-function quoteCtrl($state, $http,tempService) {
+function quoteCtrl($state, $http, tempService) {
 	var quote = this;
-	quote.animate=false;
+	quote.animate = false;
 
 
 	// var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
@@ -339,23 +346,23 @@ function quoteCtrl($state, $http,tempService) {
 	// }).catch(function (err) {
 	// 	console.log(err);
 	// });
-	quote.quotes=tempService.array[0];
+	quote.quotes = tempService.array[0];
 
 
 
 	quote.up = function () {
-		quote.animate=true;
-		tempService.id=2;
-		setTimeout(function(){$state.go("temp");},350);
-		
+		quote.animate = true;
+		tempService.id = 2;
+		setTimeout(function () { $state.go("temp"); }, 350);
+
 		// quote.animate=false;
 	}
 }
 
-function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService) {
+function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	var trending = this;
-	trending.animateUp=false;
-	trending.animateDown=false;
+	trending.animateUp = false;
+	trending.animateDown = false;
 	trending.news = [];
 	max = 0;
 	var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
@@ -409,24 +416,24 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService)
 	// 	});
 
 	// }
-	trending.news=tempService.array;
+	trending.news = tempService.array;
 
 	trending.down = function () {
-		tempService.id=3;
-		trending.animateDown=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 3;
+		trending.animateDown = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 	trending.up = function () {
-		tempService.id=5;
-		trending.animateUp=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 5;
+		trending.animateUp = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 }
 
-function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService) {
+function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	var video = this;
-	video.animateUp=false;
-	video.animateDown=false;
+	video.animateUp = false;
+	video.animateDown = false;
 	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 	video.videos = [];
 	max = 0;
@@ -478,26 +485,26 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate,tempService) {
 	// 	});
 
 	// }
-	video.videos=tempService.array;
+	video.videos = tempService.array;
 
 
 	video.down = function () {
-		tempService.id=2;
-		video.animateDown=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 2;
+		video.animateDown = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 	video.up = function () {
-		tempService.id=4;
-		video.animateUp=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 4;
+		video.animateUp = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 }
 
 
-function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope,tempService) {
+function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService) {
 	var card = this;
-	card.animateUp=false;
-	card.animateDown=false;
+	card.animateUp = false;
+	card.animateDown = false;
 	card.cards = [];
 	max = 0;
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
@@ -571,17 +578,17 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope,tempService) {
 	// 	});
 	// }
 
-	card.cards=tempService.array;
+	card.cards = tempService.array;
 
 	card.up = function () {
-		tempService.id=3;
-		card.animateUp=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 3;
+		card.animateUp = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 	card.down = function () {
-		tempService.id=1;
-		card.animateDown=true;
-		setTimeout(function(){$state.go("temp");},350);
+		tempService.id = 1;
+		card.animateDown = true;
+		setTimeout(function () { $state.go("temp"); }, 350);
 	}
 
 	// card.menu=function(){

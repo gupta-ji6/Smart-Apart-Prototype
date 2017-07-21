@@ -2,7 +2,7 @@
    display: none;
 }
 .dropdown {
-    margin-left: 60%;
+    float: right;
 }
 .tempQuote{
     background-color: #4CB4FF;

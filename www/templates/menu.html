@@ -21,27 +21,27 @@
 			<ion-list>
 				
 					<ion-item ng-click="menu.toggleCategory()" ng-class="{'active':menu.isCategoriesActive}">
-						Categories<i class="icon dropdown" ng-class="menu.isCategoriesActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
+						<i class="icon ion-pie-graph" float-left></i>&nbsp; Categories<i class="icon dropdown" ng-class="menu.isCategoriesActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
 					</ion-item>
 					<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isCategoriesActive">
 						<div ng-click="menu.change(item)">&nbsp; &nbsp; &nbsp; {{item}}</div>
 					</ion-item>
 				
 					<ion-item ng-click="menu.toggleBookmark()" ng-class="{'active':menu.isBookmarksActive}">
-						Bookmarks<i class="icon dropdown" ng-class="menu.isBookmarksActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
+						<i class="icon ion-android-bookmark" float-left></i>&nbsp; Bookmarks<i class="icon dropdown" ng-class="menu.isBookmarksActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
 					</ion-item>
 					<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isBookmarksActive">
 						<div>&nbsp; &nbsp; &nbsp; {{item}}</div>
 					</ion-item>
 				
 				<ion-item menu-close href="#/app/browse">
-					Reminder
+					<i class="icon ion-android-alarm-clock" float-left></i>&nbsp; Reminder
 				</ion-item>
 				<ion-item menu-close href="#/app/playlists">
-					Rate
+					<i class="icon ion-star" float-left></i>&nbsp; Rate
 				</ion-item>
 				<ion-item menu-close href="#/app/playlists">
-					About Us
+					<i class="icon ion-information-circled" float-left></i>&nbsp; About Us
 				</ion-item>
 				
 			</ion-list>
