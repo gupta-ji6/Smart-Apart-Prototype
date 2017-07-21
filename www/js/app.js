@@ -128,10 +128,48 @@ angular.module('starter', ['ionic', 'ui.router','ngCordova'])
 		return {'id':1,'array':[]};
 	}
 
-	function menuCtrl(tempService){
-		var menu=this;
-		menu.id=tempService.id;
+	function menuCtrl(tempService,$state){
+		var menu = this;
+		menu.id = tempService.id;
 		console.log(menu.id);
+
+		menu.isCategoriesActive=false;
+		menu.isBookmarksActive = false;
+		menu.items = ["Quote","Fact","Videos","Trending","On This Day"];
+		menu.change=function(item){
+			if(item=="Quote"){
+				tempService.id=1;
+				$state.go("temp");
+			}
+			else
+			if(item=="Fact"){
+				tempService.id=2;
+				$state.go("temp");
+			}
+			else
+			if(item=="Videos"){
+				tempService.id=3;
+				$state.go("temp");
+			}
+			else
+			if(item=="Trending"){
+				tempService.id=4;
+				$state.go("temp");
+			}
+			else
+			if(item=="On This Day"){
+				tempService.id=5;
+				$state.go("temp");
+			}
+		}
+
+		menu.toggleCategory = function () {
+			menu.isCategoriesActive=!menu.isCategoriesActive;
+		};
+		menu.toggleBookmark = function () {
+			menu.isBookmarksActive=!menu.isBookmarksActive;
+		};
+		
 	}
 	function tempCtrl(tempService,$state,$http){
 		var temp=this;

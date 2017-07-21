@@ -1,6 +1,9 @@
 .swiper-pagination-bullet {
    display: none;
 }
+.dropdown {
+    margin-left: 60%;
+}
 .tempQuote{
     background-color: #4CB4FF;
     color: white;
@@ -58,6 +61,7 @@
 }
 a {
     text-decoration: none;
+    color: black;
 }
 .newsContent {
     font-size: 1.2em;
@@ -65,6 +69,7 @@ a {
 }
 .otdContent {
     font-size: 1.5em;
+    margin: 10px;
 }
 img.full-image.otdImage {
     height: 50vh;
