@@ -174,6 +174,13 @@ function menuCtrl(tempService, $state) {
 							$state.go("temp");
 						}
 	}
+	menu.changeBookmark=function(item){
+		if (item == "Trending") {
+			tempService.id = 4;
+			tempService.bookmark=true;
+			$state.go("temp");
+		}
+	}
 
 	menu.toggleCategory = function () {
 		menu.isCategoriesActive = !menu.isCategoriesActive;
@@ -246,25 +253,33 @@ function tempCtrl(tempService, $state, $http) {
 			temp.name = "Video";
 			tempService.array = [];
 			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
-			for (i = 0; i < 5; i++) {
-				var ranChannel = Math.round(Math.random() * (channels.length - 1));
-				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
-				var promise = $http.get(youtubeUrl).then(function (result) {
-					var ranVideo = Math.round(Math.random() * 29);
-					console.log(result);
-					v = result.data.items[ranVideo];
-					vPart = {}
-					vPart.title = v.snippet.title;
-					vPart.id = v.id.videoId;
-					vPart.thumbnail = v.snippet.thumbnails.high.url;
-					tempService.array.push(vPart);
-					if (i == 5)
-						setTimeout(function () { $state.go("menu.video"); }, 1000);
+			if(!tempService.bookmark){ 
+				for (i = 0; i < 5; i++) {
+					var ranChannel = Math.round(Math.random() * (channels.length - 1));
+					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+					var promise = $http.get(youtubeUrl).then(function (result) {
+						var ranVideo = Math.round(Math.random() * 29);
+						console.log(result);
+						v = result.data.items[ranVideo];
+						vPart = {}
+						vPart.title = v.snippet.title;
+						vPart.id = v.id.videoId;
+						vPart.thumbnail = v.snippet.thumbnails.high.url;
+						tempService.array.push(vPart);
+						if (i == 5)
+							setTimeout(function () { $state.go("menu.video"); }, 1000);
 
-				}).catch(function (err) {
-					console.log(err);
+					}).catch(function (err) {
+						console.log(err);
+					});
+
+				}
+			}
+			else{
+				localforage.getItem("video",function(data,err){
+					tempService.array=data;
+					setTimeout(function () { $state.go("menu.video"); }, 1000);
 				});
-
 			}
 
 			break;
@@ -272,26 +287,34 @@ function tempCtrl(tempService, $state, $http) {
 			temp.name = "Trending"
 			tempService.array = [];
 			var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
-			for (i = 0; i < 5; i++) {
-				var ranSource = Math.round(Math.random() * (sources.length - 1));
-				var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
-				var promise = $http.get(Url).then(function (result) {
+			if(!tempService.bookmark){ 
+				for (i = 0; i < 5; i++) {
+					var ranSource = Math.round(Math.random() * (sources.length - 1));
+					var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
+					var promise = $http.get(Url).then(function (result) {
 
-					news = result.data.articles;
-					var ranNews = Math.round(Math.random() * (news.length - 1));
-					n = {};
-					n.title = news[ranNews].title;
-					n.description = news[ranNews].description;
-					n.urlToImage = news[ranNews].urlToImage;
-					n.url = news[ranNews].url;
-					tempService.array.push(n);
-					if (i == 5)
-						setTimeout(function () { $state.go("menu.trending"); }, 1000);
+						news = result.data.articles;
+						var ranNews = Math.round(Math.random() * (news.length - 1));
+						n = {};
+						n.title = news[ranNews].title;
+						n.description = news[ranNews].description;
+						n.urlToImage = news[ranNews].urlToImage;
+						n.url = news[ranNews].url;
+						tempService.array.push(n);
+						if (i == 5)
+							setTimeout(function () { $state.go("menu.trending"); }, 1000);
 
-				}).catch(function (err) {
-					console.log(err);
+					}).catch(function (err) {
+						console.log(err);
+					});
+
+				}
+			}else{
+				localforage.getItem("trending",function(err,data){
+					console.log(data);
+					tempService.array=data;
+					setTimeout(function () { $state.go("menu.trending"); }, 1000);
 				});
-
 			}
 
 			break;
@@ -325,9 +348,10 @@ function tempCtrl(tempService, $state, $http) {
 	}
 }
 
-function otdCtrl($state, $http, tempService) {
+function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 	var otd = this;
 	otd.animate = false;
+	otd.slide=0;
 	// var Url = "http://history.muffinlabs.com/date";
 	// var promise = $http.get(Url).then(function (result) {
 	// 	console.log(result);
@@ -338,6 +362,9 @@ function otdCtrl($state, $http, tempService) {
 	// 	console.log(err);
 	// });
 	otd.otds = tempService.array;
+	$scope.$on("$ionicSlides.slideChangeStart", function (event, data){
+		otd.slide=data.slider.activeIndex;
+	});
 
 	otd.down = function () {
 		if(!tempService.bookmark){
@@ -347,13 +374,27 @@ function otdCtrl($state, $http, tempService) {
 
 		}
 	}
+	otd.bookmark=function(){
+	  localforage.getItem("otd",function(err,data){
+		console.log(data);
+		if(data==null){
+			data=[];
+			data.push(otd.otds[otd.slide]);
+			localforage.setItem("otd",data);
+		}
+		else{
+			data.push(otd.otds[otd.slide]);
+			localforage.setItem("otd",data);
+		}
+      });
+	}
 }
 
-function quoteCtrl($state, $http, tempService) {
+function quoteCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 	var quote = this;
 	quote.animate = false;
 
-
+	
 	// var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
 	// var promise = $http.get(Url).then(function (result) {
 	// 	console.log(result);
@@ -381,11 +422,14 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.animateDown = false;
 	trending.news = [];
 	max = 0;
+	trending.slide=0;
 	var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
 
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
-		if (data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
+		trending.slide=data.slider.activeIndex;
+		
+		if (!tempService.bookmark && data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
 			if (max < data.slider.activeIndex) {
 				max = data.slider.activeIndex;
 			}
@@ -432,6 +476,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	// 	});
 
 	// }
+	console.log(tempService.array);
 	trending.news = tempService.array;
 
 	trending.down = function () {
@@ -447,6 +492,20 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 			trending.animateUp = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
+	}
+	trending.bookmark=function(){
+		localforage.getItem("trending",function(err,data){
+		console.log(data);
+		if(data==null){
+			data=[];
+			data.push(trending.news[trending.slide]);
+			localforage.setItem("trending",data);
+		}
+		else{
+			data.push(trending.news[trending.slide]);
+			localforage.setItem("trending",data);
+		}
+      });
 	}
 }
 

@@ -25,6 +25,15 @@ module.exports = [
         ]
     },
     {
+        "id": "ionic-plugin-keyboard.keyboard",
+        "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
+        "pluginId": "ionic-plugin-keyboard",
+        "clobbers": [
+            "cordova.plugins.Keyboard"
+        ],
+        "runs": true
+    },
+    {
         "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
         "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
         "pluginId": "de.appplant.cordova.plugin.local-notification",
@@ -50,15 +59,6 @@ module.exports = [
             "cordova.plugins.notification.local.core",
             "plugin.notification.local.core"
         ]
-    },
-    {
-        "id": "ionic-plugin-keyboard.keyboard",
-        "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
-        "pluginId": "ionic-plugin-keyboard",
-        "clobbers": [
-            "cordova.plugins.Keyboard"
-        ],
-        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -70,8 +70,8 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "4.0.3",
     "cordova-plugin-statusbar": "2.2.1",
     "cordova-plugin-whitelist": "1.3.1",
-    "de.appplant.cordova.plugin.local-notification": "0.8.4",
-    "ionic-plugin-keyboard": "2.2.1"
+    "ionic-plugin-keyboard": "2.2.1",
+    "de.appplant.cordova.plugin.local-notification": "0.8.5"
 };
 // BOTTOM OF METADATA
 });

@@ -31,7 +31,7 @@
 						<i class="icon ion-android-bookmark" float-left></i>&nbsp; Bookmarks<i class="icon dropdown" ng-class="menu.isBookmarksActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
 					</ion-item>
 					<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isBookmarksActive">
-						<div>&nbsp; &nbsp; &nbsp; &nbsp; <i ng-class="{'icon ion-quote': $index==0,'icon ion-ios-lightbulb': $index==1,'icon ion-social-youtube': $index==2,'icon ion-arrow-graph-up-right': $index==3,'icon ion-ios-calendar': $index==4}"></i>&nbsp; &nbsp;{{item}}</div>
+						<div ng-click="menu.changeBookmark(item)">&nbsp; &nbsp; &nbsp; &nbsp; <i ng-class="{'icon ion-quote': $index==0,'icon ion-ios-lightbulb': $index==1,'icon ion-social-youtube': $index==2,'icon ion-arrow-graph-up-right': $index==3,'icon ion-ios-calendar': $index==4}"></i>&nbsp; &nbsp;{{item}}</div>
 					</ion-item>
 				
 				<ion-item menu-close href="#/app/browse">
