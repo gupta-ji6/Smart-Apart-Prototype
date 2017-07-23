@@ -132,7 +132,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.factory("tempService", tempService)
 
 function tempService() {
-	return { 'id': 1, 'array': [] };
+	return { 'id': 1, 'array': [], 'bookmark':false };
 }
 
 function menuCtrl(tempService, $state) {
@@ -146,26 +146,31 @@ function menuCtrl(tempService, $state) {
 	menu.change = function (item) {
 		if (item == "Quote") {
 			tempService.id = 1;
+			tempService.bookmark=false;
 			$state.go("temp");
 		}
 		else
 			if (item == "Fact") {
 				tempService.id = 2;
+				tempService.bookmark=false;
 				$state.go("temp");
 			}
 			else
 				if (item == "Videos") {
 					tempService.id = 3;
+					tempService.bookmark=false;
 					$state.go("temp");
 				}
 				else
 					if (item == "Trending") {
 						tempService.id = 4;
+						tempService.bookmark=false;
 						$state.go("temp");
 					}
 					else
 						if (item == "On This Day") {
 							tempService.id = 5;
+							tempService.bookmark=false;
 							$state.go("temp");
 						}
 	}
@@ -189,11 +194,19 @@ function tempCtrl(tempService, $state, $http) {
 			var promise = $http.get(Url).then(function (result) {
 				console.log(result);
 				tempService.array[0] = result.data;
-				setTimeout(function () { $state.go("menu.quote"); }, 1000);
+				var image=new Image();
+				image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+				image.onload=function(){
+					$state.go("menu.quote");
+				}
 
 			}).catch(function (err) {
 				console.log(err);
-				setTimeout(function () { $state.go("menu.quote"); }, 1000);
+				var image=new Image();
+				image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+				image.onload=function(){
+					$state.go("menu.quote");
+				}
 			});
 			break;
 		case 2:
@@ -258,7 +271,7 @@ function tempCtrl(tempService, $state, $http) {
 		case 4:
 			temp.name = "Trending"
 			tempService.array = [];
-			var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+			var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
 			for (i = 0; i < 5; i++) {
 				var ranSource = Math.round(Math.random() * (sources.length - 1));
 				var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
@@ -327,9 +340,12 @@ function otdCtrl($state, $http, tempService) {
 	otd.otds = tempService.array;
 
 	otd.down = function () {
-		tempService.id = 4;
-		otd.animate = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 4;
+			otd.animate = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+
+		}
 	}
 }
 
@@ -351,11 +367,11 @@ function quoteCtrl($state, $http, tempService) {
 
 
 	quote.up = function () {
-		quote.animate = true;
-		tempService.id = 2;
-		setTimeout(function () { $state.go("temp"); }, 350);
-
-		// quote.animate=false;
+		if(!tempService.bookmark){
+			quote.animate = true;
+			tempService.id = 2;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}	
 	}
 }
 
@@ -365,7 +381,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.animateDown = false;
 	trending.news = [];
 	max = 0;
-	var sources = ["abc-news-au", "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+	var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
 
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
@@ -419,14 +435,18 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.news = tempService.array;
 
 	trending.down = function () {
-		tempService.id = 3;
-		trending.animateDown = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 3;
+			trending.animateDown = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}
 	}
 	trending.up = function () {
-		tempService.id = 5;
-		trending.animateUp = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 5;
+			trending.animateUp = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}
 	}
 }
 
@@ -489,14 +509,18 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 
 
 	video.down = function () {
-		tempService.id = 2;
-		video.animateDown = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 2;
+			video.animateDown = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}
 	}
 	video.up = function () {
-		tempService.id = 4;
-		video.animateUp = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 4;
+			video.animateUp = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}
 	}
 }
 
@@ -581,14 +605,18 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService) {
 	card.cards = tempService.array;
 
 	card.up = function () {
-		tempService.id = 3;
-		card.animateUp = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 3;
+			card.animateUp = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}
 	}
 	card.down = function () {
-		tempService.id = 1;
-		card.animateDown = true;
-		setTimeout(function () { $state.go("temp"); }, 350);
+		if(!tempService.bookmark){
+			tempService.id = 1;
+			card.animateDown = true;
+			setTimeout(function () { $state.go("temp"); }, 350);
+		}
 	}
 
 	// card.menu=function(){

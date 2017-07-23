@@ -4,6 +4,13 @@
 .dropdown {
     float: right;
 }
+.item {
+    font-family: 'Comfortaa';
+}
+.bar .title {
+    font-family: 'Comfortaa';
+    font-weight: bold;
+}
 .tempQuote{
     background-color: #4CB4FF;
     color: white;
@@ -27,6 +34,7 @@
 .tempTitle {
     text-align: center;
     font-size: 5em;
+    font-weight: bold;
     font-family: 'Comfortaa', cursive;
     color: white;
     display: flex;
@@ -66,10 +74,12 @@ a {
 .newsContent {
     font-size: 1.2em;
     margin: 10px;
+    font-family: sans-serif;
 }
 .otdContent {
     font-size: 1.5em;
     margin: 10px;
+    font-family: sans-serif;
 }
 img.full-image.otdImage {
     height: 50vh;
@@ -95,6 +105,7 @@ img.full-image.otdImage {
     font-size: 1em;
     padding: 10%;
     text-align: center;
+    font-family: sans-serif;
 }
 .videoTitle {
     /* font-weight: bold; */
@@ -103,6 +114,7 @@ img.full-image.otdImage {
     margin: 10px;
     text-align: center;
     line-height: 1;
+    font-family: sans-serif;
 }
 .card {
     height: 83vh;
@@ -119,6 +131,7 @@ img.full-image.otdImage {
     font-size: 1.5em;
     line-height: 1;
     padding: 20% 5% 20% 5%;
+    font-family: sans-serif;
 }
 img.full-image.factImage {
     height: 40vh;

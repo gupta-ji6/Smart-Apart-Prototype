@@ -4,12 +4,12 @@
             <ion-slide-page ng-repeat="videos in video.videos">
                 <div class="list card">
                     <div class="item item-body card">
-                        <a href="https://www.youtube.com/watch?v={{videos.id}}"><img class="full-image videoThumbnail" src="{{videos.thumbnail}}"></a>
-                        <div>
-                            <div class="videoTitle">
-                                {{videos.title}}
-                            </div>
-                        </div>
+                        <a href="https://www.youtube.com/watch?v={{videos.id}}">
+                            <img class="full-image videoThumbnail" src="{{videos.thumbnail}}">
+                                <div class="videoTitle">
+                                    {{videos.title}}
+                                </div>
+                        </a>
                     </div>
                 </div>
             </ion-slide-page>
@@ -20,7 +20,6 @@
         <div class="button-bar">
             <a class="button button-icon icon ion-android-bookmark"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
-            <a class="button button-icon icon ion-android-globe"></a>
         </div>
     </ion-footer-bar>
 </ion-view>

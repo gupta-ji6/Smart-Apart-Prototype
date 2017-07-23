@@ -14,23 +14,36 @@
 			<h1 class="title">Menu</h1>
 		</ion-header-bar>
 		<ion-content>
-			<div>
+			<!-- <div>
 				<img src="user.jpg" class="profilePicture">
 				<p class="username">Lesa Owens</p>	
-			</div>
+			</div> -->
 			<ion-list>
-				<ion-item menu-close ng-click="login()">
-					Bookmarks
-				</ion-item>
+				
+					<ion-item ng-click="menu.toggleCategory()" ng-class="{'active':menu.isCategoriesActive}">
+						<i class="icon ion-pie-graph" float-left></i>&nbsp; Categories<i class="icon dropdown" ng-class="menu.isCategoriesActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
+					</ion-item>
+					<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isCategoriesActive">
+						<div ng-click="menu.change(item)">&nbsp; &nbsp; &nbsp; &nbsp;<i ng-class="{'icon ion-quote': $index==0,'icon ion-ios-lightbulb': $index==1,'icon ion-social-youtube': $index==2,'icon ion-arrow-graph-up-right': $index==3,'icon ion-ios-calendar': $index==4}"></i>&nbsp; &nbsp; {{item}}</div>
+					</ion-item>
+				
+					<ion-item ng-click="menu.toggleBookmark()" ng-class="{'active':menu.isBookmarksActive}">
+						<i class="icon ion-android-bookmark" float-left></i>&nbsp; Bookmarks<i class="icon dropdown" ng-class="menu.isBookmarksActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
+					</ion-item>
+					<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isBookmarksActive">
+						<div>&nbsp; &nbsp; &nbsp; &nbsp; <i ng-class="{'icon ion-quote': $index==0,'icon ion-ios-lightbulb': $index==1,'icon ion-social-youtube': $index==2,'icon ion-arrow-graph-up-right': $index==3,'icon ion-ios-calendar': $index==4}"></i>&nbsp; &nbsp;{{item}}</div>
+					</ion-item>
+				
 				<ion-item menu-close href="#/app/browse">
-					Settings
+					<i class="icon ion-ios-stopwatch" float-left></i>&nbsp; Reminder
 				</ion-item>
 				<ion-item menu-close href="#/app/playlists">
-					About
+					<i class="icon ion-star" float-left></i>&nbsp; Rate
 				</ion-item>
 				<ion-item menu-close href="#/app/playlists">
-					Logout
+					<i class="icon ion-information-circled" float-left></i>&nbsp; About Us
 				</ion-item>
+				
 			</ion-list>
 		</ion-content>
 	</ion-side-menu>
