@@ -216,7 +216,7 @@ function tempCtrl(tempService, $state, $http) {
 					factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
 					tempService.array.push({ "factNo": factNo, "fact": result.data });
 					if (i == 5) {
-						console.log("working");
+						console.log("I'm working!");
 						setTimeout(function () { $state.go("menu.fact"); }, 1000);
 					}
 

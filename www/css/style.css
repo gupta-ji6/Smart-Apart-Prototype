@@ -5,23 +5,23 @@
     float: right;
 }
 .tempQuote{
-    background-color: #4CB4FF;
+    background-color: #4CB4FF !important;
     color: white;
 }
 .tempFact {
-    background-color: #662C91;
+    background-color: #662C91 !important;
     color: white;
 }
 .tempVideo {
-    background-color: #F26F18;
+    background-color: #F26F18 !important;
     color: white;
 }
 .tempTrending {
-    background-color: #49D14D;
+    background-color: #49D14D !important;
     color: white;
 }
 .tempOtd {
-    background-color: #EAD300;
+    background-color: #EAD300 !important;
     color: white;
 }
 .tempTitle {
@@ -74,14 +74,6 @@ a {
 img.full-image.otdImage {
     height: 50vh;
 }
-.quoteCard {
-    background-image: url("https://unsplash.it/1024/1024/?random&blur&gravity=center");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 83vh;
-    margin: 0;
-}
 .quoteText {
     color: white;
     font-family: Georgia;
@@ -96,6 +88,15 @@ img.full-image.otdImage {
     padding: 10%;
     text-align: center;
 }
+.quoteCard {
+    background-image: url("https://unsplash.it/1024/1024/?random&blur&gravity=center");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 83vh;
+    margin: 0;
+}
+
 .videoTitle {
     /* font-weight: bold; */
     font-size: 1.5em;
