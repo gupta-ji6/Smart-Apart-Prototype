@@ -100,6 +100,8 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 			if (window.StatusBar) {
 				return StatusBar.hide();
 			}
+			
+        
 		});
 
 		$ionicPlatform.registerBackButtonAction(function (event) {
@@ -175,11 +177,35 @@ function menuCtrl(tempService, $state) {
 						}
 	}
 	menu.changeBookmark=function(item){
-		if (item == "Trending") {
-			tempService.id = 4;
+		if (item == "Quote") {
+			tempService.id = 1;
 			tempService.bookmark=true;
 			$state.go("temp");
 		}
+		else
+			if (item == "Fact") {
+				tempService.id = 2;
+				tempService.bookmark=true;
+				$state.go("temp");
+			}
+			else
+				if (item == "Videos") {
+					tempService.id = 3;
+					tempService.bookmark=true;
+					$state.go("temp");
+				}
+				else
+					if (item == "Trending") {
+						tempService.id = 4;
+						tempService.bookmark=true;
+						$state.go("temp");
+					}
+					else
+						if (item == "On This Day") {
+							tempService.id = 5;
+							tempService.bookmark=true;
+							$state.go("temp");
+						}
 	}
 
 	menu.toggleCategory = function () {
@@ -190,7 +216,30 @@ function menuCtrl(tempService, $state) {
 	};
 
 }
-function tempCtrl(tempService, $state, $http) {
+function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
+	$ionicPlatform.ready(function(){
+		$cordovaLocalNotification.schedule({
+			id: 1,
+			title: 'Warning',
+			text: "You're so sexy!",
+			data: {
+				customProperty: 'custom value'
+			}
+			}).then(function (result) {
+			console.log('Notification 1 triggered');
+			});
+		 
+        //   $cordovaLocalNotification.schedule({
+        //     id: 3,
+        //     title: 'Warning',
+        //     text: 'Dont fall asleep',
+		// 	icon: "res://icon.png",
+        //     every: 'minute'
+        //   }).then(function (result) {
+        //     console.log('Notification 3 triggered');
+        //   });
+	});
+		
 	var temp = this;
 	temp.id = tempService.id;
 	switch (tempService.id) {
@@ -198,56 +247,69 @@ function tempCtrl(tempService, $state, $http) {
 			temp.name = "Quote";
 			tempService.array = [];
 			var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
-			var promise = $http.get(Url).then(function (result) {
-				console.log(result);
-				tempService.array[0] = result.data;
-				var image=new Image();
-				image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-				image.onload=function(){
-					$state.go("menu.quote");
-				}
+			if(!tempService.bookmark){
+				var promise = $http.get(Url).then(function (result) {
+					console.log(result);
+					tempService.array.push(result.data);
+					var image=new Image();
+					image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+					image.onload=function(){
+						$state.go("menu.quote");
+					}
 
-			}).catch(function (err) {
-				console.log(err);
-				var image=new Image();
-				image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-				image.onload=function(){
-					$state.go("menu.quote");
-				}
-			});
+				}).catch(function (err) {
+					console.log(err);
+					var image=new Image();
+					image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+					image.onload=function(){
+						$state.go("menu.quote");
+					}
+				});
+			}else{
+				localforage.getItem("quote",function(err,data){
+					tempService.array=data;
+					setTimeout(function () { $state.go("menu.quote"); }, 1000);
+				});
+			}
 			break;
 		case 2:
 			temp.name = "Fact";
 			tempService.array = [];
-			for (i = 0; i < 5; i++) {
-				var baseUrl = "http://numbersapi.com/random/trivia"
+			if(!tempService.bookmark){
+				for (i = 0; i < 5; i++) {
+					var baseUrl = "http://numbersapi.com/random/trivia"
 
-				var promise = $http.get(baseUrl);
-				promise.then(function (result) {
-					console.log(result);
-					factNo = "";
-					for (j = 0; j < result.data.length; j++) {
-						if (result.data[j] == " ") {
-							factNo = result.data.substr(0, j);
-							break;
+					var promise = $http.get(baseUrl);
+					promise.then(function (result) {
+						console.log(result);
+						factNo = "";
+						for (j = 0; j < result.data.length; j++) {
+							if (result.data[j] == " ") {
+								factNo = result.data.substr(0, j);
+								break;
+							}
+
+						}
+						factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
+						tempService.array.push({ "factNo": factNo, "fact": result.data });
+						if (i == 5) {
+							console.log("working");
+							setTimeout(function () { $state.go("menu.fact"); }, 1000);
 						}
 
-					}
-					factNo = "https://dummyimage.com/800x480/000/fff.jpg&text=" + factNo;
-					tempService.array.push({ "factNo": factNo, "fact": result.data });
-					if (i == 5) {
-						console.log("working");
+
+
+					}).catch(function (err) {
+						console.log(err);
 						setTimeout(function () { $state.go("menu.fact"); }, 1000);
-					}
-
-
-
-				}).catch(function (err) {
-					console.log(err);
+					});
+				}
+			}else{
+				localforage.getItem("fact",function(err,data){
+					tempService.array=data;
 					setTimeout(function () { $state.go("menu.fact"); }, 1000);
 				});
 			}
-
 			break;
 		case 3:
 			temp.name = "Video";
@@ -276,7 +338,7 @@ function tempCtrl(tempService, $state, $http) {
 				}
 			}
 			else{
-				localforage.getItem("video",function(data,err){
+				localforage.getItem("video",function(err,data){
 					tempService.array=data;
 					setTimeout(function () { $state.go("menu.video"); }, 1000);
 				});
@@ -323,18 +385,26 @@ function tempCtrl(tempService, $state, $http) {
 			temp.name = "On This Day";
 			tempService.array = [];
 			var Url = "http://history.muffinlabs.com/date";
-			var promise = $http.get(Url).then(function (result) {
-				console.log(result);
-				tempService.array = result.data.data.Events;
-				tempService.array.reverse();
-				setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+			if(!tempService.bookmark){
+				var promise = $http.get(Url).then(function (result) {
+					console.log(result);
+					tempService.array = result.data.data.Events;
+					tempService.array.reverse();
+					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
 
-			}).catch(function (err) {
-				console.log(err);
-				setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+				}).catch(function (err) {
+					console.log(err);
+					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
 
-			});
-
+				});
+			}
+			else{
+				localforage.getItem("otd",function(err,data){
+					console.log(data);
+					tempService.array=data;
+					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+				});
+			}
 			break;
 
 
@@ -352,15 +422,7 @@ function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 	var otd = this;
 	otd.animate = false;
 	otd.slide=0;
-	// var Url = "http://history.muffinlabs.com/date";
-	// var promise = $http.get(Url).then(function (result) {
-	// 	console.log(result);
-	// 	otd.otds = result.data.data.Events;
-	// 	otd.otds.reverse();
-
-	// }).catch(function (err) {
-	// 	console.log(err);
-	// });
+	
 	otd.otds = tempService.array;
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data){
 		otd.slide=data.slider.activeIndex;
@@ -392,27 +454,35 @@ function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 
 function quoteCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 	var quote = this;
+	quote.b=tempService.bookmark;
 	quote.animate = false;
-
+		quote.quotes=tempService.array;
+		console.log(quote.quotes.length);
 	
-	// var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
-	// var promise = $http.get(Url).then(function (result) {
-	// 	console.log(result);
-	// 	quote.quotes = result.data;
-
-	// }).catch(function (err) {
-	// 	console.log(err);
-	// });
-	quote.quotes = tempService.array[0];
-
-
-
+	// else{
+	// 	quote.quotes = tempService.array[0];
+	// }
+	
 	quote.up = function () {
 		if(!tempService.bookmark){
 			quote.animate = true;
 			tempService.id = 2;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}	
+	}
+	quote.bookmark=function(){
+		localforage.getItem("quote",function(err,data){
+		console.log(data);
+		if(data==null){
+			data=[];
+			data.push(quote.quotes[0]);
+			localforage.setItem("quote",data);
+		}
+		else{
+			data.push(quote.quotes[0]);
+			localforage.setItem("quote",data);
+		}
+      });
 	}
 }
 
@@ -515,34 +585,37 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	video.animateDown = false;
 	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 	video.videos = [];
+	video.slide=0;
 	max = 0;
 
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
-		if (data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
-			if (max < data.slider.activeIndex) {
-				max = data.slider.activeIndex;
+		video.slide=data.slider.activeIndex;
+
+			if (!tempService.bookmark&&data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
+				if (max < data.slider.activeIndex) {
+					max = data.slider.activeIndex;
+				}
+				for (i = 0; i < 5; i++) {
+					var ranChannel = Math.round(Math.random() * (channels.length - 1));
+					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+					var promise = $http.get(youtubeUrl).then(function (result) {
+						console.log(result);
+						var ranVideo = Math.round(Math.random() * 29);
+						v = result.data.items[ranVideo];
+						vPart = {}
+						vPart.title = v.snippet.title;
+						vPart.id = v.id.videoId;
+						vPart.thumbnail = v.snippet.thumbnails.high.url;
+						video.videos.push(vPart);
+
+					}).catch(function (err) {
+						console.log(err);
+					});
+
+				}
+
 			}
-			for (i = 0; i < 5; i++) {
-				var ranChannel = Math.round(Math.random() * (channels.length - 1));
-				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
-				var promise = $http.get(youtubeUrl).then(function (result) {
-					console.log(result);
-					var ranVideo = Math.round(Math.random() * 29);
-					v = result.data.items[ranVideo];
-					vPart = {}
-					vPart.title = v.snippet.title;
-					vPart.id = v.id.videoId;
-					vPart.thumbnail = v.snippet.thumbnails.high.url;
-					video.videos.push(vPart);
-
-				}).catch(function (err) {
-					console.log(err);
-				});
-
-			}
-
-		}
 
 	});
 
@@ -581,18 +654,34 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
+	video.bookmark=function(){
+		localforage.getItem("video",function(err,data){
+		console.log(data);
+		if(data==null){
+			data=[];
+			data.push(video.videos[video.slide]);
+			localforage.setItem("video",data);
+		}
+		else{
+			data.push(video.videos[video.slide]);
+			localforage.setItem("video",data);
+		}
+      });
+	}
 }
 
 
-function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService) {
+function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $cordovaSocialSharing) {
 	var card = this;
 	card.animateUp = false;
 	card.animateDown = false;
 	card.cards = [];
+	card.slide=0;
 	max = 0;
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
-		if (data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
+		card.slide=data.slider.activeIndex;
+		if (!tempService.bookmark && data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
 
 			if (max < data.slider.activeIndex) {
 				max = data.slider.activeIndex;
@@ -676,6 +765,30 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService) {
 			card.animateDown = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
+	}
+	card.bookmark=function(){
+		localforage.getItem("fact",function(err,data){
+		console.log(data);
+		if(data==null){
+			data=[];
+			data.push(card.cards[card.slide]);
+			localforage.setItem("fact",data);
+		}
+		else{
+			data.push(card.cards[card.slide]);
+			localforage.setItem("fact",data);
+		}
+      });
+	}
+	card.share=function(){
+		$cordovaSocialSharing
+		.share("download link", card.cards[card.slide].fact) // Share via native share sheet
+		.then(function(result) {
+			console.log("success");
+		}, function(err) {
+		// An error occured. Show a message to the user
+		});
+
 	}
 
 	// card.menu=function(){
