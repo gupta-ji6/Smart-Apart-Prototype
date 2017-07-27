@@ -1,33 +1,89 @@
-.swiper-pagination-bullet {
-   display: none;
+ .swiper-pagination-bullet {
+   background: white;
+   opacity: .3;
+ } 
+.swiper-pagination-bullet-active {
+    background: white;
+    opacity: 1;
 }
+.introTitle {
+    text-align: center;
+    color: white;
+    font-size: 4em;
+    font-family: "Quicksand", sans-serif;
+    font-weight: bold;
+    display: flex; 
+    margin: auto;
+    padding: 5vh 5vw 5vh 5vw;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;  
+    line-height: 1;
+}
+
+.introDescription {
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 1;
+    display: flex; 
+    margin: auto;
+    width: 90%;
+    padding: 10% 10% 10% 10%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.introIcon {
+    display: block;
+    margin: auto; 
+    padding: 50px;
+}
+.iconBorder {
+    border-radius: 100%;
+    /* border: 2px dashed white; */
+    margin: 10%;
+    box-shadow: 3px 4px 5px 2px white; 
+}
+
 .dropdown {
     float: right;
+}
+.tempApp {
+    background-color: black;
+    color: white;
+    min-height: 100vh;
 }
 .tempQuote{
     background-color: #4CB4FF !important;
     color: white;
+    min-height: 100vh;
 }
 .tempFact {
     background-color: #662C91 !important;
     color: white;
+    min-height: 100vh;
 }
 .tempVideo {
     background-color: #F26F18 !important;
     color: white;
+    min-height: 100vh;
 }
 .tempTrending {
     background-color: #49D14D !important;
     color: white;
+    min-height: 100vh;
 }
 .tempOtd {
     background-color: #EAD300 !important;
     color: white;
+    min-height: 100vh;
 }
 .tempTitle {
     text-align: center;
+    font-weight: bold;
     font-size: 5em;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Quicksand', sans-serif;
     color: white;
     display: flex;
     min-height: 100vh;
@@ -44,8 +100,9 @@
     font-weight: bold;
     margin: 20px;
 }
-.ion-item {
-    font-size: 1em;
+ion-item.item {
+    font-size: 1.3em;
+    font-family: "Source Sans Pro", sans-serif;
 }
 .profilePicture {
     border-radius: 150px;
@@ -66,10 +123,14 @@ a {
 .newsContent {
     font-size: 1.2em;
     margin: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: left;
 }
 .otdContent {
     font-size: 1.5em;
     margin: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: left;
 }
 img.full-image.otdImage {
     height: 50vh;
@@ -81,15 +142,18 @@ img.full-image.otdImage {
     line-height: 1;
     text-align: center;
     padding: 10%;
+    text-shadow: 2px 2px black;
 }
 .quoteAuthor {
     color: white;
     font-size: 1em;
     padding: 10%;
     text-align: center;
+    text-shadow: 2px 2px black;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 .quoteCard {
-    background-image: url("https://unsplash.it/1024/1024/?random&blur&gravity=center");
+    background-image: url("https://photos.app.goo.gl/ybPtYxZHdK7q79K32");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -98,12 +162,13 @@ img.full-image.otdImage {
 }
 
 .videoTitle {
-    /* font-weight: bold; */
+    font-weight: 50; 
     font-size: 1.5em;
     padding: 20% 5% 20% 5%;
     margin: 10px;
     text-align: center;
     line-height: 1;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 .card {
     height: 83vh;
@@ -120,6 +185,7 @@ img.full-image.otdImage {
     font-size: 1.5em;
     line-height: 1;
     padding: 20% 5% 20% 5%;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 img.full-image.factImage {
     height: 40vh;
@@ -142,25 +208,30 @@ img.full-image.newsImage {
 .bar.bar-stable {
     margin-bottom: 10px;
 }
+.bar.bar.bar-stable .title {
+    color: white;
+}
 .bar-stable.bar.bar-header {
-      background-color: black;
-      color: white;
+    background-color: black;
+    font-family: "Quicksand", sans-serif;
+    font-weight: bold;
 }
 .bar.bar-footer {
     background-color: black;
 }
-.bar-stable.bar.bar-header h1 {
-    color: white;
-}
-.bar .title.title-left {
-    color: white;
+
+.bar .title {
+    color: black;
+    text-align: center;
+    font-weight: bold;
+
 }
 .button-icon.button-clear.ion-navicon {
     color: white;
 }
-a.button.button-icon.icon.ion-android-bookmark {
+ a.button.button-icon.icon.ion-android-favorite {
     color: white;
-}
+} 
 a.button.button-icon.icon.ion-android-share-alt {
     color: white;
 }
