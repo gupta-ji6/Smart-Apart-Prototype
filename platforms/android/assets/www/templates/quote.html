@@ -1,29 +1,29 @@
 <ion-view ng-controller="quoteCtrl as quote" on-swipe-up="quote.up()" view-title="Quote" ng-class="{'animated slideOutUp': quote.animate}">
 	<ion-content scroll="false">
 
-		<div class="list card">
-			<div class="item item-body quoteCard">
-				<div>
-					<div class="quoteText">
-						"{{quote.quotes.quoteText}}"
-					</div>
-					<br>
-					<div class="quoteAuthor">
-						- {{quote.quotes.quoteAuthor}}
-					</div>
-				</div>
-
-
+		<ion-slides  options="options" slider="data.slider">
+      <ion-slide-page ng-repeat="q in quote.quotes">
+        <div class="list card">
+          <div class="item item-body quoteCard">
+           <div class="quoteText">
+						"{{q.quoteText}}"
 			</div>
+			<br>
+			<div class="quoteAuthor">
+				- {{q.quoteAuthor}}
+			</div>
+        </div>
 		</div>
+      </ion-slide-page>
+    </ion-slides>
 
 
 	</ion-content>
+
 	<ion-footer-bar class="bar">
 		<div class="button-bar">
-			<a class="button button-icon icon ion-android-bookmark"></a>
+			<a class="button button-icon icon ion-android-bookmark" ng-click="quote.bookmark()"></a>
 			<a class="button button-icon icon ion-android-share-alt"></a>
-			<a class="button button-icon icon ion-android-globe"></a>
 		</div>
 	</ion-footer-bar>
 </ion-view>

@@ -6,7 +6,7 @@
                     <div class="item item-body card">
                         <img class="full-image otdImage" src="http://lorempixel.com/640/480/abstract">
                         <div class="otdContent">
-                            <h3><b>{{otds.year}}</b></h3>
+                            <h3><strong>{{otds.year}}</strong></h3>
                             <p>{{otds.text}}</p>  
                         </div>
                     </div>
@@ -17,9 +17,8 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-bookmark"></a>
+            <a class="button button-icon icon ion-android-bookmark" ng-click="otd.bookmark()"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
-            <a class="button button-icon icon ion-android-globe"></a>
         </div>
     </ion-footer-bar>
 </ion-view>

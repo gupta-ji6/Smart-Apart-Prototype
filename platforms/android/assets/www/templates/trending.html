@@ -7,7 +7,7 @@
                         <a href={{news.url}}>
                             <img class="full-image newsImage" src="{{news.urlToImage}}">
                             <div class="newsContent">
-                                <h2><b>{{news.title}}</b></h2>
+                                <h2><strong>{{news.title}}</strong></h2>
                                 <p>
                                     {{news.description}}
                                 </p>
@@ -21,9 +21,8 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-bookmark"></a>
+            <a class="button button-icon icon ion-android-bookmark" ng-click="trending.bookmark()"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
-            <a class="button button-icon icon ion-android-globe"></a>
         </div>
     </ion-footer-bar>
 </ion-view>
