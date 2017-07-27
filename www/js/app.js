@@ -7,6 +7,12 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.config(function ($stateProvider, $urlRouterProvider) {
 		$stateProvider
 
+			.state('intro', {
+				cache: false,
+				url: '/intro',
+				templateUrl: 'templates/intro.html',
+			})
+
 			.state('temp', {
 				cache: false,
 				url: '/temp',
@@ -80,7 +86,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 
 
 		// if none of the above states are matched, use this as the fallback
-		$urlRouterProvider.otherwise('/temp');
+		$urlRouterProvider.otherwise('/intro');
 	})
 
 
@@ -136,6 +142,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 function tempService() {
 	return { 'id': 1, 'array': [], 'bookmark':false };
 }
+
 
 function menuCtrl(tempService, $state) {
 	var menu = this;
