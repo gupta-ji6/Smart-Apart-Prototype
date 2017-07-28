@@ -86,7 +86,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 
 
 		// if none of the above states are matched, use this as the fallback
-		$urlRouterProvider.otherwise('/intro');
+		$urlRouterProvider.otherwise('/temp');
 	})
 
 
@@ -225,16 +225,16 @@ function menuCtrl(tempService, $state) {
 }
 function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
 	$ionicPlatform.ready(function(){
-		$cordovaLocalNotification.schedule({
-			id: 1,
-			title: 'Warning',
-			text: "You're so sexy!",
-			data: {
-				customProperty: 'custom value'
-			}
-			}).then(function (result) {
-			console.log('Notification 1 triggered');
-			});
+		// $cordovaLocalNotification.schedule({
+		// 	id: 1,
+		// 	title: 'Warning',
+		// 	text: "You're so sexy!",
+		// 	data: {
+		// 		customProperty: 'custom value'
+		// 	}
+		// 	}).then(function (result) {
+		// 	console.log('Notification 1 triggered');
+		// 	});
 		 
         //   $cordovaLocalNotification.schedule({
         //     id: 3,
@@ -258,19 +258,21 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				var promise = $http.get(Url).then(function (result) {
 					console.log(result);
 					tempService.array.push(result.data);
-					var image=new Image();
-					image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-					image.onload=function(){
-						$state.go("menu.quote");
-					}
+					// var image=new Image();
+					// image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+					// image.onload=function(){
+					// 	$state.go("menu.quote");
+					// }
+					$state.go("menu.quote");
 
 				}).catch(function (err) {
 					console.log(err);
-					var image=new Image();
-					image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-					image.onload=function(){
-						$state.go("menu.quote");
-					}
+					// var image=new Image();
+					// image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+					// image.onload=function(){
+					// 	$state.go("menu.quote");
+					// }
+					$state.go("menu.quote");
 				});
 			}else{
 				localforage.getItem("quote",function(err,data){
@@ -314,6 +316,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			}else{
 				localforage.getItem("fact",function(err,data){
 					tempService.array=data;
+					
 					setTimeout(function () { $state.go("menu.fact"); }, 1000);
 				});
 			}
@@ -346,7 +349,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			}
 			else{
 				localforage.getItem("video",function(err,data){
-					tempService.array=data;
+					tempService.array=data.reverse();
 					setTimeout(function () { $state.go("menu.video"); }, 1000);
 				});
 			}
@@ -590,6 +593,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	var video = this;
 	video.animateUp = false;
 	video.animateDown = false;
+	video.animateBookmark = false;
 	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 	video.videos = [];
 	video.slide=0;
@@ -673,13 +677,15 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 			data.push(video.videos[video.slide]);
 			localforage.setItem("video",data);
 		}
-      });
+	  });
+	  video.animateBookmark = true;
 	}
 }
 
 
 function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $cordovaSocialSharing) {
 	var card = this;
+	card.animateBookmark = false;
 	card.animateUp = false;
 	card.animateDown = false;
 	card.cards = [];
@@ -785,7 +791,8 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 			data.push(card.cards[card.slide]);
 			localforage.setItem("fact",data);
 		}
-      });
+	  });
+	  card.animateBookmark = true;
 	}
 	card.share=function(){
 		$cordovaSocialSharing

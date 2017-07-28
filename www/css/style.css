@@ -45,6 +45,13 @@
     margin: 10%;
     box-shadow: 3px 4px 5px 2px white; 
 }
+.done {
+    border-radius: 10%;
+    display: block;
+    margin: 45vh auto 0 auto;
+    font-weight: bold;
+    font-family: 'Source Sans Pro', sans-serif;
+}
 
 .dropdown {
     float: right;
@@ -122,13 +129,13 @@ a {
 }
 .newsContent {
     font-size: 1.2em;
-    margin: 10px;
+    margin: auto;
     font-family: 'Source Sans Pro', sans-serif;
     text-align: left;
 }
 .otdContent {
     font-size: 1.5em;
-    margin: 10px;
+    margin: auto;
     font-family: 'Source Sans Pro', sans-serif;
     text-align: left;
 }
@@ -142,7 +149,8 @@ img.full-image.otdImage {
     line-height: 1;
     text-align: center;
     padding: 10%;
-    text-shadow: 2px 2px black;
+    text-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+    margin: auto;
 }
 .quoteAuthor {
     color: white;
@@ -153,7 +161,7 @@ img.full-image.otdImage {
     font-family: 'Source Sans Pro', sans-serif;
 }
 .quoteCard {
-    background-image: url("https://photos.app.goo.gl/ybPtYxZHdK7q79K32");
+    background-image: url("https://placeimg.com/800/600/nature");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -165,7 +173,7 @@ img.full-image.otdImage {
     font-weight: 50; 
     font-size: 1.5em;
     padding: 20% 5% 20% 5%;
-    margin: 10px;
+    margin: auto;
     text-align: center;
     line-height: 1;
     font-family: 'Source Sans Pro', sans-serif;
@@ -180,7 +188,7 @@ img.full-image.otdImage {
     -moz-box-shadow: 0px 0px 3px 3px rgba(73,73,73,1);
 }
 .fact-content {
-    margin: 20px;
+    margin: auto;
     text-align: center; 
     font-size: 1.5em;
     line-height: 1;
