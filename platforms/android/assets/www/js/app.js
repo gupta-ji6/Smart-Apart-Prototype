@@ -7,6 +7,12 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.config(function ($stateProvider, $urlRouterProvider) {
 		$stateProvider
 
+			.state('intro', {
+				cache: false,
+				url: '/intro',
+				templateUrl: 'templates/intro.html',
+			})
+
 			.state('temp', {
 				cache: false,
 				url: '/temp',
@@ -80,7 +86,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 
 
 		// if none of the above states are matched, use this as the fallback
-		$urlRouterProvider.otherwise('/temp');
+		$urlRouterProvider.otherwise('/intro');
 	})
 
 
@@ -100,8 +106,8 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 			if (window.StatusBar) {
 				return StatusBar.hide();
 			}
-
-
+			
+        
 		});
 
 		$ionicPlatform.registerBackButtonAction(function (event) {
@@ -131,11 +137,28 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.controller("otdCtrl", otdCtrl)
 	.controller("tempCtrl", tempCtrl)
 	.controller("menuCtrl", menuCtrl)
+	.controller("introCtrl",introCtrl)
 	.factory("tempService", tempService)
 
 function tempService() {
 	return { 'id': 1, 'array': [], 'bookmark':false };
 }
+
+function introCtrl($state){
+	var intro = this;
+	localforage.getItem("intro",function(err,data){
+		if(data==null){
+			localforage.setItem("intro",{'visited':true});
+		}
+		else{
+			$state.go("temp")
+		}
+	});
+	intro.continue=function(){
+		$state.go("temp");
+	}
+}
+
 
 function menuCtrl(tempService, $state) {
 	var menu = this;
@@ -218,27 +241,28 @@ function menuCtrl(tempService, $state) {
 }
 function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
 	$ionicPlatform.ready(function(){
-		$cordovaLocalNotification.schedule({
-			id: 1,
-			title: 'Warning',
-			text: "You're so sexy!",
-			data: {
-				customProperty: 'custom value'
-			}
-			}).then(function (result) {
-			console.log('Notification 1 triggered');
-			});
-
-           $cordovaLocalNotification.schedule({
-             id: 3,
-             title: 'Warning',
-             text: 'Dont fall asleep',
-             every: 'minute'
-           }).then(function (result) {
-             console.log('Notification 3 triggered');
-           });
+		// $cordovaLocalNotification.schedule({
+		// 	id: 1,
+		// 	title: 'Warning',
+		// 	text: "You're so sexy!",
+		// 	data: {
+		// 		customProperty: 'custom value'
+		// 	}
+		// 	}).then(function (result) {
+		// 	console.log('Notification 1 triggered');
+		// 	});
+		 
+        //   $cordovaLocalNotification.schedule({
+        //     id: 3,
+        //     title: 'Warning',
+        //     text: 'Dont fall asleep',
+		// 	icon: "res://icon.png",
+        //     every: 'minute'
+        //   }).then(function (result) {
+        //     console.log('Notification 3 triggered');
+        //   });
 	});
-
+		
 	var temp = this;
 	temp.id = tempService.id;
 	switch (tempService.id) {
@@ -258,11 +282,12 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 
 				}).catch(function (err) {
 					console.log(err);
-					var image=new Image();
-					image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-					image.onload=function(){
+					// var image=new Image();
+					// image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
+					// image.onload=function(){
+					// 	$state.go("menu.quote");
+					// }
 						$state.go("menu.quote");
-					}
 				});
 			}else{
 				localforage.getItem("quote",function(err,data){
@@ -314,7 +339,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			temp.name = "Video";
 			tempService.array = [];
 			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
-			if(!tempService.bookmark){
+			if(!tempService.bookmark){ 
 				for (i = 0; i < 5; i++) {
 					var ranChannel = Math.round(Math.random() * (channels.length - 1));
 					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
@@ -348,7 +373,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			temp.name = "Trending"
 			tempService.array = [];
 			var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
-			if(!tempService.bookmark){
+			if(!tempService.bookmark){ 
 				for (i = 0; i < 5; i++) {
 					var ranSource = Math.round(Math.random() * (sources.length - 1));
 					var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
@@ -417,12 +442,13 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 	}
 }
 
-function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
+function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
 	var otd = this;
 	otd.animate = false;
 	otd.slide=0;
-
+	
 	otd.otds = tempService.array;
+	console.log(otd.otds);
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data){
 		otd.slide=data.slider.activeIndex;
 	});
@@ -449,25 +475,38 @@ function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 		}
       });
 	}
+
+	otd.share=function(){
+		$cordovaSocialSharing
+		.share("download link\n"+otd.otds[otd.slide].year+"/n"+otd.otds[otd.slide].text) // Share via native share sheet
+		.then(function(result) {
+			console.log("success");
+		}, function(err) {
+		// An error occured. Show a message to the user
+		});
+	}
 }
 
-function quoteCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
+function quoteCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
 	var quote = this;
 	quote.b=tempService.bookmark;
 	quote.animate = false;
+	quote.slide=0;
 		quote.quotes=tempService.array;
 		console.log(quote.quotes.length);
-
+	
 	// else{
 	// 	quote.quotes = tempService.array[0];
 	// }
-
+	$scope.$on("$ionicSlides.slideChangeStart", function (event, data){
+		quote.slide=data.slider.activeIndex;
+	});
 	quote.up = function () {
 		if(!tempService.bookmark){
 			quote.animate = true;
 			tempService.id = 2;
 			setTimeout(function () { $state.go("temp"); }, 350);
-		}
+		}	
 	}
 	quote.bookmark=function(){
 		localforage.getItem("quote",function(err,data){
@@ -483,9 +522,19 @@ function quoteCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
 		}
       });
 	}
+
+	quote.share=function(){
+		$cordovaSocialSharing
+		.share("download link\n"+quote.quotes[quote.slide].quoteText) // Share via native share sheet
+		.then(function(result) {
+			console.log("success");
+		}, function(err) {
+		// An error occured. Show a message to the user
+		});
+	}
 }
 
-function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
+function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing, $cordovaInAppBrowser,$ionicPlatform) {
 	var trending = this;
 	trending.animateUp = false;
 	trending.animateDown = false;
@@ -497,7 +546,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
 		trending.slide=data.slider.activeIndex;
-
+		
 		if (!tempService.bookmark && data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
 			if (max < data.slider.activeIndex) {
 				max = data.slider.activeIndex;
@@ -576,9 +625,38 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 		}
       });
 	}
+
+	trending.share=function(){
+		
+		$cordovaSocialSharing
+		.share("download link\n"+trending.news[trending.slide].news+"\n"+trending.news[trending.slide].title) // Share via native share sheet
+		.then(function(result) {
+			console.log("success");
+		}, function(err) {
+		// An error occured. Show a message to the user
+		});
+	
+	}
+	trending.browser=function(url){
+		var options = {
+		location: 'yes',
+		clearcache: 'yes',
+		toolbar: 'no'
+		};
+		$ionicPlatform.ready(function(){
+			 $cordovaInAppBrowser.open(url, '_blank', options)
+			.then(function(event) {
+				// success
+			})
+			.catch(function(event) {
+				// error
+			});
+
+		});
+	}
 }
 
-function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
+function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
 	var video = this;
 	video.animateUp = false;
 	video.animateDown = false;
@@ -666,6 +744,16 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 			localforage.setItem("video",data);
 		}
       });
+	}
+
+	video.share=function(){
+		$cordovaSocialSharing
+		.share("download link\n"+video.videos[video.slide].title) // Share via native share sheet
+		.then(function(result) {
+			console.log("success");
+		}, function(err) {
+		// An error occured. Show a message to the user
+		});
 	}
 }
 
@@ -781,7 +869,7 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 	}
 	card.share=function(){
 		$cordovaSocialSharing
-		.share("download link", card.cards[card.slide].fact) // Share via native share sheet
+		.share("download link\n"+card.cards[card.slide].fact) // Share via native share sheet
 		.then(function(result) {
 			console.log("success");
 		}, function(err) {

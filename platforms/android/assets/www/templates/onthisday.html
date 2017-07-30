@@ -4,7 +4,7 @@
             <ion-slide-page ng-repeat="otds in otd.otds">
                 <div class="list card">
                     <div class="item item-body card">
-                        <img class="full-image otdImage" src="http://lorempixel.com/640/480/abstract">
+                        <img class="full-image otdImage" src="https://source.unsplash.com/800x480/?abstract">
                         <div class="otdContent">
                             <h3><strong>{{otds.year}}</strong></h3>
                             <p>{{otds.text}}</p>  
@@ -17,8 +17,10 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-bookmark" ng-click="otd.bookmark()"></a>
-            <a class="button button-icon icon ion-android-share-alt"></a>
+
+            <a class="button button-icon icon ion-android-favorite" ng-click="otd.bookmark()"></a>
+
+            <a class="button button-icon icon ion-android-share-alt" ng-click="otd.share()"></a>
         </div>
     </ion-footer-bar>
 </ion-view>

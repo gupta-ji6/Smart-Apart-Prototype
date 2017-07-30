@@ -1,4 +1,4 @@
-<ion-view ng-controller="otdCtrl as otd" on-swipe-down="otd.down()" view-title="On This Day" ng-class="{'animated slideOutDown': otd.animate}">
+<ion-view ng-controller="otdCtrl as otd" on-swipe-down="otd.down()" view-title="{{otd.favorite}} On This Day" ng-class="{'animated slideOutDown': otd.animate}">
     <ion-content scroll="false">
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="otds in otd.otds">
@@ -6,7 +6,7 @@
                     <div class="item item-body card">
                         <img class="full-image otdImage" src="https://source.unsplash.com/800x480/?abstract">
                         <div class="otdContent">
-                            <h3><strong>{{otds.year}}</strong></h3>
+                            <h3><strong>{{otds.date}} {{otds.year}}</strong></h3>
                             <p>{{otds.text}}</p>  
                         </div>
                     </div>
@@ -17,12 +17,10 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-<<<<<<< HEAD
-			<a class="button button-icon icon ion-android-favorite"></a>
-=======
-            <a class="button button-icon icon ion-android-bookmark" ng-click="otd.bookmark()"></a>
->>>>>>> origin/prateek
-            <a class="button button-icon icon ion-android-share-alt"></a>
+
+            <a class="button button-icon icon ion-android-favorite" ng-if="!otd.b" ng-click="otd.bookmark()"></a>
+
+            <a class="button button-icon icon ion-android-share-alt" ng-click="otd.share()"></a>
         </div>
     </ion-footer-bar>
 </ion-view>

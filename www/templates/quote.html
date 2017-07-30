@@ -1,4 +1,4 @@
-<ion-view ng-controller="quoteCtrl as quote" on-swipe-up="quote.up()" view-title="Quote" ng-class="{'animated slideOutUp': quote.animate}">
+<ion-view ng-controller="quoteCtrl as quote" on-swipe-up="quote.up()" view-title="{{quote.favorite}} Quote" ng-class="{'animated slideOutUp': quote.animate}">
 	<ion-content scroll="false">
 
 		<ion-slides  options="options" slider="data.slider">
@@ -22,8 +22,8 @@
 
 	<ion-footer-bar class="bar">
 		<div class="button-bar">
-			<a class="button button-icon icon ion-android-favorite" ng-click="quote.bookmark()"></a>
-			<a class="button button-icon icon ion-android-share-alt"></a>
+			<a class="button button-icon icon ion-android-favorite" ng-if="!quote.b" ng-click="quote.bookmark()"></a>
+			<a class="button button-icon icon ion-android-share-alt" ng-click="quote.share()"></a>
 		</div>
 	</ion-footer-bar>
 </ion-view>
