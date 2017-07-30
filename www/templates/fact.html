@@ -1,26 +1,25 @@
 <ion-view ng-controller="cardCtrl as card" on-swipe-up="card.up()" on-swipe-down="card.down()" view-title="Fact" ng-class="{'animated slideOutDown': card.animateDown, 'animated slideOutUp': card.animateUp}">
-  <ion-content scroll="false">
-    <ion-slides options="options" slider="data.slider">
-      <ion-slide-page ng-repeat="cards in card.cards">
-        <div class="list card">
-          <div class="item item-body card">
-            <div>
-               <img class="full-image factImage" src="{{cards.factNo}}"> 
-            </div>
-            <div class="fact-content">
-              {{cards.fact}}
-            </div>
-          </div>
+    <ion-content scroll="false">
+        <ion-slides options="options" slider="data.slider">
+            <ion-slide-page ng-repeat="cards in card.cards">
+                <div class="list card">
+                    <div class="item item-body card">
+                        <div>
+                            <img class="full-image factImage" src="{{cards.factNo}}">
+                        </div>
+                        <div class="fact-content">
+                            {{cards.fact}}
+                        </div>
+                    </div>
+                </div>
+            </ion-slide-page>
+        </ion-slides>
+
+    </ion-content>
+    <ion-footer-bar class="bar">
+        <div class="button-bar">
+            <a class="button button-icon icon ion-android-favorite" ng-click="card.bookmark()" ng-class="{'animated rubberBand': card.animateBookmark}"></a>
+            <a class="button button-icon icon ion-android-share-alt" ng-click="card.share()"></a>
         </div>
-      </ion-slide-page>
-    </ion-slides>
-
-  </ion-content>
-  <ion-footer-bar class="bar">
-    <div class="button-bar">
-      <a class="button button-icon icon ion-android-favorite" ng-click="card.bookmark()" ng-class="{'animated pulse': card.animateBookmark}"></a>
-      <a class="button button-icon icon ion-android-share-alt" ng-click="card.share()"></a>
-    </div>
-  </ion-footer-bar>
+    </ion-footer-bar>
 </ion-view>
-

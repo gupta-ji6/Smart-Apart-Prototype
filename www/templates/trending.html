@@ -1,4 +1,5 @@
-<ion-view ng-controller="trendingCtrl as trending" on-swipe-up="trending.up()" on-swipe-down="trending.down()" view-title="Trending" ng-class="{'animated slideOutDown': trending.animateDown, 'animated slideOutUp': trending.animateUp}">
+<ion-view ng-controller="trendingCtrl as trending" on-swipe-up="trending.up()" on-swipe-down="trending.down()" view-title="Trending"
+    ng-class="{'animated slideOutDown': trending.animateDown, 'animated slideOutUp': trending.animateUp}">
     <ion-content scroll="false">
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="news in trending.news">
@@ -21,7 +22,7 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-favorite" ng-click="trending.bookmark()"></a>
+            <a class="button button-icon icon ion-android-favorite" ng-click="trending.bookmark()" ng-class="{'animated rubberBand': trending.animateBookmark}"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
         </div>
     </ion-footer-bar>

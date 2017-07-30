@@ -80,6 +80,17 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 					}
 				}
 
+			})
+
+			.state('menu.about', {
+				cache: false,
+				url: '/about',
+				views: {
+					'menuContent': {
+						templateUrl: 'templates/about.html'
+					}
+				}
+
 			});
 
 
@@ -106,15 +117,15 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 			if (window.StatusBar) {
 				return StatusBar.hide();
 			}
-			
-        
+
+
 		});
 
 		$ionicPlatform.registerBackButtonAction(function (event) {
 			if (true) {
 				$ionicPopup.confirm({
 					title: 'Exit',
-					template: 'Are you sure?',
+					template: 'Are you sure you want to exit?',
 					cancelText: 'Make me smarter!',
 					cancelType: 'button-positive',
 					okText: 'Exit',
@@ -140,7 +151,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.factory("tempService", tempService)
 
 function tempService() {
-	return { 'id': 1, 'array': [], 'bookmark':false };
+	return { 'id': 1, 'array': [], 'bookmark': false };
 }
 
 
@@ -152,65 +163,68 @@ function menuCtrl(tempService, $state) {
 	menu.isCategoriesActive = false;
 	menu.isBookmarksActive = false;
 	menu.items = ["Quote", "Fact", "Videos", "Trending", "On This Day"];
+	menu.about = function () {
+		$state.go("menu.about");
+	}
 	menu.change = function (item) {
 		if (item == "Quote") {
 			tempService.id = 1;
-			tempService.bookmark=false;
+			tempService.bookmark = false;
 			$state.go("temp");
 		}
 		else
 			if (item == "Fact") {
 				tempService.id = 2;
-				tempService.bookmark=false;
+				tempService.bookmark = false;
 				$state.go("temp");
 			}
 			else
 				if (item == "Videos") {
 					tempService.id = 3;
-					tempService.bookmark=false;
+					tempService.bookmark = false;
 					$state.go("temp");
 				}
 				else
 					if (item == "Trending") {
 						tempService.id = 4;
-						tempService.bookmark=false;
+						tempService.bookmark = false;
 						$state.go("temp");
 					}
 					else
 						if (item == "On This Day") {
 							tempService.id = 5;
-							tempService.bookmark=false;
+							tempService.bookmark = false;
 							$state.go("temp");
 						}
 	}
-	menu.changeBookmark=function(item){
+	menu.changeBookmark = function (item) {
 		if (item == "Quote") {
 			tempService.id = 1;
-			tempService.bookmark=true;
+			tempService.bookmark = true;
 			$state.go("temp");
 		}
 		else
 			if (item == "Fact") {
 				tempService.id = 2;
-				tempService.bookmark=true;
+				tempService.bookmark = true;
 				$state.go("temp");
 			}
 			else
 				if (item == "Videos") {
 					tempService.id = 3;
-					tempService.bookmark=true;
+					tempService.bookmark = true;
 					$state.go("temp");
 				}
 				else
 					if (item == "Trending") {
 						tempService.id = 4;
-						tempService.bookmark=true;
+						tempService.bookmark = true;
 						$state.go("temp");
 					}
 					else
 						if (item == "On This Day") {
 							tempService.id = 5;
-							tempService.bookmark=true;
+							tempService.bookmark = true;
 							$state.go("temp");
 						}
 	}
@@ -224,7 +238,7 @@ function menuCtrl(tempService, $state) {
 
 }
 function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
-	$ionicPlatform.ready(function(){
+	$ionicPlatform.ready(function () {
 		// $cordovaLocalNotification.schedule({
 		// 	id: 1,
 		// 	title: 'Warning',
@@ -235,18 +249,18 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 		// 	}).then(function (result) {
 		// 	console.log('Notification 1 triggered');
 		// 	});
-		 
-        //   $cordovaLocalNotification.schedule({
-        //     id: 3,
-        //     title: 'Warning',
-        //     text: 'Dont fall asleep',
+
+		//   $cordovaLocalNotification.schedule({
+		//     id: 3,
+		//     title: 'Warning',
+		//     text: 'Dont fall asleep',
 		// 	icon: "res://icon.png",
-        //     every: 'minute'
-        //   }).then(function (result) {
-        //     console.log('Notification 3 triggered');
-        //   });
+		//     every: 'minute'
+		//   }).then(function (result) {
+		//     console.log('Notification 3 triggered');
+		//   });
 	});
-		
+
 	var temp = this;
 	temp.id = tempService.id;
 	switch (tempService.id) {
@@ -254,7 +268,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			temp.name = "Quote";
 			tempService.array = [];
 			var Url = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en";
-			if(!tempService.bookmark){
+			if (!tempService.bookmark) {
 				var promise = $http.get(Url).then(function (result) {
 					console.log(result);
 					tempService.array.push(result.data);
@@ -274,9 +288,9 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 					// }
 					$state.go("menu.quote");
 				});
-			}else{
-				localforage.getItem("quote",function(err,data){
-					tempService.array=data;
+			} else {
+				localforage.getItem("quote", function (err, data) {
+					tempService.array = data;
 					setTimeout(function () { $state.go("menu.quote"); }, 1000);
 				});
 			}
@@ -284,7 +298,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 		case 2:
 			temp.name = "Fact";
 			tempService.array = [];
-			if(!tempService.bookmark){
+			if (!tempService.bookmark) {
 				for (i = 0; i < 5; i++) {
 					var baseUrl = "http://numbersapi.com/random/trivia"
 
@@ -313,10 +327,10 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						setTimeout(function () { $state.go("menu.fact"); }, 1000);
 					});
 				}
-			}else{
-				localforage.getItem("fact",function(err,data){
-					tempService.array=data;
-					
+			} else {
+				localforage.getItem("fact", function (err, data) {
+					tempService.array = data;
+
 					setTimeout(function () { $state.go("menu.fact"); }, 1000);
 				});
 			}
@@ -325,7 +339,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			temp.name = "Video";
 			tempService.array = [];
 			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
-			if(!tempService.bookmark){ 
+			if (!tempService.bookmark) {
 				for (i = 0; i < 5; i++) {
 					var ranChannel = Math.round(Math.random() * (channels.length - 1));
 					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
@@ -347,9 +361,9 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 
 				}
 			}
-			else{
-				localforage.getItem("video",function(err,data){
-					tempService.array=data.reverse();
+			else {
+				localforage.getItem("video", function (err, data) {
+					tempService.array = data.reverse();
 					setTimeout(function () { $state.go("menu.video"); }, 1000);
 				});
 			}
@@ -358,8 +372,8 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 		case 4:
 			temp.name = "Trending"
 			tempService.array = [];
-			var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
-			if(!tempService.bookmark){ 
+			var sources = ["al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+			if (!tempService.bookmark) {
 				for (i = 0; i < 5; i++) {
 					var ranSource = Math.round(Math.random() * (sources.length - 1));
 					var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
@@ -381,10 +395,10 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 					});
 
 				}
-			}else{
-				localforage.getItem("trending",function(err,data){
+			} else {
+				localforage.getItem("trending", function (err, data) {
 					console.log(data);
-					tempService.array=data;
+					tempService.array = data;
 					setTimeout(function () { $state.go("menu.trending"); }, 1000);
 				});
 			}
@@ -395,7 +409,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			temp.name = "On This Day";
 			tempService.array = [];
 			var Url = "http://history.muffinlabs.com/date";
-			if(!tempService.bookmark){
+			if (!tempService.bookmark) {
 				var promise = $http.get(Url).then(function (result) {
 					console.log(result);
 					tempService.array = result.data.data.Events;
@@ -408,10 +422,10 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 
 				});
 			}
-			else{
-				localforage.getItem("otd",function(err,data){
+			else {
+				localforage.getItem("otd", function (err, data) {
 					console.log(data);
-					tempService.array=data;
+					tempService.array = data;
 					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
 				});
 			}
@@ -428,71 +442,81 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 	}
 }
 
-function otdCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
+function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	var otd = this;
 	otd.animate = false;
-	otd.slide=0;
-	
+	otd.animateBookmark = false;
+	otd.slide = 0;
+
 	otd.otds = tempService.array;
-	$scope.$on("$ionicSlides.slideChangeStart", function (event, data){
-		otd.slide=data.slider.activeIndex;
+	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
+		otd.slide = data.slider.activeIndex;
 	});
 
 	otd.down = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 4;
 			otd.animate = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 
 		}
 	}
-	otd.bookmark=function(){
-	  localforage.getItem("otd",function(err,data){
-		console.log(data);
-		if(data==null){
-			data=[];
-			data.push(otd.otds[otd.slide]);
-			localforage.setItem("otd",data);
-		}
-		else{
-			data.push(otd.otds[otd.slide]);
-			localforage.setItem("otd",data);
-		}
-      });
+	otd.bookmark = function () {
+		localforage.getItem("otd", function (err, data) {
+			console.log(data);
+			if (data == null) {
+				data = [];
+				data.push(otd.otds[otd.slide]);
+				localforage.setItem("otd", data);
+			}
+			else {
+				data.push(otd.otds[otd.slide]);
+				localforage.setItem("otd", data);
+			}
+		});
+		otd.animateBookmark = true;
+		setTimeout(function () {
+			otd.animateBookmark = false;
+		}, 1500)
 	}
 }
 
-function quoteCtrl($state, $http,$scope, $ionicSlideBoxDelegate, tempService) {
+function quoteCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	var quote = this;
-	quote.b=tempService.bookmark;
+	quote.b = tempService.bookmark;
 	quote.animate = false;
-		quote.quotes=tempService.array;
-		console.log(quote.quotes.length);
-	
+	quote.animateBookmark = false;
+	quote.quotes = tempService.array;
+	console.log(quote.quotes.length);
+
 	// else{
 	// 	quote.quotes = tempService.array[0];
 	// }
-	
+
 	quote.up = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			quote.animate = true;
 			tempService.id = 2;
 			setTimeout(function () { $state.go("temp"); }, 350);
-		}	
+		}
 	}
-	quote.bookmark=function(){
-		localforage.getItem("quote",function(err,data){
-		console.log(data);
-		if(data==null){
-			data=[];
-			data.push(quote.quotes[0]);
-			localforage.setItem("quote",data);
-		}
-		else{
-			data.push(quote.quotes[0]);
-			localforage.setItem("quote",data);
-		}
-      });
+	quote.bookmark = function () {
+		localforage.getItem("quote", function (err, data) {
+			console.log(data);
+			if (data == null) {
+				data = [];
+				data.push(quote.quotes[0]);
+				localforage.setItem("quote", data);
+			}
+			else {
+				data.push(quote.quotes[0]);
+				localforage.setItem("quote", data);
+			}
+		});
+		quote.animateBookmark = true;
+		setTimeout(function () {
+			quote.animateBookmark = false;
+		}, 1500)
 	}
 }
 
@@ -500,15 +524,16 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	var trending = this;
 	trending.animateUp = false;
 	trending.animateDown = false;
+	trending.animateBookmark = false;
 	trending.news = [];
 	max = 0;
-	trending.slide=0;
-	var sources = [ "al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+	trending.slide = 0;
+	var sources = ["al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
 
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
-		trending.slide=data.slider.activeIndex;
-		
+		trending.slide = data.slider.activeIndex;
+
 		if (!tempService.bookmark && data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
 			if (max < data.slider.activeIndex) {
 				max = data.slider.activeIndex;
@@ -560,32 +585,36 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.news = tempService.array;
 
 	trending.down = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 3;
 			trending.animateDown = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
 	trending.up = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 5;
 			trending.animateUp = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
-	trending.bookmark=function(){
-		localforage.getItem("trending",function(err,data){
-		console.log(data);
-		if(data==null){
-			data=[];
-			data.push(trending.news[trending.slide]);
-			localforage.setItem("trending",data);
-		}
-		else{
-			data.push(trending.news[trending.slide]);
-			localforage.setItem("trending",data);
-		}
-      });
+	trending.bookmark = function () {
+		localforage.getItem("trending", function (err, data) {
+			console.log(data);
+			if (data == null) {
+				data = [];
+				data.push(trending.news[trending.slide]);
+				localforage.setItem("trending", data);
+			}
+			else {
+				data.push(trending.news[trending.slide]);
+				localforage.setItem("trending", data);
+			}
+		});
+		trending.animateBookmark = true;
+		setTimeout(function () {
+			trending.animateBookmark = false;
+		}, 1500)
 	}
 }
 
@@ -596,37 +625,37 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 	video.animateBookmark = false;
 	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 	video.videos = [];
-	video.slide=0;
+	video.slide = 0;
 	max = 0;
 
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
-		video.slide=data.slider.activeIndex;
+		video.slide = data.slider.activeIndex;
 
-			if (!tempService.bookmark&&data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
-				if (max < data.slider.activeIndex) {
-					max = data.slider.activeIndex;
-				}
-				for (i = 0; i < 5; i++) {
-					var ranChannel = Math.round(Math.random() * (channels.length - 1));
-					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
-					var promise = $http.get(youtubeUrl).then(function (result) {
-						console.log(result);
-						var ranVideo = Math.round(Math.random() * 29);
-						v = result.data.items[ranVideo];
-						vPart = {}
-						vPart.title = v.snippet.title;
-						vPart.id = v.id.videoId;
-						vPart.thumbnail = v.snippet.thumbnails.high.url;
-						video.videos.push(vPart);
+		if (!tempService.bookmark && data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
+			if (max < data.slider.activeIndex) {
+				max = data.slider.activeIndex;
+			}
+			for (i = 0; i < 5; i++) {
+				var ranChannel = Math.round(Math.random() * (channels.length - 1));
+				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+				var promise = $http.get(youtubeUrl).then(function (result) {
+					console.log(result);
+					var ranVideo = Math.round(Math.random() * 29);
+					v = result.data.items[ranVideo];
+					vPart = {}
+					vPart.title = v.snippet.title;
+					vPart.id = v.id.videoId;
+					vPart.thumbnail = v.snippet.thumbnails.high.url;
+					video.videos.push(vPart);
 
-					}).catch(function (err) {
-						console.log(err);
-					});
-
-				}
+				}).catch(function (err) {
+					console.log(err);
+				});
 
 			}
+
+		}
 
 	});
 
@@ -652,33 +681,36 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 
 
 	video.down = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 2;
 			video.animateDown = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
 	video.up = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 4;
 			video.animateUp = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
-	video.bookmark=function(){
-		localforage.getItem("video",function(err,data){
-		console.log(data);
-		if(data==null){
-			data=[];
-			data.push(video.videos[video.slide]);
-			localforage.setItem("video",data);
-		}
-		else{
-			data.push(video.videos[video.slide]);
-			localforage.setItem("video",data);
-		}
-	  });
-	  video.animateBookmark = true;
+	video.bookmark = function () {
+		localforage.getItem("video", function (err, data) {
+			console.log(data);
+			if (data == null) {
+				data = [];
+				data.push(video.videos[video.slide]);
+				localforage.setItem("video", data);
+			}
+			else {
+				data.push(video.videos[video.slide]);
+				localforage.setItem("video", data);
+			}
+		});
+		video.animateBookmark = true;
+		setTimeout(function () {
+			video.animateBookmark = false;
+		}, 1500)
 	}
 }
 
@@ -689,11 +721,11 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 	card.animateUp = false;
 	card.animateDown = false;
 	card.cards = [];
-	card.slide=0;
+	card.slide = 0;
 	max = 0;
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
-		card.slide=data.slider.activeIndex;
+		card.slide = data.slider.activeIndex;
 		if (!tempService.bookmark && data.slider.activeIndex > max && data.slider.activeIndex % 4 == 0) {
 
 			if (max < data.slider.activeIndex) {
@@ -766,42 +798,45 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 	card.cards = tempService.array;
 
 	card.up = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 3;
 			card.animateUp = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
 	card.down = function () {
-		if(!tempService.bookmark){
+		if (!tempService.bookmark) {
 			tempService.id = 1;
 			card.animateDown = true;
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
-	card.bookmark=function(){
-		localforage.getItem("fact",function(err,data){
-		console.log(data);
-		if(data==null){
-			data=[];
-			data.push(card.cards[card.slide]);
-			localforage.setItem("fact",data);
-		}
-		else{
-			data.push(card.cards[card.slide]);
-			localforage.setItem("fact",data);
-		}
-	  });
-	  card.animateBookmark = true;
-	}
-	card.share=function(){
-		$cordovaSocialSharing
-		.share("download link", card.cards[card.slide].fact) // Share via native share sheet
-		.then(function(result) {
-			console.log("success");
-		}, function(err) {
-		// An error occured. Show a message to the user
+	card.bookmark = function () {
+		localforage.getItem("fact", function (err, data) {
+			console.log(data);
+			if (data == null) {
+				data = [];
+				data.push(card.cards[card.slide]);
+				localforage.setItem("fact", data);
+			}
+			else {
+				data.push(card.cards[card.slide]);
+				localforage.setItem("fact", data);
+			}
 		});
+		card.animateBookmark = true;
+		setTimeout(function () {
+			card.animateBookmark = false;
+		}, 1500)
+	}
+	card.share = function () {
+		$cordovaSocialSharing
+			.share("download link", card.cards[card.slide].fact) // Share via native share sheet
+			.then(function (result) {
+				console.log("success");
+			}, function (err) {
+				// An error occured. Show a message to the user
+			});
 
 	}
 

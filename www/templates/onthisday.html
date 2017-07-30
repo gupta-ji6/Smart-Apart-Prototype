@@ -7,7 +7,7 @@
                         <img class="full-image otdImage" src="https://source.unsplash.com/800x480/?abstract">
                         <div class="otdContent">
                             <h3><strong>{{otds.year}}</strong></h3>
-                            <p>{{otds.text}}</p>  
+                            <p>{{otds.text}}</p>
                         </div>
                     </div>
                 </div>
@@ -17,11 +17,7 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-<<<<<<< HEAD
-			<a class="button button-icon icon ion-android-favorite"></a>
-=======
-            <a class="button button-icon icon ion-android-bookmark" ng-click="otd.bookmark()"></a>
->>>>>>> origin/prateek
+            <a class="button button-icon icon ion-android-favorite" ng-click="otd.bookmark()" ng-class="{'animated rubberBand': otd.animateBookmark}"></a>
             <a class="button button-icon icon ion-android-share-alt"></a>
         </div>
     </ion-footer-bar>
