@@ -1,4 +1,4 @@
-<ion-view ng-controller="videoCtrl as video" on-swipe-down="video.down()" on-swipe-up="video.up()" view-title="Video" ng-class="{'animated slideOutDown': video.animateDown, 'animated slideOutUp': video.animateUp}">
+<ion-view ng-controller="videoCtrl as video" on-swipe-down="video.down()" on-swipe-up="video.up()" view-title="{{video.favorite}} Video" ng-class="{'animated slideOutDown': video.animateDown, 'animated slideOutUp': video.animateUp}">
     <ion-content scroll="false">
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="videos in video.videos">
@@ -18,8 +18,9 @@
 
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-favorite" ng-click="video.bookmark()" ng-class="{'animated rubberBand': video.animateBookmark}"></a>
-            <a class="button button-icon icon ion-android-share-alt"></a>
+
+            <a class="button button-icon icon ion-android-favorite" ng-if="!video.b" ng-click="video.bookmark()" ng-class="{'animated rubberBand': video.animateBookmark}"></a>
+            <a class="button button-icon icon ion-android-share-alt" ng-click="video.share()"></a>
         </div>
     </ion-footer-bar>
 </ion-view>

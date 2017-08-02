@@ -97,7 +97,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 
 
 		// if none of the above states are matched, use this as the fallback
-		$urlRouterProvider.otherwise('/temp');
+		$urlRouterProvider.otherwise('/intro');
 	})
 
 
@@ -148,10 +148,26 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 	.controller("otdCtrl", otdCtrl)
 	.controller("tempCtrl", tempCtrl)
 	.controller("menuCtrl", menuCtrl)
+	.controller("introCtrl", introCtrl)
 	.factory("tempService", tempService)
 
 function tempService() {
 	return { 'id': 1, 'array': [], 'bookmark': false };
+}
+
+function introCtrl($state) {
+	var intro = this;
+	localforage.getItem("intro", function (err, data) {
+		if (data == null) {
+			localforage.setItem("intro", { 'visited': true });
+		}
+		else {
+			$state.go("temp")
+		}
+	});
+	intro.continue = function () {
+		$state.go("temp");
+	}
 }
 
 
@@ -239,28 +255,42 @@ function menuCtrl(tempService, $state) {
 }
 function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
 	$ionicPlatform.ready(function () {
-		// $cordovaLocalNotification.schedule({
-		// 	id: 1,
-		// 	title: 'Warning',
-		// 	text: "You're so sexy!",
-		// 	data: {
-		// 		customProperty: 'custom value'
-		// 	}
-		// 	}).then(function (result) {
-		// 	console.log('Notification 1 triggered');
-		// 	});
 
-		//   $cordovaLocalNotification.schedule({
-		//     id: 3,
-		//     title: 'Warning',
-		//     text: 'Dont fall asleep',
-		// 	icon: "res://icon.png",
-		//     every: 'minute'
-		//   }).then(function (result) {
-		//     console.log('Notification 3 triggered');
-		//   });
+		localforage.getItem("notification",function(err,data){
+			if(data==null){
+				var date = new Date();
+				date.setDate(date.getDate()+1);
+				date.setHours(7);
+				date.setMinutes(30);
+				date.setSeconds(0);
+				var date2 = new Date();
+				date2.setDate(date2.getDate()+1);
+				date2.setHours(21);
+				date2.setMinutes(0);
+				date2.setSeconds(0);
+				$cordovaLocalNotification.schedule({
+					id: 1,
+					title: 'Its time to get smart!',
+					text: 'Begin your day by gaining some knowledge. Tap to open Smart Apart ',
+					firstAt: date,
+					every: 'day'
+				}).then(function (result) {
+					console.log('Notification 1 triggered');
+				});
+				$cordovaLocalNotification.schedule({
+				id: 2,
+				title: 'Its time to get smart!',
+				text: 'Lets gain some knowledge before going to sleep. Tap to open Smart Apart ',
+				firstAt: date2,
+				every: 'day'
+				}).then(function (result) {
+				console.log('Notification 2 triggered');
+				});
+				localforage.setItem("notification",{set:true});
+			}
+		});
+
 	});
-
 	var temp = this;
 	temp.id = tempService.id;
 	switch (tempService.id) {
@@ -272,25 +302,17 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				var promise = $http.get(Url).then(function (result) {
 					console.log(result);
 					tempService.array.push(result.data);
-					// var image=new Image();
-					// image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-					// image.onload=function(){
-					// 	$state.go("menu.quote");
-					// }
-					$state.go("menu.quote");
+					setTimeout(function () { $state.go("menu.quote"); }, 1000);
 
 				}).catch(function (err) {
 					console.log(err);
-					// var image=new Image();
-					// image.src="https://unsplash.it/1024/1024/?random&blur&gravity=center";
-					// image.onload=function(){
-					// 	$state.go("menu.quote");
-					// }
 					$state.go("menu.quote");
+
 				});
 			} else {
 				localforage.getItem("quote", function (err, data) {
 					tempService.array = data;
+					tempService.array.reverse();
 					setTimeout(function () { $state.go("menu.quote"); }, 1000);
 				});
 			}
@@ -330,7 +352,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			} else {
 				localforage.getItem("fact", function (err, data) {
 					tempService.array = data;
-
+					tempService.array.reverse();
 					setTimeout(function () { $state.go("menu.fact"); }, 1000);
 				});
 			}
@@ -399,6 +421,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				localforage.getItem("trending", function (err, data) {
 					console.log(data);
 					tempService.array = data;
+					tempService.array.reverse();
 					setTimeout(function () { $state.go("menu.trending"); }, 1000);
 				});
 			}
@@ -412,7 +435,15 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			if (!tempService.bookmark) {
 				var promise = $http.get(Url).then(function (result) {
 					console.log(result);
-					tempService.array = result.data.data.Events;
+					var dat = result.data.date;
+					for (i = 0; i < result.data.data.Events.length; i++) {
+						obj = {};
+						obj.date = dat;
+						obj.text = result.data.data.Events[i].text;
+						obj.year = result.data.data.Events[i].year;
+						tempService.array.push(obj);
+
+					}
 					tempService.array.reverse();
 					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
 
@@ -426,6 +457,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				localforage.getItem("otd", function (err, data) {
 					console.log(data);
 					tempService.array = data;
+					tempService.array.reverse();
 					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
 				});
 			}
@@ -442,15 +474,22 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 	}
 }
 
-function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
+
+function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
 	var otd = this;
 	otd.animate = false;
 	otd.animateBookmark = false;
 	otd.slide = 0;
-
+	otd.b = tempService.bookmark;
+	otd.favorite = "";
+	if (otd.b) {
+		otd.favorite = "Bookmarked";
+	}
 	otd.otds = tempService.array;
+	console.log(otd.otds);
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		otd.slide = data.slider.activeIndex;
+
 	});
 
 	otd.down = function () {
@@ -461,6 +500,7 @@ function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 
 		}
 	}
+
 	otd.bookmark = function () {
 		localforage.getItem("otd", function (err, data) {
 			console.log(data);
@@ -470,7 +510,15 @@ function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 				localforage.setItem("otd", data);
 			}
 			else {
-				data.push(otd.otds[otd.slide]);
+				for (i = 0; i < data.length; i++) {
+					if (data[i].text == otd.otds[otd.slide].text) {
+						break;
+					}
+				}
+				if (i == data.length) {
+					data.push(otd.otds[otd.slide]);
+				}
+
 				localforage.setItem("otd", data);
 			}
 		});
@@ -479,25 +527,45 @@ function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 			otd.animateBookmark = false;
 		}, 1500)
 	}
+
+	otd.share = function () {
+		$cordovaSocialSharing
+			.share("I just found from Smart Apart app that today in \n\n" + otd.otds[otd.slide].year + "\n" + otd.otds[otd.slide].text + "\n\n Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.then(function (result) {
+				console.log("success");
+			}, function (err) {
+				// An error occured. Show a message to the user
+			});
+	}
 }
 
-function quoteCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
+
+function quoteCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
 	var quote = this;
 	quote.b = tempService.bookmark;
-	quote.animate = false;
+	quote.favorite = "";
 	quote.animateBookmark = false;
+	if (quote.b) {
+		quote.favorite = "Bookmarked";
+	}
+	quote.animate = false;
+	quote.slide = 0;
 	quote.quotes = tempService.array;
-	console.log(quote.quotes.length);
+	// console.log(quote.quotes.length);
 
 	// else{
 	// 	quote.quotes = tempService.array[0];
 	// }
+	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
+		quote.slide = data.slider.activeIndex;
+	});
 
 	quote.up = function () {
 		if (!tempService.bookmark) {
 			quote.animate = true;
 			tempService.id = 2;
 			setTimeout(function () { $state.go("temp"); }, 350);
+
 		}
 	}
 	quote.bookmark = function () {
@@ -509,22 +577,48 @@ function quoteCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 				localforage.setItem("quote", data);
 			}
 			else {
-				data.push(quote.quotes[0]);
+				for (i = 0; i < data.length; i++) {
+					if (quote.quotes[0].quoteText == data[i].quoteText)
+						break;
+				}
+				if (i == data.length) {
+					data.push(quote.quotes[0]);
+				}
+
 				localforage.setItem("quote", data);
+
+
 			}
+		
 		});
-		quote.animateBookmark = true;
-		setTimeout(function () {
-			quote.animateBookmark = false;
-		}, 1500)
+			quote.animateBookmark = true;
+			setTimeout(function () {
+				quote.animateBookmark = false;
+			}, 1500);
+}
+	
+	quote.share = function () {
+		$cordovaSocialSharing
+			.share(quote.quotes[quote.slide].quoteText + "\n\n I found out this on Smart Apart. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
+			.then(function (result) {
+				console.log("success");
+			}, function (err) {
+				// An error occured. Show a message to the user
+			});
 	}
 }
 
-function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
+function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing, $cordovaInAppBrowser, $ionicPlatform) {
 	var trending = this;
 	trending.animateUp = false;
 	trending.animateDown = false;
 	trending.animateBookmark = false;
+	trending.b = tempService.bookmark;
+	trending.favorite = "";
+	if (trending.b) {
+		trending.favorite = "Bookmarked";
+	}
+
 	trending.news = [];
 	max = 0;
 	trending.slide = 0;
@@ -598,6 +692,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
+
 	trending.bookmark = function () {
 		localforage.getItem("trending", function (err, data) {
 			console.log(data);
@@ -607,22 +702,64 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 				localforage.setItem("trending", data);
 			}
 			else {
-				data.push(trending.news[trending.slide]);
+				for (i = 0; i < data.length; i++) {
+					if (trending.news[trending.slide].title == data[i].title)
+						break;
+				}
+				if (i == data.length)
+					data.push(trending.news[trending.slide]);
 				localforage.setItem("trending", data);
 			}
 		});
 		trending.animateBookmark = true;
 		setTimeout(function () {
 			trending.animateBookmark = false;
-		}, 1500)
+		}, 1500);
+
+	}
+
+	trending.share = function () {
+
+		$cordovaSocialSharing
+			.share("I just found out \n\n" + trending.news[trending.slide].title + " - \n\n" + trending.news[trending.slide].description + "\n\n Get more latest news from Smart Apart. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.then(function (result) {
+				console.log("success");
+			}, function (err) {
+				// An error occured. Show a message to the user
+			});
+
+	}
+	trending.browser = function (url) {
+		var options = {
+			location: 'yes',
+			clearcache: 'yes',
+			toolbar: 'no'
+		};
+		$ionicPlatform.ready(function () {
+			$cordovaInAppBrowser.open(url, '_blank', options)
+				.then(function (event) {
+					// success
+				})
+				.catch(function (event) {
+					// error
+				});
+
+		});
 	}
 }
 
-function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
+function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
 	var video = this;
 	video.animateUp = false;
 	video.animateDown = false;
 	video.animateBookmark = false;
+
+	video.b = tempService.bookmark;
+	video.favorite = "";
+	if (video.b) {
+		video.favorite = "Bookmarked";
+	}
+
 	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 	video.videos = [];
 	video.slide = 0;
@@ -694,6 +831,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
+
 	video.bookmark = function () {
 		localforage.getItem("video", function (err, data) {
 			console.log(data);
@@ -703,21 +841,44 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService) {
 				localforage.setItem("video", data);
 			}
 			else {
-				data.push(video.videos[video.slide]);
+				for (i = 0; i < data.length; i++) {
+					if (data[i].id == video.videos[video.slide].id)
+						break;
+				}
+				if (i == data.length)
+					data.push(video.videos[video.slide]);
 				localforage.setItem("video", data);
 			}
 		});
 		video.animateBookmark = true;
 		setTimeout(function () {
 			video.animateBookmark = false;
-		}, 1500)
+		}, 1500);
+
+	}
+
+	video.share = function () {
+		$cordovaSocialSharing
+			.share("I just found out this amazing video on Smart Apart\n\n" + video.videos[video.slide].title + " - \n\n" + "https://www.youtube.com/watch?v=" + video.videos[video.slide].id + "\n\n Watch more informational videos on Smart Apart. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
+			.then(function (result) {
+				console.log("success");
+			}, function (err) {
+				// An error occured. Show a message to the user
+			});
 	}
 }
 
 
 function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $cordovaSocialSharing) {
 	var card = this;
+
+	card.b = tempService.bookmark;
 	card.animateBookmark = false;
+	card.favorite = "";
+	if (card.b) {
+		card.favorite = "Bookmarked";
+	}
+
 	card.animateUp = false;
 	card.animateDown = false;
 	card.cards = [];
@@ -811,6 +972,7 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 			setTimeout(function () { $state.go("temp"); }, 350);
 		}
 	}
+
 	card.bookmark = function () {
 		localforage.getItem("fact", function (err, data) {
 			console.log(data);
@@ -820,23 +982,30 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 				localforage.setItem("fact", data);
 			}
 			else {
-				data.push(card.cards[card.slide]);
+				for (i = 0; i < data.length; i++) {
+					if (data[i].fact == card.cards[card.slide].fact)
+						break;
+				}
+				if (i == data.length)
+					data.push(card.cards[card.slide]);
 				localforage.setItem("fact", data);
 			}
 		});
 		card.animateBookmark = true;
 		setTimeout(function () {
 			card.animateBookmark = false;
-		}, 1500)
+		}, 1500);
+
 	}
 	card.share = function () {
 		$cordovaSocialSharing
-			.share("download link", card.cards[card.slide].fact) // Share via native share sheet
+			.share("Did you know that\n " + card.cards[card.slide].fact + " \n. I found out this mind boggling fact on Smart Apart. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
 				// An error occured. Show a message to the user
 			});
+
 
 	}
 

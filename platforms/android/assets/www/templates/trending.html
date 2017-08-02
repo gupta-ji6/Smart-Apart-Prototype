@@ -1,10 +1,11 @@
-<ion-view ng-controller="trendingCtrl as trending" on-swipe-up="trending.up()" on-swipe-down="trending.down()" view-title="Trending" ng-class="{'animated slideOutDown': trending.animateDown, 'animated slideOutUp': trending.animateUp}">
+
+<ion-view ng-controller="trendingCtrl as trending" on-swipe-up="trending.up()" on-swipe-down="trending.down()" view-title="{{trending.favorite}} Trending" ng-class="{'animated slideOutDown': trending.animateDown, 'animated slideOutUp': trending.animateUp}">
     <ion-content scroll="false">
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="news in trending.news">
                 <div class="list card">
                     <div class="item item-body card">
-                        <a href={{news.url}}>
+                        <a ng-click="trending.browser(news.url)">
                             <img class="full-image newsImage" src="{{news.urlToImage}}">
                             <div class="newsContent">
                                 <h2><strong>{{news.title}}</strong></h2>
@@ -21,8 +22,8 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-bookmark" ng-click="trending.bookmark()"></a>
-            <a class="button button-icon icon ion-android-share-alt"></a>
+            <a class="button button-icon icon ion-android-favorite" ng-if="!trending.b" ng-click="trending.bookmark()" ng-class="{'animated rubberBand': trending.animateBookmark}"></a>
+            <a class="button button-icon icon ion-android-share-alt" ng-click="trending.share()"></a>
         </div>
     </ion-footer-bar>
 </ion-view>
