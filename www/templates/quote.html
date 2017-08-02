@@ -1,28 +1,28 @@
 <ion-view ng-controller="quoteCtrl as quote" on-swipe-up="quote.up()" view-title="{{quote.favorite}} Quote" ng-class="{'animated slideOutUp': quote.animate}">
 	<ion-content scroll="false">
 
-		<ion-slides  options="options" slider="data.slider">
-      <ion-slide-page ng-repeat="q in quote.quotes">
-        <div class="list card">
-          <div class="item item-body quoteCard">
-           <div class="quoteText">
-						"{{q.quoteText}}"
-			</div>
-			<br>
-			<div class="quoteAuthor">
-				- {{q.quoteAuthor}}
-			</div>
-        </div>
-		</div>
-      </ion-slide-page>
-    </ion-slides>
+		<ion-slides options="options" slider="data.slider">
+			<ion-slide-page ng-repeat="q in quote.quotes">
+				<div class="list card">
+					<div class="item item-body quoteCard">
+						<div class="quoteText">
+							"{{q.quoteText}}"
+						</div>
+						<br>
+						<div class="quoteAuthor">
+							- {{q.quoteAuthor}}
+						</div>
+					</div>
+				</div>
+			</ion-slide-page>
+		</ion-slides>
 
 
 	</ion-content>
 
 	<ion-footer-bar class="bar">
 		<div class="button-bar">
-			<a class="button button-icon icon ion-android-favorite" ng-if="!quote.b" ng-click="quote.bookmark()"></a>
+			<a class="button button-icon icon ion-android-favorite" ng-if="!quote.b" ng-click="quote.bookmark()" ng-class="{'animated rubberBand': quote.animateBookmark}"></a>
 			<a class="button button-icon icon ion-android-share-alt" ng-click="quote.share()"></a>
 		</div>
 	</ion-footer-bar>

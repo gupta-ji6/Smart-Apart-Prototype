@@ -18,7 +18,8 @@
 
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-favorite" ng-if="!video.b" ng-click="video.bookmark()"></a>
+
+            <a class="button button-icon icon ion-android-favorite" ng-if="!video.b" ng-click="video.bookmark()" ng-class="{'animated rubberBand': video.animateBookmark}"></a>
             <a class="button button-icon icon ion-android-share-alt" ng-click="video.share()"></a>
         </div>
     </ion-footer-bar>
