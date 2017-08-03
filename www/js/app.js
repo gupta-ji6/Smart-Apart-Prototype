@@ -363,7 +363,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 			tempService.array = [];
 			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
 			if (!tempService.bookmark) {
-				for (i = 0; i < 5; i++) {
+				for (i = 0; i < 6; i++) {
 					var ranChannel = Math.round(Math.random() * (channels.length - 1));
 					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
 					var promise = $http.get(youtubeUrl).then(function (result) {
@@ -375,7 +375,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						vPart.id = v.id.videoId;
 						vPart.thumbnail = v.snippet.thumbnails.high.url;
 						tempService.array.push(vPart);
-						if (i == 5)
+						if (i == 6)
 							setTimeout(function () { $state.go("menu.video"); }, 1000);
 
 					}).catch(function (err) {
@@ -531,7 +531,7 @@ function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $co
 
 	otd.share = function () {
 		$cordovaSocialSharing
-			.share("I just found from Smart Apart app that today in \n\n" + otd.otds[otd.slide].year + "\n" + otd.otds[otd.slide].text + "\n\n Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.share("I just found from Smart Apart app that on "+ otd.otds[otd.slide].date +" in "+ otd.otds[otd.slide].year + "\n" + otd.otds[otd.slide].text + "\n\n Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -630,7 +630,7 @@ function quoteCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 	
 	quote.share = function () {
 		$cordovaSocialSharing
-			.share(quote.quotes[quote.slide].quoteText + "\n\n I found out this on Smart Apart. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
+			.share("\"" + quote.quotes[quote.slide].quoteText + "\"" + "\n- " + quote.quotes[quote.slide].quoteAuthor + "\n\n I found out this quote on Smart Apart app. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -753,7 +753,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.share = function () {
 
 		$cordovaSocialSharing
-			.share("I just found out \n\n" + trending.news[trending.slide].title + " - \n\n" + trending.news[trending.slide].description + "\n\n Get more latest news from Smart Apart. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.share("I just found out - \n\n" + trending.news[trending.slide].title + " - \n\n" + trending.news[trending.slide].description +"\nRead more - "+trending.news[trending.slide].url+ "\n\nGet more latest news from Smart Apart app. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -873,7 +873,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 
 	video.share = function () {
 		$cordovaSocialSharing
-			.share("I just found out this amazing video on Smart Apart\n\n" + video.videos[video.slide].title + " - \n\n" + "https://www.youtube.com/watch?v=" + video.videos[video.slide].id + "\n\n Watch more informational videos on Smart Apart. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
+			.share("I just found out this amazing video on Smart Apart app.\n\n" + video.videos[video.slide].title + " - \n\n" + "https://www.youtube.com/watch?v=" + video.videos[video.slide].id + "\n\nWatch more informational videos on Smart Apart app. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -1013,7 +1013,7 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 	}
 	card.share = function () {
 		$cordovaSocialSharing
-			.share("Did you know that\n " + card.cards[card.slide].fact + " \n. I found out this mind boggling fact on Smart Apart. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.share("Did you know that - \n" + card.cards[card.slide].fact + ".\nI found out this mind boggling fact on Smart Apart app. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
