@@ -162,7 +162,7 @@ function introCtrl($state) {
 			localforage.setItem("intro", { 'visited': true });
 		}
 		else {
-			$state.go("temp")
+			// $state.go("temp")
 		}
 	});
 	intro.continue = function () {
@@ -254,43 +254,43 @@ function menuCtrl(tempService, $state) {
 
 }
 function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
-	$ionicPlatform.ready(function () {
+	// $ionicPlatform.ready(function () {
 
-		localforage.getItem("notification",function(err,data){
-			if(data==null){
-				var date = new Date();
-				date.setDate(date.getDate()+1);
-				date.setHours(7);
-				date.setMinutes(30);
-				date.setSeconds(0);
-				var date2 = new Date();
-				date2.setDate(date2.getDate()+1);
-				date2.setHours(21);
-				date2.setMinutes(0);
-				date2.setSeconds(0);
-				$cordovaLocalNotification.schedule({
-					id: 1,
-					title: 'Its time to get smart!',
-					text: 'Begin your day by gaining some knowledge. Tap to open Smart Apart ',
-					firstAt: date,
-					every: 'day'
-				}).then(function (result) {
-					console.log('Notification 1 triggered');
-				});
-				$cordovaLocalNotification.schedule({
-				id: 2,
-				title: 'Its time to get smart!',
-				text: 'Lets gain some knowledge before going to sleep. Tap to open Smart Apart ',
-				firstAt: date2,
-				every: 'day'
-				}).then(function (result) {
-				console.log('Notification 2 triggered');
-				});
-				localforage.setItem("notification",{set:true});
-			}
-		});
+	// 	localforage.getItem("notification",function(err,data){
+	// 		if(data==null){
+	// 			var date = new Date();
+	// 			date.setDate(date.getDate()+1);
+	// 			date.setHours(7);
+	// 			date.setMinutes(30);
+	// 			date.setSeconds(0);
+	// 			var date2 = new Date();
+	// 			date2.setDate(date2.getDate()+1);
+	// 			date2.setHours(21);
+	// 			date2.setMinutes(0);
+	// 			date2.setSeconds(0);
+	// 			$cordovaLocalNotification.schedule({
+	// 				id: 1,
+	// 				title: 'Its time to get smart!',
+	// 				text: 'Begin your day by gaining some knowledge. Tap to open Smart Apart ',
+	// 				firstAt: date,
+	// 				every: 'day'
+	// 			}).then(function (result) {
+	// 				console.log('Notification 1 triggered');
+	// 			});
+	// 			$cordovaLocalNotification.schedule({
+	// 			id: 2,
+	// 			title: 'Its time to get smart!',
+	// 			text: 'Lets gain some knowledge before going to sleep. Tap to open Smart Apart ',
+	// 			firstAt: date2,
+	// 			every: 'day'
+	// 			}).then(function (result) {
+	// 			console.log('Notification 2 triggered');
+	// 			});
+	// 			localforage.setItem("notification",{set:true});
+	// 		}
+	// 	});
 
-	});
+	// });
 	var temp = this;
 	temp.id = tempService.id;
 	switch (tempService.id) {
@@ -530,7 +530,7 @@ function otdCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $co
 
 	otd.share = function () {
 		$cordovaSocialSharing
-			.share("I just found from Smart Apart app that today in \n\n" + otd.otds[otd.slide].year + "\n" + otd.otds[otd.slide].text + "\n\n Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.share("I just found from Smart Apart app that on "+ otd.otds[otd.slide].date +" in "+ otd.otds[otd.slide].year + "\n" + otd.otds[otd.slide].text + "\n\n Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -599,7 +599,7 @@ function quoteCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 	
 	quote.share = function () {
 		$cordovaSocialSharing
-			.share(quote.quotes[quote.slide].quoteText + "\n\n I found out this on Smart Apart. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
+			.share("\"" + quote.quotes[quote.slide].quoteText + "\"" + "\n- " + quote.quotes[quote.slide].quoteAuthor + "\n\n I found out this quote on Smart Apart app. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -721,7 +721,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.share = function () {
 
 		$cordovaSocialSharing
-			.share("I just found out \n\n" + trending.news[trending.slide].title + " - \n\n" + trending.news[trending.slide].description + "\n\n Get more latest news from Smart Apart. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.share("I just found out - \n\n" + trending.news[trending.slide].title + " - \n\n" + trending.news[trending.slide].description +"\nRead more - "+trending.news[trending.slide].url+ "\n\nGet more latest news from Smart Apart app. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -859,7 +859,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 
 	video.share = function () {
 		$cordovaSocialSharing
-			.share("I just found out this amazing video on Smart Apart\n\n" + video.videos[video.slide].title + " - \n\n" + "https://www.youtube.com/watch?v=" + video.videos[video.slide].id + "\n\n Watch more informational videos on Smart Apart. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
+			.share("I just found out this amazing video on Smart Apart app.\n\n" + video.videos[video.slide].title + " - \n\n" + "https://www.youtube.com/watch?v=" + video.videos[video.slide].id + "\n\nWatch more informational videos on Smart Apart app. Smarten up yourself the clever way. Download Now! ") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {
@@ -999,7 +999,7 @@ function cardCtrl($http, $state, $ionicSlideBoxDelegate, $scope, tempService, $c
 	}
 	card.share = function () {
 		$cordovaSocialSharing
-			.share("Did you know that\n " + card.cards[card.slide].fact + " \n. I found out this mind boggling fact on Smart Apart. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
+			.share("Did you know that - \n" + card.cards[card.slide].fact + ".\nI found out this mind boggling fact on Smart Apart app. Smarten up yourself the clever way. Download Now!") // Share via native share sheet
 			.then(function (result) {
 				console.log("success");
 			}, function (err) {

@@ -7,11 +7,11 @@
                     <div class="item item-body card">
                         <a ng-click="trending.browser(news.url)">
                             <img class="full-image newsImage" src="{{news.urlToImage}}">
-                            <div class="newsContent">
-                                <h2><strong>{{news.title}}</strong></h2>
-                                <p>
+                            <div>
+                                <div class="newsTitle">{{news.title}}</div>
+                                <div class="newsDescription">
                                     {{news.description}}
-                                </p>
+                                </div>
                             </div>
                         </a>
                     </div>
