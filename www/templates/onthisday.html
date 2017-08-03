@@ -2,7 +2,7 @@
     <ion-content scroll="false">
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="otds in otd.otds">
-                <div class="list card">
+                <div class="list card" ng-click="otd.browser(otds.text)">
                     <div class="item item-body card">
                         <img class="full-image otdImage" src="https://source.unsplash.com/800x480/?abstract">
                         <div>

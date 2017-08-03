@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\prate\Documents\SmartApartPrototype\Smart-Apart-Prototype\platforms\android\CordovaLib\assets"/><source path="C:\Users\prate\Documents\SmartApartPrototype\Smart-Apart-Prototype\platforms\android\CordovaLib\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="C:\Users\prate\Documents\SmartApartPrototype\Smart-Apart-Prototype\platforms\android\CordovaLib\src\release\assets"/></dataSet></merger>

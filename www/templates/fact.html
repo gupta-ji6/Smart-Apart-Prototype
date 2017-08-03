@@ -3,14 +3,14 @@
   <ion-content scroll="false">
     <ion-slides options="options" slider="data.slider">
       <ion-slide-page ng-repeat="cards in card.cards">
-        <div class="list card">
+        <div class="list card" ng-click="card.browser(cards.fact)">
           <div class="item item-body card">
-            <div>
-               <img class="full-image factImage" src="{{cards.factNo}}"> 
-            </div>
-            <div class="fact-content">
-              {{cards.fact}}
-            </div>
+              <div>
+                <img class="full-image factImage" src="{{cards.factNo}}"> 
+              </div>
+              <div class="fact-content">
+                {{cards.fact}}
+              </div>
           </div>
         </div>
       </ion-slide-page>

@@ -1,4 +1,4 @@
-<ion-view ng-controller="videoCtrl as video" on-swipe-down="video.down()" on-swipe-up="video.up()" view-title="{{video.favorite}} Video" ng-class="{'animated slideOutDown': video.animateDown, 'animated slideOutUp': video.animateUp}">
+<ion-view ng-controller="videoCtrl as video" on-swipe-up="video.up()" view-title="{{video.favorite}} Video" ng-class="{'animated slideOutDown': video.animateDown, 'animated slideOutUp': video.animateUp}">
     <ion-content scroll="false">
         <ion-slides options="options" slider="data.slider">
             <ion-slide-page ng-repeat="videos in video.videos">
