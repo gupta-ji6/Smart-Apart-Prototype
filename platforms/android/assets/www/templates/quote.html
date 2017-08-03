@@ -1,17 +1,17 @@
-<ion-view ng-controller="quoteCtrl as quote" on-swipe-up="quote.up()" view-title="{{quote.favorite}} Quote" ng-class="{'animated slideOutUp': quote.animate}">
+<ion-view ng-controller="quoteCtrl as quote" on-swipe-up="quote.up()" on-swipe-down="quote.down()" view-title="{{quote.favorite}} Quote" ng-class="{'animated slideOutUp': quote.animateUp,'animated slideOutDown': quote.animateDown }">
 	<ion-content scroll="false">
 
 		<ion-slides options="options" slider="data.slider">
 			<ion-slide-page ng-repeat="q in quote.quotes">
-				<div class="list card">
+				<div class="list card" ng-click="quote.browser(q.quoteAuthor)">
 					<div class="item item-body quoteCard">
-						<div class="quoteText">
-							"{{q.quoteText}}"
-						</div>
-						<br>
-						<div class="quoteAuthor">
-							- {{q.quoteAuthor}}
-						</div>
+							<div class="quoteText">
+								"{{q.quoteText}}"
+							</div>
+							<br>
+							<div class="quoteAuthor">
+								- {{q.quoteAuthor}}
+							</div>
 					</div>
 				</div>
 			</ion-slide-page>

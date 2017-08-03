@@ -19,11 +19,11 @@
 				<p class="username">Lesa Owens</p>	
 			</div> -->
 			<ion-list>
-				<ion-item ng-click="menu.toggleCategory()" ng-class="{'active':menu.isCategoriesActive}">
+				<ion-item ng-click="menu.toggleCategory()">
 					<i class="icon ion-pie-graph" float-left></i>&nbsp; Categories<i class="icon dropdown" ng-class="menu.isCategoriesActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
 				</ion-item>
 				<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isCategoriesActive">
-					<div ng-click="menu.change(item)">&nbsp; &nbsp; &nbsp; &nbsp;<i ng-class="{'icon ion-quote': $index==0,'icon ion-ios-lightbulb': $index==1,'icon ion-social-youtube': $index==2,'icon ion-arrow-graph-up-right': $index==3,'icon ion-ios-calendar-outline': $index==4}"></i>&nbsp;
+					<div ng-click="menu.change(item)">&nbsp; &nbsp; &nbsp; &nbsp;<i ng-class="{'icon ion-quote': $index==3,'icon ion-ios-lightbulb': $index==2,'icon ion-social-youtube': $index==0,'icon ion-arrow-graph-up-right': $index==1,'icon ion-ios-calendar-outline': $index==4}"></i>&nbsp;
 						&nbsp; {{item}}</div>
 				</ion-item>
 
@@ -31,7 +31,7 @@
 					<i class="icon ion-android-favorite" float-left></i>&nbsp; Bookmarks<i class="icon dropdown" ng-class="menu.isBookmarksActive ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
 				</ion-item>
 				<ion-item class="item-accordion" ng-repeat="item in menu.items" ng-show="menu.isBookmarksActive">
-					<div ng-click="menu.changeBookmark(item)">&nbsp; &nbsp; &nbsp; &nbsp; <i ng-class="{'icon ion-quote': $index==0,'icon ion-ios-lightbulb': $index==1,'icon ion-social-youtube': $index==2,'icon ion-arrow-graph-up-right': $index==3,'icon ion-ios-calendar-outline': $index==4}"></i>&nbsp;
+					<div ng-click="menu.changeBookmark(item)">&nbsp; &nbsp; &nbsp; &nbsp; <i ng-class="{'icon ion-quote': $index==3,'icon ion-ios-lightbulb': $index==2,'icon ion-social-youtube': $index==0,'icon ion-arrow-graph-up-right': $index==1,'icon ion-ios-calendar-outline': $index==4}"></i>&nbsp;
 						&nbsp;{{item}}</div>
 				</ion-item>
 
