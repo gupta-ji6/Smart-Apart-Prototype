@@ -192,6 +192,18 @@ ion-item.item {
   margin-bottom: 10px;
 }
 
+.readMore {
+  font-size: .7em;
+  line-height: 1;
+  font-family: 'Source Sans Pro', sans-serif;
+  display: block;
+  margin-left: 35vw;
+  margin-bottom: 5px;
+  text-align: center;
+  filter: opacity(50%);
+  position: absolute;
+  bottom: 0;
+}
 .list.card {
   margin: 10px;
 }
@@ -284,7 +296,8 @@ img.full-image.otdImage {
   margin-right: auto;
   margin-left: auto;
   z-index: 10;
-}
+ -webkit-filter: drop-shadow(5px 5px 5px #FFF);
+  filter: drop-shadow(5px 5px 5px #FFF);}
 
 .videoTitle {
   font-weight: 50;
@@ -310,6 +323,7 @@ img.full-image.otdImage {
   margin: auto;
   text-align: center;
   font-size: 1.5em;
+  display: block;
   line-height: 1;
   padding: 20% 5% 20% 5%;
   font-family: 'Source Sans Pro', sans-serif;

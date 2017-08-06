@@ -372,11 +372,11 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 		case 3:
 			temp.name = "Video";
 			tempService.array = [];
-			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
+			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "wired","kurzgesagt", "bbc+earth+lab", "CrashCourse","Grant+Thompson","the+slo+mo+guys","linus+tech+tips", "teded", "bostondynamics", "MinutePhysics", "brainstuff","techquikie","today+i+found+out","vox","whats+inside", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile","tech+insider", "It's+okay+to+be+smart"];
 			if (!tempService.bookmark) {
 				for (i = 0; i < 6; i++) {
 					var ranChannel = Math.round(Math.random() * (channels.length - 1));
-					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+					var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&relevanceLanguage=en&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
 					var promise = $http.get(youtubeUrl).then(function (result) {
 						var ranVideo = Math.round(Math.random() * 29);
 						console.log(result);
@@ -819,7 +819,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 		video.favorite = "Bookmarked";
 	}
 
-	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "kurzgesagt", "bbc+earth+lab", "CrashCourse", "teded", "bostondynamics", "MinutePhysics", "brainstuff", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile", "It's+okay+to+be+smart"];
+	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "wired","kurzgesagt", "bbc+earth+lab", "CrashCourse","Grant+Thompson","the+slo+mo+guys","linus+tech+tips", "teded", "bostondynamics", "MinutePhysics", "brainstuff","techquikie","today+i+found+out","vox","whats+inside", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile","tech+insider", "It's+okay+to+be+smart"];
 	video.videos = [];
 	video.slide = 0;
 	max = 0;
@@ -834,7 +834,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 			}
 			for (i = 0; i < 5; i++) {
 				var ranChannel = Math.round(Math.random() * (channels.length - 1));
-				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
+				var youtubeUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + channels[ranChannel] + "&maxResults=30&type=video&relevanceLanguage=en&key=AIzaSyDPqcGVIpZg4wSEWqWYbDMc31buy7oDLo4"
 				var promise = $http.get(youtubeUrl).then(function (result) {
 					console.log(result);
 					var ranVideo = Math.round(Math.random() * 29);
