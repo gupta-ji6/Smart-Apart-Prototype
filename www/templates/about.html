@@ -1,4 +1,4 @@
-<ion-view view-title="About">
+<ion-view ng-controller="aboutCtrl as about" view-title="About">
     <ion-content scroll="true">
         <div class="aboutHeading">
             Smart Apart
@@ -29,7 +29,7 @@
             Prateek Surana
         </div>
         <div class="aboutBody">
-            Prateek is a junior year IT engineering student who loves to code, watch movies and tweak smartphones. 
+            A junior year IT engineering student who loves to code, watch movies and tweak smartphones. 
         </div>
         <div class="dev">
             <a href="mailto:prateeksurana3255@gmail.com"><button class="button button-icon icon ion-android-mail"></button></a>
@@ -44,10 +44,7 @@
             Ayush Gupta
         </div>
         <div class="aboutBody">
-            Ayush is pursuing engineering in IT stream from Jaipur and currently in his junior year. <br>He has deep interests in technology
-            & development and is continiously working to expand his knowledge in this field. <br>When he's not writing statements,
-            notes in college, or developing something, you can probably catch him clicking photographs, laughing, reading,
-            travelling or sleeping.
+            A junior year IT engineering student who loves to develop, click pictures, laugh, travel & sleep.
         </div>
         <div class="dev">
             <a href="mailto:ayushgupta197@gmail.com"><button class="button button-icon icon ion-android-mail"></button></a>
@@ -60,7 +57,7 @@
     </ion-content>
     <ion-footer-bar class="bar">
         <div class="button-bar">
-            <a class="button button-icon icon ion-android-share-alt"></a>
+            <a class="button button-icon icon ion-android-share-alt" ng-click="about.share()"></a>
         </div>
     </ion-footer-bar>
 </ion-view>
