@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="openyoutubeactivity">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/openyoutubeactivity.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

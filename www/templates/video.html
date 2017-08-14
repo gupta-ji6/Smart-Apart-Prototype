@@ -4,7 +4,7 @@
             <ion-slide-page ng-repeat="videos in video.videos">
                 <div class="list card">
                     <div class="item item-body card">
-                        <a href="https://www.youtube.com/watch?v={{videos.id}}">
+                        <a ng-click="video.play(videos.id)">
                             <div class="videoImage">
                                 <img class="full-image videoThumbnail" src="{{videos.thumbnail}}">
                                 <div class="videoImageIcon"></div>

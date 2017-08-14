@@ -305,7 +305,20 @@ function menuCtrl(tempService, $state) {
 	};
 
 }
-function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform) {
+function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform, $cordovaNetwork, $ionicPopup) {
+	
+	$ionicPlatform.ready(function(){
+		 var isOffline = $cordovaNetwork.isOffline();
+		if(isOffline){
+			$ionicPopup.alert({
+				title: 'Uh-OH!',
+				template: 'You are offline. Turn on the internet and reopen app',
+				okText: 'Exit'
+			}).then(function(res){
+				ionic.Platform.exitApp();
+			});
+		}
+	});
 	
 	var temp = this;
 	temp.id = tempService.id;
@@ -318,7 +331,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				var promise = $http.get(Url).then(function (result) {
 					console.log(result);
 					tempService.array.push(result.data);
-					setTimeout(function () { $state.go("menu.quote"); }, 1000);
+					setTimeout(function () { $state.go("menu.quote"); }, 250);
 
 				}).catch(function (err) {
 					console.log(err);
@@ -329,11 +342,11 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				localforage.getItem("quote", function (err, data) {
 					tempService.array = data;
 					if(tempService.array==null){
-						setTimeout(function () { $state.go("menu.quote"); }, 1000);
+						setTimeout(function () { $state.go("menu.quote"); }, 250);
 					}
 					else{
 						tempService.array.reverse();
-						setTimeout(function () { $state.go("menu.quote"); }, 1000);
+						setTimeout(function () { $state.go("menu.quote"); }, 250);
 					}
 					
 				});
@@ -361,25 +374,25 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						tempService.array.push({ "factNo": factNo, "fact": result.data });
 						if (i == 5) {
 							console.log("working");
-							setTimeout(function () { $state.go("menu.fact"); }, 1000);
+							setTimeout(function () { $state.go("menu.fact"); }, 250);
 						}
 
 
 
 					}).catch(function (err) {
 						console.log(err);
-						setTimeout(function () { $state.go("menu.fact"); }, 1000);
+						setTimeout(function () { $state.go("menu.fact"); }, 250);
 					});
 				}
 			} else {
 				localforage.getItem("fact", function (err, data) {
 					tempService.array = data;
 					if(tempService.array==null){
-						setTimeout(function () { $state.go("menu.fact"); }, 1000);
+						setTimeout(function () { $state.go("menu.fact"); }, 250);
 					}
 					else{
 						tempService.array.reverse();
-						setTimeout(function () { $state.go("menu.fact"); }, 1000);
+						setTimeout(function () { $state.go("menu.fact"); }, 250);
 					}
 				});
 			}
@@ -387,7 +400,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 		case 3:
 			temp.name = "Video";
 			tempService.array = [];
-			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "wired","kurzgesagt", "bbc+earth+lab", "CrashCourse","Grant+Thompson","the+slo+mo+guys","linus+tech+tips", "teded", "bostondynamics", "MinutePhysics", "brainstuff","techquikie","today+i+found+out","vox","whats+inside", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile","tech+insider", "It's+okay+to+be+smart"];
+			var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "wired","kurzgesagt", "bbc+earth+lab", "Grant+Thompson","linus+tech+tips", "teded", "bostondynamics", "MinutePhysics", "brainstuff","techquikie","today+i+found+out", "minuteEarth", "smarterEveryday", "Reallifelore", "tech+insider", "It's+okay+to+be+smart"];
 			if (!tempService.bookmark) {
 				for (i = 0; i < 6; i++) {
 					var ranChannel = Math.round(Math.random() * (channels.length - 1));
@@ -402,7 +415,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						vPart.thumbnail = v.snippet.thumbnails.high.url;
 						tempService.array.push(vPart);
 						if (i == 6)
-							setTimeout(function () { $state.go("menu.video"); }, 1000);
+							setTimeout(function () { $state.go("menu.video"); }, 250);
 
 					}).catch(function (err) {
 						console.log(err);
@@ -414,11 +427,11 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 				localforage.getItem("video", function (err, data) {
 					tempService.array = data;
 					if(tempService.array==null){
-						setTimeout(function () { $state.go("menu.video"); }, 1000);
+						setTimeout(function () { $state.go("menu.video"); }, 250);
 					}
 					else{
 						tempService.array.reverse();
-						setTimeout(function () { $state.go("menu.video"); }, 1000);
+						setTimeout(function () { $state.go("menu.video"); }, 250);
 					}
 				});
 			}
@@ -427,7 +440,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 		case 4:
 			temp.name = "Trending"
 			tempService.array = [];
-			var sources = ["al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+			var sources = ["al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "mashable", "metro", "mirror", "recode", "reuters", "techcrunch", "techradar", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
 			if (!tempService.bookmark) {
 				for (i = 0; i < 5; i++) {
 					var ranSource = Math.round(Math.random() * (sources.length - 1));
@@ -443,7 +456,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						n.url = news[ranNews].url;
 						tempService.array.push(n);
 						if (i == 5)
-							setTimeout(function () { $state.go("menu.trending"); }, 1000);
+							setTimeout(function () { $state.go("menu.trending"); }, 250);
 
 					}).catch(function (err) {
 						console.log(err);
@@ -455,11 +468,11 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 					console.log(data);
 					tempService.array = data;
 					if(tempService.array==null){
-						setTimeout(function () { $state.go("menu.trending"); }, 1000);
+						setTimeout(function () { $state.go("menu.trending"); }, 250);
 					}
 					else{
 						tempService.array.reverse();
-						setTimeout(function () { $state.go("menu.trending"); }, 1000);
+						setTimeout(function () { $state.go("menu.trending"); }, 250);
 					}
 				});
 			}
@@ -483,11 +496,11 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 
 					}
 					tempService.array.reverse();
-					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+					setTimeout(function () { $state.go("menu.onthisday"); }, 250);
 
 				}).catch(function (err) {
 					console.log(err);
-					setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+					setTimeout(function () { $state.go("menu.onthisday"); }, 250);
 
 				});
 			}
@@ -496,11 +509,11 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 					console.log(data);
 					tempService.array = data;
 					if(tempService.array==null){
-						setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+						setTimeout(function () { $state.go("menu.onthisday"); }, 250);
 					}
 					else{
 						tempService.array.reverse();
-						setTimeout(function () { $state.go("menu.onthisday"); }, 1000);
+						setTimeout(function () { $state.go("menu.onthisday"); }, 250);
 					}
 				});
 			}
@@ -716,7 +729,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	trending.news = [];
 	max = 0;
 	trending.slide = 0;
-	var sources = ["al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "hacker-news", "mashable", "metro", "mirror", "national-geographic", "polygon", "recode", "reuters", "techcrunch", "techradar", "the-economist", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
+			var sources = ["al-jazeera-english", "ars-technica", "bbc-news", "bloomberg", "business-insider", "cnn", "daily-mail", "engadget", "espn", "mashable", "metro", "mirror", "recode", "reuters", "techcrunch", "techradar", "the-hindu", "the-huffington-post", "the-new-york-times", "the-next-web", "the-times-of-india", "the-verge", "time"]
 
 	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
 		console.log('Slide change is beginning', data.slider.activeIndex);
@@ -822,7 +835,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 	}
 }
 
-function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing) {
+function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $cordovaSocialSharing,$ionicPlatform) {
 	var video = this;
 	video.animateUp = false;
 	video.animateDown = false;
@@ -834,7 +847,7 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 		video.favorite = "Bookmarked";
 	}
 
-	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "wired","kurzgesagt", "bbc+earth+lab", "CrashCourse","Grant+Thompson","the+slo+mo+guys","linus+tech+tips", "teded", "bostondynamics", "MinutePhysics", "brainstuff","techquikie","today+i+found+out","vox","whats+inside", "minuteEarth", "smarterEveryday", "Reallifelore", "numberphile","tech+insider", "It's+okay+to+be+smart"];
+	var channels = ["asapscience", "life+noggin", "veritasium", "vsauce", "scishow", "dnews", "wired","kurzgesagt", "bbc+earth+lab", "Grant+Thompson","linus+tech+tips", "teded", "bostondynamics", "MinutePhysics", "brainstuff","techquikie","today+i+found+out", "minuteEarth", "smarterEveryday", "Reallifelore", "tech+insider", "It's+okay+to+be+smart"];
 	video.videos = [];
 	video.slide = 0;
 	max = 0;
@@ -921,6 +934,18 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 			}, function (err) {
 				// An error occured. Show a message to the user
 			});
+	}
+	video.play= function(id){
+		$ionicPlatform.ready(function(){
+			window.InAppYouTube.openVideo(id, {
+			fullscreen: true
+			}, function(result) {
+			// console.log(JSON.stringify(result));
+			}, function(reason) {
+			// console.log(reason);
+			});
+		});
+		
 	}
 }
 
