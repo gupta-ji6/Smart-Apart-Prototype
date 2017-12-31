@@ -129,6 +129,14 @@ module.exports = [
             "cordova.plugins.Keyboard"
         ],
         "runs": true
+    },
+    {
+        "id": "cordova-plugin-fcm.FCMPlugin",
+        "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
+        "pluginId": "cordova-plugin-fcm",
+        "clobbers": [
+            "FCMPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -148,7 +156,8 @@ module.exports.metadata =
     "cordova-plugin-x-socialsharing": "5.1.8",
     "cordova-plugin-x-toast": "2.6.0",
     "de.appplant.cordova.plugin.local-notification": "0.8.5",
-    "ionic-plugin-keyboard": "2.2.1"
+    "ionic-plugin-keyboard": "2.2.1",
+    "cordova-plugin-fcm": "2.1.2"
 };
 // BOTTOM OF METADATA
 });

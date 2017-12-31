@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "962702945731",
+    "firebase_url": "https://smart-apart-2f10f.firebaseio.com",
+    "project_id": "smart-apart-2f10f",
+    "storage_bucket": "smart-apart-2f10f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962702945731:android:74151dcb1dc5c147",
+        "android_client_info": {
+          "package_name": "com.smartapart.technetium"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962702945731-ohrjlb6tnpm271cpps3ec7tmtnbaindb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeCJ59MEr8Ke33L5IcmpxKvEzbzPHzt5k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

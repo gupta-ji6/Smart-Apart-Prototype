@@ -8,7 +8,6 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 		$stateProvider
 
 			.state('intro', {
-				cache: false,
 				url: '/intro',
 				templateUrl: 'templates/intro.html',
 			})
@@ -117,7 +116,25 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
 			if (window.StatusBar) {
 				return StatusBar.hide();
 			}
-
+			FCMPlugin.getToken(function(token) {
+				//this is the fcm token which can be used
+				//to send notification to specific device 
+				console.log(token);
+				//FCMPlugin.onNotification( onNotificationCallback(data), successCallback(msg), errorCallback(err) )
+				//Here you define your application behaviour based on the notification data.
+				FCMPlugin.onNotification(function(data) {
+					console.log(data);
+					//data.wasTapped == true means in Background :  Notification was received on device tray and tapped by the user.
+					//data.wasTapped == false means in foreground :  Notification was received in foreground. Maybe the user needs to be notified.
+					if (data.wasTapped) {
+					    //Notification was received on device tray and tapped by the user.
+					   console.log((data))
+					} else {
+					    //Notification was received in foreground. Maybe the user needs to be notified.
+					    //alert(JSON.stringify(data));
+					}
+				});
+			});
 
 		});
 
@@ -168,16 +185,86 @@ function aboutCtrl($cordovaSocialSharing){
 				// An error occured. Show a message to the user
 			});
 	}
+	document.getElementById("image").src="img/big.gif";
+	function repeat(){
+		setTimeout(function() {
+			document.getElementById("change").textContent="Swipe up or down to change the category";
+			
+		}, 4800);
+		setTimeout(function() {
+			document.getElementById("change").textContent="Tap any card to read more or play the video";
+			
+		}, 14500);
+		setTimeout(function() {
+			document.getElementById("change").textContent="Tap the heart icon to bookmark";
+			
+		}, 58000);
+		setTimeout(function() {
+			document.getElementById("change").textContent="Tap the share icon to share";
+			
+		}, 60700);
+		setTimeout(function() {
+			document.getElementById("change").textContent="Swipe left or right to change the cards";
+			repeat();
+		}, 66000);
+		
+	}
+	repeat();
 }
 
-function introCtrl($state,$cordovaLocalNotification, $ionicPlatform) {
+function introCtrl($state,$cordovaLocalNotification, $ionicPlatform,$ionicSlideBoxDelegate,$scope) {
 	var intro = this;
-	localforage.getItem("intro", function (err, data) {
+	intro.slide=0;
+	
+	
+	$scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
+		intro.slide = data.slider.activeIndex;
+		if(intro.slide==6){
+			document.getElementById("image").src="img/big.gif";
+			function repeat(){
+				setTimeout(function() {
+					document.getElementById("change").textContent="Swipe up or down to change the category";
+					
+				}, 4800);
+				setTimeout(function() {
+					document.getElementById("change").textContent="Tap any card to read more or play the video";
+					
+				}, 14500);
+				setTimeout(function() {
+					document.getElementById("change").textContent="Tap the heart icon to bookmark";
+					
+				}, 58000);
+				setTimeout(function() {
+					document.getElementById("change").textContent="Tap the share icon to share";
+					
+				}, 60700);
+				setTimeout(function() {
+					document.getElementById("change").textContent="Swipe left or right to change the cards";
+					repeat();
+				}, 66000);
+				
+			}
+			repeat();
+				
+
+			
+								
+			
+		}
+		if(intro.slide==7){
+			$state.go("temp");
+		}
+			
+		
+		
+
+	});
+	localforage.getItem("intro1", function (err, data) {
 		if (data == null) {
-			localforage.setItem("intro", { 'visited': true });
+			localforage.setItem("intro1", { 'visited': true });
 		}
 		else {
-			$state.go("temp")
+			$state.go("temp");
 		}
 	});
 	intro.continue = function () {

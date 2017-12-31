@@ -2,6 +2,21 @@
   display: none;
 }
 
+.introImg{
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  padding-left: 20vw;
+  padding-right: 20vw;
+  
+
+}
+#change{
+  text-align: center;
+  font-size: 1.5em;
+  padding-left: 6vw;
+  padding-right: 6vw;
+}
+
 .introTitle {
   text-align: center;
   color: white;
@@ -10,7 +25,7 @@
   font-weight: bold;
   display: flex;
   margin: auto;
-  padding: 5vh 5vw 5vh 5vw;
+  padding: 3vh 5vw 0vh 5vw;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -60,7 +75,7 @@
 .continue {
   border-radius: 10%;
   display: block;
-  margin: 10vh auto 0 auto;
+  margin: 4vh auto 0 auto;
   font-weight: bold;
   font-family: 'Source Sans Pro', sans-serif;
 }
