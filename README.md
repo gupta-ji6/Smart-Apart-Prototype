@@ -47,15 +47,15 @@ API used - [Today in History](http://history.muffinlabs.com/)
 
 *  Swipe left and right to scroll through the content of a particular category.
 * Swipe up and down to navigate through all the categories.
-* Tap any card to read more or watch a video ▶
+* Tap any card to read more or watch a video 
 * View your bookmarked items in the menu.
-* Use the heart ♥ button to bookmark any item.
-* Use the share ↗ button to share any item.
+* Use the heart button to bookmark any item.
+* Use the share button to share any item.
 
 ## This app will 
 
-* Increase your IQ ↗
-* Train your brain 🧠
+* Increase your IQ
+* Train your brain
 * Manifold the information you know
 * Make you aware of surroundings
 * Increase your basic science knowledge
