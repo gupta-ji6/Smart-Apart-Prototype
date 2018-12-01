@@ -6,7 +6,7 @@ Smart Apart is a **knowledge based brain training app** which trains your brain 
 The content in all the categories is fetched from different APIs mentioned [below](https://github.com/gupta-ji6/Smart-Apart-Prototype#apis-used).
 
 ## Install
-<p align="center"><a href="https://play.google.com/store/apps/details?id=com.smartapart.technetium&hl=en">![Install Smart Apart](http://ishopcloverdale.com/wp-content/uploads/2018/06/google-play-badge-1-e1528239187373.png)</a></p>
+<a href="https://play.google.com/store/apps/details?id=com.smartapart.technetium&hl=en">![Install Smart Apart](http://ishopcloverdale.com/wp-content/uploads/2018/06/google-play-badge-1-e1528239187373.png)</a>
 
 ## Current Categories
 
