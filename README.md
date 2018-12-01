@@ -76,3 +76,16 @@ Get to know about the **importance of this day in history**.
 `ionic serve`
 
 *Note: All the html and js files are availabe in the `www` folder*
+
+## Built with
+1. [Ionic Framework (v1)](https://ionicframework.com/docs/v1/)
+2. [Angular.js (v1)](https://angular.io/)
+3. [Various API's](https://github.com/gupta-ji6/Smart-Apart-Prototype#apis-used)
+4. [ngCordova Plugins](http://ngcordova.com/docs/plugins/)
+5. [localForage](https://github.com/localForage/localForage)
+
+
+## Contributors
+
+1. Prateek Surana - [GitHub](https://github.com/prateek3255) | [LinkedIn](https://www.linkedin.com/in/psuranas/) | [Medium](https://medium.com/@prateeksurana3255) | [StackOverflow](https://stackoverflow.com/users/8252081/prateek-surana) | [Twitter](https://twitter.com/psuranas)
+2. Ayush Gupta - [GitHub](https://github.com/gupta-ji6) | [LinkedIn](https://www.linkedin.com/in/guptaji6/) | [Medium](https://medium.com/@guptaji) | [Twitter](https://twitter.com/_guptaji_) | [Instagram](https://www.instagram.com/_.guptaji._/)
