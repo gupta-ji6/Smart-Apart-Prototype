@@ -4,7 +4,6 @@
     "description": "An Ionic project",
     "dependencies": {
         "cordova-android": "^6.2.3",
-        "cordova-plugin-app-event": "file:node_modules\\cordova-plugin-app-event",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-splashscreen": "^4.0.3",
@@ -23,6 +22,7 @@
         "@ionic/cli-plugin-cordova": "1.4.1",
         "@ionic/cli-plugin-gulp": "1.0.2",
         "@ionic/cli-plugin-ionic1": "2.0.1",
+        "@ionic/v1-toolkit": "1.0.22",
         "bower": "^1.3.3",
         "gulp-util": "^2.2.14",
         "shelljs": "^0.3.0"
