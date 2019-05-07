@@ -229,31 +229,34 @@ a {
 }
 
 .newsTitle {
-  font-size: 1.2em;
-  margin: 10px;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.3em;
+  /* margin: 10px; */
+  font-family: 'Merriweather', serif;
   text-align: left;
-  font-weight: bold;
+  font-weight: bolder;
+  line-height: 1.2;
 }
 
 .newsDescription {
-  margin: 10px;
-  font-size: 1em;
+  margin-top: 10px;
+  font-size: 1.2em;
+  line-height: 1.1;
   font-family: 'Source Sans Pro', sans-serif;
   text-align: left;
 }
 
 .otdTitle {
-  font-size: 1.2em;
+  font-size: 1.3em;
   margin: 10px;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Merriweather', serif;
+  line-height: 1.1;
   text-align: left;
   font-weight: bold;
 }
 
 .otdDescription {
   margin: 10px;
-  font-size: 1em;
+  font-size: 1.2em;
   font-family: 'Source Sans Pro', sans-serif;
   text-align: left;
 }
@@ -264,9 +267,9 @@ img.full-image.otdImage {
 
 .quoteText {
   color: white;
-  font-family: Georgia;
+  font-family: 'Merriweather', serif;
   font-size: 1.5em;
-  line-height: 1;
+  line-height: 1.2;
   text-align: center;
   padding: 10%;
   text-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
@@ -275,7 +278,7 @@ img.full-image.otdImage {
 
 .quoteAuthor {
   color: white;
-  font-size: 1em;
+  font-size: 1.2em;
   padding: 10%;
   text-align: center;
   text-shadow: 2px 2px black;
@@ -283,17 +286,24 @@ img.full-image.otdImage {
 }
 
 .quoteCard {
-  background-image: url("https://placeimg.com/800/600/nature");
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  ), url("https://source.unsplash.com/800x800/?nature");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 83vh;
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .videoImage {
   position: relative;
   display: inline-block;
+  background-color: white;
 }
 
 .videoThumbnail {
@@ -311,27 +321,42 @@ img.full-image.otdImage {
   margin-right: auto;
   margin-left: auto;
   z-index: 10;
- -webkit-filter: drop-shadow(5px 5px 5px #FFF);
-  filter: drop-shadow(5px 5px 5px #FFF);}
+ -webkit-filter: drop-shadow(0px 0px 30px #FFF);
+  filter: drop-shadow(0px 0px 30px #FFF);}
+
+  .videoInfo {
+      padding: 15px;
+  }
 
 .videoTitle {
-  font-weight: 50;
-  font-size: 1.5em;
-  padding: 20% 5% 20% 5%;
+  font-weight: bolder;
+  font-size: 1.3em;
+  /* padding: 5% 5% 5% 5%; */
   margin: auto;
-  text-align: center;
-  line-height: 1;
-  font-family: 'Source Sans Pro', sans-serif;
+  text-align: left;
+  line-height: 1.3;
+  font-family: 'Merriweather', serif;
 }
 
+.videoDesc {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.videoChannel {
+   margin-top: 30px;
+}
 .card {
   height: 83vh;
   margin: 0px 10px 0px 10px;
   border-radius: 10px;
   padding: 0px;
-  box-shadow: 0px 0px 3px 3px rgba(73, 73, 73, 1);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12),
+            0 2px 4px 0 rgba(0,0,0,0.08);
+  /* box-shadow: 0px 0px 3px 3px rgba(73, 73, 73, 1);
   -webkit-box-shadow: 0px 0px 3px 3px rgba(73, 73, 73, 1);
-  -moz-box-shadow: 0px 0px 3px 3px rgba(73, 73, 73, 1);
+  -moz-box-shadow: 0px 0px 3px 3px rgba(73, 73, 73, 1); */
 }
 
 .fact-content {
@@ -352,7 +377,7 @@ img.full-image.factImage {
 }
 
 img.full-image.videoThumbnail {
-  height: 50vh;
+  height: 40vh;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -370,18 +395,18 @@ img.full-image.newsImage {
 }
 
 .bar.bar.bar-stable .title {
-  color: white;
+  color: black;
 }
 
 .bar-stable.bar.bar-header {
-  background-color: black;
+  background-color: white;
   font-family: "Quicksand", sans-serif;
   font-weight: bold;
   text-align: center;
 }
 
 .bar.bar-footer {
-  background-color: black;
+  background-color: white;
 }
 
 .bar .title {
@@ -390,19 +415,24 @@ img.full-image.newsImage {
   font-weight: bold;
 }
 
+.bar .title.title-left {
+    text-align: center;
+    left: 0 !important;
+}
+
 .button-icon.button-clear.ion-navicon {
-  color: white;
+  color: black;
 }
 
 a.button.button-icon.icon.ion-android-favorite {
-  color: white;
+  color: black;
 }
 
 a.button.button-icon.icon.ion-android-share-alt {
-  color: white;
+  color: black;
 }
 
 a.button.button-icon.icon.ion-android-globe {
-  color: white;
+  color: black;
 }
 

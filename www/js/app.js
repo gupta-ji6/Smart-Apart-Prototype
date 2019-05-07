@@ -394,18 +394,18 @@ function menuCtrl(tempService, $state) {
 }
 function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification, $ionicPlatform, $cordovaNetwork, $ionicPopup) {
 	
-	$ionicPlatform.ready(function(){
-		 var isOffline = $cordovaNetwork.isOffline();
-		if(isOffline){
-			$ionicPopup.alert({
-				title: 'Uh-OH!',
-				template: 'You are offline. Turn on the internet and reopen app',
-				okText: 'Exit'
-			}).then(function(res){
-				ionic.Platform.exitApp();
-			});
-		}
-	});
+	// $ionicPlatform.ready(function(){
+	// 	 var isOffline = $cordovaNetwork.isOffline();
+	// 	if(isOffline){
+	// 		$ionicPopup.alert({
+	// 			title: 'Uh-OH!',
+	// 			template: 'You are offline. Turn on the internet and reopen app',
+	// 			okText: 'Exit'
+	// 		}).then(function(res){
+	// 			ionic.Platform.exitApp();
+	// 		});
+	// 	}
+	// });
 	
 	var temp = this;
 	temp.id = tempService.id;
@@ -500,6 +500,8 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						vPart.title = v.snippet.title;
 						vPart.id = v.id.videoId;
 						vPart.thumbnail = v.snippet.thumbnails.high.url;
+						vPart.channelTitle = v.snippet.channelTitle;
+					vPart.description = v.snippet.description;
 						tempService.array.push(vPart);
 						if (i == 6)
 							setTimeout(function () { $state.go("menu.video"); }, 250);
@@ -533,7 +535,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 					var ranSource = Math.round(Math.random() * (sources.length - 1));
 					var Url = "https://newsapi.org/v1/articles?source=" + sources[ranSource] + "&apiKey=abe02c4e4c284cd6abe5897f5082c6ae";
 					var promise = $http.get(Url).then(function (result) {
-
+						console.log(result);
 						news = result.data.articles;
 						var ranNews = Math.round(Math.random() * (news.length - 1));
 						n = {};
@@ -541,6 +543,7 @@ function tempCtrl(tempService, $state, $http, $scope, $cordovaLocalNotification,
 						n.description = news[ranNews].description;
 						n.urlToImage = news[ranNews].urlToImage;
 						n.url = news[ranNews].url;
+						n.source =  sources[ranSource];
 						tempService.array.push(n);
 						if (i == 5)
 							setTimeout(function () { $state.go("menu.trending"); }, 250);
@@ -838,6 +841,7 @@ function trendingCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService
 					n.description = news[ranNews].description;
 					n.urlToImage = news[ranNews].urlToImage;
 					n.url = news[ranNews].url;
+					n.source =  sources[ranSource];
 					trending.news.push(n);
 
 				}).catch(function (err) {
@@ -958,6 +962,8 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 					vPart.title = v.snippet.title;
 					vPart.id = v.id.videoId;
 					vPart.thumbnail = v.snippet.thumbnails.high.url;
+					vPart.channelTitle = v.snippet.channelTitle;
+					vPart.description = v.snippet.description;
 					video.videos.push(vPart);
 
 				}).catch(function (err) {
@@ -1021,18 +1027,6 @@ function videoCtrl($state, $http, $scope, $ionicSlideBoxDelegate, tempService, $
 			}, function (err) {
 				// An error occured. Show a message to the user
 			});
-	}
-	video.play= function(id){
-		$ionicPlatform.ready(function(){
-			window.InAppYouTube.openVideo(id, {
-			fullscreen: true
-			}, function(result) {
-			// console.log(JSON.stringify(result));
-			}, function(reason) {
-			// console.log(reason);
-			});
-		});
-		
 	}
 }
 

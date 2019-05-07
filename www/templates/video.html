@@ -4,13 +4,21 @@
             <ion-slide-page ng-repeat="videos in video.videos">
                 <div class="list card">
                     <div class="item item-body card">
-                        <a ng-click="video.play(videos.id)">
+                        <a href="https://youtube.com/watch?v={{videos.id}}">
                             <div class="videoImage">
-                                <img class="full-image videoThumbnail" src="{{videos.thumbnail}}">
+                                <img class="full-image videoThumbnail" src="http://img.youtube.com/vi/{{videos.id}}/mqdefault.jpg">
                                 <div class="videoImageIcon"></div>
                             </div>
-                            <div class="videoTitle">
-                                {{videos.title}}
+                            <div class="videoInfo">
+                                <div class="videoTitle">
+                                    {{videos.title}}
+                                </div>
+                                <div class="videoDesc">
+                                    {{videos.description}}
+                                </div>
+                                <div class="videoChannel">
+                                    video by <span style="font-weight: bolder">{{videos.channelTitle}}</span>
+                                </div>
                             </div>
                         </a>
                     </div>

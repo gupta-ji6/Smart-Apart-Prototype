@@ -6,10 +6,13 @@
                 <div class="list card" ng-click="trending.browser(news.url)">
                     <div class="item item-body card">
                             <img class="full-image newsImage" src="{{news.urlToImage}}">
-                            <div>
+                            <div class="videoInfo">
                                 <div class="newsTitle">{{news.title}}</div>
                                 <div class="newsDescription">
                                     {{news.description}}
+                                </div>
+                                <div class="videoChannel">
+                                    article by <span style="font-weight: bolder">{{news.source}}</span>
                                 </div>
                                  <div class="readMore">
                                     Tap to read more
